@@ -1,0 +1,7 @@
+com\saep\governance\repository\ApprovalRepository.class
+com\saep\governance\model\Policy.class
+com\saep\governance\controller\ApprovalRequest.class
+com\saep\governance\GovernanceApplication.class
+com\saep\governance\controller\GovernanceController.class
+com\saep\governance\repository\PolicyRepository.class
+com\saep\governance\model\Approval.class

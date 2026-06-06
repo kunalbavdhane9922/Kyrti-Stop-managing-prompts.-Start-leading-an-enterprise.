@@ -1,0 +1,112 @@
+openapi: 3.1.0
+info:
+  title: SAEP Milestone 4 APIs (Memory System)
+  version: 1.0.0
+  description: Concrete API definitions for the Memory domain in SAEP.
+
+servers:
+  - url: http://localhost:8086
+    description: Local Memory Service
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  parameters:
+    TenantIdHeader:
+      name: X-Tenant-Id
+      in: header
+      required: true
+      schema:
+        type: string
+        format: uuid
+
+  schemas:
+    MemoryMetadata:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        tenantId:
+          type: string
+          format: uuid
+        professionalId:
+          type: string
+          format: uuid
+          nullable: true
+        contentHash:
+          type: string
+        source:
+          type: string
+        status:
+          type: string
+
+    StoreMemoryRequest:
+      type: object
+      properties:
+        professionalId:
+          type: string
+          format: uuid
+        content:
+          type: string
+        source:
+          type: string
+
+    SearchMemoryRequest:
+      type: object
+      properties:
+        professionalId:
+          type: string
+          format: uuid
+        query:
+          type: string
+
+security:
+  - bearerAuth: []
+
+paths:
+  /api/v1/memory/store:
+    post:
+      summary: Store Memory Context
+      description: Stores metadata in PostgreSQL and routes vector storage to Qdrant.
+      parameters:
+        - $ref: '#/components/parameters/TenantIdHeader'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StoreMemoryRequest'
+      responses:
+        '201':
+          description: Memory successfully stored
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MemoryMetadata'
+
+  /api/v1/memory/search:
+    post:
+      summary: Search Memory Context
+      description: Retrieves matching memory snippets using vector similarity.
+      parameters:
+        - $ref: '#/components/parameters/TenantIdHeader'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SearchMemoryRequest'
+      responses:
+        '200':
+          description: A list of matching memory metadata and snippets
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MemoryMetadata'

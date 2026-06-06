@@ -1,0 +1,129 @@
+openapi: 3.1.0
+info:
+  title: SAEP Milestone 3 APIs (Workforce & Career History)
+  version: 1.0.0
+  description: Concrete API definitions for the Workforce domain in SAEP.
+
+servers:
+  - url: http://localhost:8085
+    description: Local Workforce Service
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  parameters:
+    TenantIdHeader:
+      name: X-Tenant-Id
+      in: header
+      required: true
+      schema:
+        type: string
+        format: uuid
+
+  schemas:
+    DigitalProfessional:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        tenantId:
+          type: string
+          format: uuid
+        professionId:
+          type: string
+          format: uuid
+        name:
+          type: string
+        status:
+          type: string
+          enum: [AVAILABLE, BUSY, SUSPENDED]
+
+    CareerHistory:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        professionalId:
+          type: string
+          format: uuid
+        taskDescription:
+          type: string
+        result:
+          type: string
+        completedAt:
+          type: string
+          format: date-time
+
+security:
+  - bearerAuth: []
+
+paths:
+  /api/v1/workforce/professionals:
+    get:
+      summary: List Hired Professionals
+      description: Returns a list of Digital Professionals hired by the tenant.
+      parameters:
+        - $ref: '#/components/parameters/TenantIdHeader'
+      responses:
+        '200':
+          description: A list of professionals
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DigitalProfessional'
+
+  /api/v1/workforce/hire:
+    post:
+      summary: Hire a new Digital Professional
+      description: Provisions a new professional from a Marketplace profession template.
+      parameters:
+        - $ref: '#/components/parameters/TenantIdHeader'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                professionId:
+                  type: string
+                  format: uuid
+                name:
+                  type: string
+      responses:
+        '201':
+          description: Professional successfully hired
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DigitalProfessional'
+
+  /api/v1/workforce/professionals/{id}/history:
+    get:
+      summary: View Career History
+      description: Retrieves the task and operational history for a specific professional.
+      parameters:
+        - $ref: '#/components/parameters/TenantIdHeader'
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Career history records
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CareerHistory'

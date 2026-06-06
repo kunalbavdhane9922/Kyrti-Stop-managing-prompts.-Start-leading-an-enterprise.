@@ -1,0 +1,102 @@
+.container {
+  padding-bottom: 2rem;
+}
+
+.header {
+  margin-bottom: 2rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+}
+
+.col {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.col h2 {
+  font-size: 1.25rem;
+  color: var(--color-foreground);
+}
+
+.card {
+  min-height: 400px;
+}
+
+.treeList {
+  list-style: none;
+  padding: 0;
+}
+
+.treeList ul {
+  list-style: none;
+  padding-left: 2rem;
+  border-left: 1px solid var(--color-border);
+  margin-left: 0.5rem;
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.treeItem {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 6px;
+  margin-bottom: 0.5rem;
+}
+
+.projectList {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.projectItem {
+  background: rgba(255, 255, 255, 0.4);
+  padding: 1rem;
+  border-radius: 8px;
+  border: 1px solid var(--color-border);
+}
+
+.projectHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.projectHeader h4 {
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.progressBar {
+  height: 8px;
+  background: var(--color-muted);
+  border-radius: 999px;
+  overflow: hidden;
+  margin-bottom: 0.5rem;
+}
+
+.progressFill {
+  height: 100%;
+  background: var(--color-accent);
+  border-radius: 999px;
+}
+
+.taskCount {
+  font-size: 0.85rem;
+  color: #6B7280;
+  text-align: right;
+}
+
+.actionBtn {
+  margin-top: auto;
+  align-self: flex-start;
+}
