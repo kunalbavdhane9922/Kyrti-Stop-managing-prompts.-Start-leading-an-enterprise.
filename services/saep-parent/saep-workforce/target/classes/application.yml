@@ -1,0 +1,36 @@
+server:
+  port: 8082
+
+spring:
+  application:
+    name: saep-workforce
+  datasource:
+    url: jdbc:postgresql://localhost:5432/saep_db
+    username: postgres
+    password: password
+  jpa:
+    hibernate:
+      ddl-auto: update
+  kafka:
+    bootstrap-servers: localhost:9094
+    consumer:
+      group-id: saep-workforce-group
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+
+saep:
+  outbox:
+    poll-interval-ms: 5000
+    enabled: false
+  test:
+    force-failure: false
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  metrics:
+    tags:
+      application: ${spring.application.name}

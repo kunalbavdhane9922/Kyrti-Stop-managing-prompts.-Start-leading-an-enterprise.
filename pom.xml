@@ -19,8 +19,11 @@
 
     <modules>
         <module>saep-common</module>
+        <module>saep-outbox-starter</module>
         <module>saep-gateway</module>
         <module>saep-identity</module>
+        <module>services/saep-parent/saep-company</module>
+        <module>services/saep-parent/saep-workforce</module>
     </modules>
 
     <properties>
