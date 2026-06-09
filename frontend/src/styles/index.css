@@ -1,0 +1,273 @@
+/* ============================================================
+   SOVEREIGN PROTOCOL — DESIGN SYSTEM
+   Enterprise Business Dashboard — Solid & Structural
+   ============================================================ */
+
+/* --- CSS Custom Properties (Design Tokens) --- */
+:root {
+  /* Core Background Colors */
+  --color-bg-primary: #000000;
+  --color-bg-secondary: #0A0A0A;
+  --color-bg-tertiary: #141414;
+  --color-bg-elevated: #1F1F1F;
+  --color-bg-surface: rgba(255, 255, 255, 0.05);
+  --color-bg-hover: rgba(255, 255, 255, 0.1);
+
+  /* Main & Highlight Colors */
+  --color-brand-main: #F13223;
+  --color-highlight-1: #1298B0;
+  --color-highlight-2: #006B7E;
+  --color-highlight-3: #092F63;
+  --color-hover-highlight: #AE172E;
+
+  /* Accent Colors (Mapped to new palette where applicable) */
+  --color-accent-gold: #1298B0; 
+  --color-accent-gold-light: #006B7E;
+  --color-accent-gold-dark: #092F63;
+  --color-accent-blue: #F13223; /* Mapped to main color for structural elements/links */
+  --color-accent-emerald: #10B981; 
+  --color-accent-amber: #F59E0B; 
+  --color-accent-rose: #EF4444; 
+  --color-accent-violet: #6366F1; 
+  --color-accent-cyan: #06B6D4; 
+
+  /* Gradient Presets */
+  --gradient-primary: linear-gradient(135deg, #F13223 0%, #1298B0 100%);
+  --gradient-success: var(--color-accent-emerald);
+  --gradient-danger: var(--color-accent-rose);
+  --gradient-warning: var(--color-accent-amber);
+  --gradient-surface: linear-gradient(135deg, #092F63 0%, #006B7E 100%);
+  --gradient-glow: radial-gradient(circle at center, rgba(241, 50, 35, 0.15) 0%, transparent 70%);
+
+  /* Typography Colors */
+  --color-text-primary: #E4E2DD;
+  --color-text-secondary: rgba(228, 226, 221, 0.7);
+  --color-text-tertiary: rgba(228, 226, 221, 0.5);
+  --color-text-disabled: rgba(228, 226, 221, 0.3);
+  --color-text-inverse: #000000;
+  --color-text-link: var(--color-brand-teal-light);
+
+  /* Border Colors */
+  --color-border-primary: #F13223;
+  --color-border-secondary: #F13223;
+  --color-border-accent: #F13223;
+  --color-border-success: #F13223;
+  --color-border-danger: #F13223;
+  --color-border-warning: #F13223;
+
+  /* Card Surfaces — Solid white with subtle soft shadows */
+  --glass-bg: rgba(255, 255, 255, 0.85);
+  --glass-bg-light: rgba(255, 255, 255, 0.6);
+  --glass-border: rgba(255, 255, 255, 0.4);
+  --glass-blur: 0px;
+  --glass-blur-heavy: 0px;
+
+  /* Typography */
+  --font-display: sans-serif;
+  --font-serif: sans-serif;
+  --font-sans: sans-serif;
+  --font-mono: monospace;
+
+  --text-xs: clamp(0.7rem, 1vw + 0.4rem, 0.75rem);
+  --text-sm: clamp(0.8rem, 1vw + 0.5rem, 0.875rem);
+  --text-base: clamp(0.9rem, 1vw + 0.6rem, 1rem);
+  --text-lg: clamp(1rem, 1vw + 0.75rem, 1.125rem);
+  --text-xl: clamp(1.125rem, 1.5vw + 0.75rem, 1.25rem);
+  --text-2xl: clamp(1.25rem, 2vw + 0.8rem, 1.5rem);
+  --text-3xl: clamp(1.5rem, 2.5vw + 1rem, 1.875rem);
+  --text-4xl: clamp(1.75rem, 3.5vw + 1rem, 2.25rem);
+  --text-5xl: clamp(2.25rem, 5vw + 1.2rem, 3rem);
+
+  --font-light: 300;
+  --font-regular: 400;
+  --font-medium: 500;
+  --font-semibold: 600;
+  --font-bold: 700;
+  --font-extrabold: 800;
+
+  --leading-tight: 1.25;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.625;
+
+  /* Spacing Scale */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-20: 5rem;
+  --space-24: 6rem;
+
+  /* Border Radius — Elegant, subtle rounding */
+  --radius-sm: 2px;
+  --radius-md: 4px;
+  --radius-lg: 8px;
+  --radius-xl: 12px;
+  --radius-2xl: 16px;
+  --radius-full: 9999px;
+
+  /* Shadows — Deep, luxurious shadows */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.02);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.04), 0 2px 4px rgba(0, 0, 0, 0.02);
+  --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.06), 0 4px 8px rgba(0, 0, 0, 0.03);
+  --shadow-xl: 0 24px 48px rgba(0, 0, 0, 0.08), 0 12px 16px rgba(0, 0, 0, 0.04);
+  --shadow-ambient: 0 8px 60px rgba(0, 0, 0, 0.04), 0 2px 8px rgba(0, 0, 0, 0.02);
+  --shadow-glow-blue: 0 0 0 2px var(--color-bg-secondary), 0 0 0 4px var(--color-text-secondary);
+  --shadow-glow-gold: 0 0 0 2px var(--color-bg-secondary), 0 0 0 4px var(--color-accent-gold-light);
+  --shadow-glow-violet: 0 0 0 2px var(--color-bg-secondary), 0 0 0 4px var(--color-text-secondary);
+  --shadow-glow-emerald: 0 0 0 2px var(--color-bg-secondary), 0 0 0 4px var(--color-accent-emerald);
+  --shadow-glow-rose: 0 0 0 2px var(--color-bg-secondary), 0 0 0 4px var(--color-accent-rose);
+  --shadow-glow-silver: 0 0 16px rgba(192, 192, 192, 0.5);
+
+  /* Revocation Colors — Industrial Red */
+  --color-revocation-red: #C0392B;
+  --color-revocation-red-hover: #A93226;
+  --color-revocation-red-light: rgba(192, 57, 43, 0.08);
+
+  /* Transitions - Slower, more intentional for luxury feel */
+  --transition-fast: 200ms cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-base: 400ms cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-slow: 700ms cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-spring: 600ms cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  /* Z-Index Scale */
+  --z-base: 0;
+  --z-dropdown: 100;
+  --z-sticky: 200;
+  --z-overlay: 300;
+  --z-modal: 400;
+  --z-toast: 500;
+  --z-critical: 600;
+
+  /* Layout */
+  --sidebar-width: 260px;
+  --sidebar-collapsed: 72px;
+  --topbar-height: 64px;
+  --content-max-width: 1400px;
+}
+
+/* --- Global Reset --- */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+  font-weight: var(--font-regular);
+  line-height: var(--leading-normal);
+  color: var(--color-text-primary);
+  background-color: var(--color-bg-primary);
+  height: 100dvh;
+  overflow: hidden;
+}
+
+h1, h2, h3, h4, h5, h6, .card-title, .page-title {
+  font-family: var(--font-display);
+  letter-spacing: -0.02em;
+}
+
+.data-value, .mono-value, .security-stat-value, .wallet-balance {
+  font-family: var(--font-mono);
+  letter-spacing: 0.02em;
+}
+
+#root {
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* --- Selection --- */
+::selection {
+  background: var(--color-hover-highlight);
+  color: var(--color-text-inverse);
+}
+
+/* --- Scrollbar --- */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-bg-primary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: var(--radius-full);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* --- Focus Visible --- */
+:focus-visible {
+  outline: 2px solid var(--color-accent-blue);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+/* --- Links --- */
+a {
+  color: var(--color-brand-main);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+a:hover {
+  color: var(--color-hover-highlight);
+}
+
+/* --- Code --- */
+code, pre {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+}
+
+pre {
+  background: var(--color-bg-tertiary);
+  border: 1px solid var(--color-border-primary);
+  border-radius: var(--radius-sm);
+  padding: var(--space-4);
+  overflow-x: auto;
+}
+
+/* --- Utility: Visually Hidden --- */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+}
+
+/* --- Brand Typography --- */
+.brand-title {
+  background: linear-gradient(135deg, #4A4A4E 0%, #1A1A1B 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 2px 10px rgba(0, 0, 0, 0.05));
+}

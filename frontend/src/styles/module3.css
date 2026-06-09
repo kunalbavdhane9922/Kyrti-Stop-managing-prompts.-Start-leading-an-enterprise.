@@ -1,0 +1,289 @@
+/* ============================================================
+   SOVEREIGN PROTOCOL — MODULE 3: SPATIAL WORKSPACE STYLES
+   Full-bleed 3D canvas with HUD overlay system.
+   ============================================================ */
+
+/* --- Page Container (Full-bleed) --- */
+.spatial-workspace-page {
+  position: relative;
+  width: 100%;
+  height: calc(100vh - 56px);
+  overflow: hidden;
+  background: #0a0f1a;
+}
+
+.spatial-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.spatial-canvas canvas {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+  outline: none;
+}
+
+/* --- HUD: Top-Left Title --- */
+.spatial-hud-title {
+  position: absolute;
+  top: var(--space-4);
+  left: var(--space-4);
+  z-index: 10;
+  pointer-events: none;
+}
+
+.spatial-hud-title-text {
+  font-size: var(--text-lg);
+  font-weight: var(--font-bold);
+  color: #e2e8f0;
+  letter-spacing: -0.01em;
+}
+
+.spatial-hud-title-sub {
+  font-size: var(--text-xs);
+  color: #64748b;
+  margin-top: 2px;
+  font-family: var(--font-mono);
+}
+
+/* --- HUD: Top-Right Status --- */
+.spatial-hud-status {
+  position: absolute;
+  top: var(--space-4);
+  right: var(--space-4);
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  pointer-events: none;
+}
+
+.spatial-hud-indicator {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 10px;
+  font-weight: var(--font-semibold);
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 3px 8px;
+  background: rgba(15, 23, 42, 0.8);
+  border: 1px solid #1e293b;
+  border-radius: 2px;
+
+}
+
+.spatial-hud-indicator.indicator-alert {
+  border-color: #92400e;
+  color: #fbbf24;
+}
+
+.spatial-hud-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.dot-executing {
+  background: #3b82f6;
+  box-shadow: 0 0 6px #3b82f6;
+  animation: spatial-pulse 1.5s ease-in-out infinite;
+}
+
+.dot-blocked {
+  background: #f59e0b;
+  box-shadow: 0 0 6px #f59e0b;
+  animation: spatial-pulse 0.8s ease-in-out infinite;
+}
+
+@keyframes spatial-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+/* --- HUD: Bottom Controls --- */
+.spatial-hud-controls {
+  position: absolute;
+  bottom: var(--space-4);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  display: flex;
+  gap: var(--space-2);
+  padding: var(--space-1);
+  background: rgba(15, 23, 42, 0.85);
+  border: 1px solid #1e293b;
+  border-radius: var(--radius-md);
+
+}
+
+.spatial-hud-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  color: #94a3b8;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.spatial-hud-btn:hover {
+  background: #1e293b;
+  border-color: #334155;
+  color: #e2e8f0;
+}
+
+/* --- HUD: Show Button (when HUD hidden) --- */
+.spatial-hud-show-btn {
+  position: absolute;
+  bottom: var(--space-4);
+  right: var(--space-4);
+  z-index: 10;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  background: rgba(15, 23, 42, 0.85);
+  border: 1px solid #1e293b;
+  border-radius: var(--radius-sm);
+  color: #94a3b8;
+  cursor: pointer;
+
+}
+
+.spatial-hud-show-btn:hover {
+  color: #e2e8f0;
+  border-color: #334155;
+}
+
+/* --- Focus Panel (Right Side) --- */
+.spatial-focus-panel {
+  position: absolute;
+  top: var(--space-6);
+  right: var(--space-4);
+  z-index: 10;
+  width: 240px;
+  padding: var(--space-4);
+  background: rgba(15, 23, 42, 0.92);
+  border: 1px solid #1e293b;
+  border-radius: var(--radius-md);
+
+  margin-top: 36px;
+}
+
+.spatial-focus-header {
+  margin-bottom: var(--space-3);
+  padding-bottom: var(--space-3);
+  border-bottom: 1px solid #1e293b;
+}
+
+.spatial-focus-name {
+  font-size: var(--text-sm);
+  font-weight: var(--font-bold);
+  color: #e2e8f0;
+  margin-bottom: 4px;
+}
+
+.spatial-focus-metrics {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin-bottom: var(--space-3);
+}
+
+.spatial-focus-metric {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: 10px;
+  color: #64748b;
+}
+
+.spatial-focus-metric strong {
+  margin-left: auto;
+  color: #94a3b8;
+  font-family: var(--font-mono);
+}
+
+.spatial-focus-dive {
+  width: 100%;
+  justify-content: center;
+  gap: var(--space-2);
+  margin-bottom: var(--space-2);
+}
+
+.spatial-focus-close {
+  width: 100%;
+  padding: 4px;
+  font-size: 10px;
+  font-family: var(--font-sans);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: var(--font-semibold);
+  color: #64748b;
+  background: transparent;
+  border: 1px solid #1e293b;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.spatial-focus-close:hover {
+  color: #94a3b8;
+  border-color: #334155;
+}
+
+/* --- Heatmap Legend (Bottom-Left) --- */
+.spatial-heatmap-legend {
+  position: absolute;
+  bottom: var(--space-4);
+  left: var(--space-4);
+  z-index: 10;
+  padding: var(--space-2) var(--space-3);
+  background: rgba(15, 23, 42, 0.85);
+  border: 1px solid #1e293b;
+  border-radius: var(--radius-sm);
+
+}
+
+.spatial-legend-label {
+  font-size: 9px;
+  font-weight: var(--font-bold);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #64748b;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.spatial-legend-bar {
+  display: flex;
+  height: 6px;
+  border-radius: 2px;
+  overflow: hidden;
+  width: 80px;
+}
+
+.spatial-legend-low { flex: 1; background: #065f46; }
+.spatial-legend-mid { flex: 1; background: #92400e; }
+.spatial-legend-high { flex: 1; background: #991b1b; }
+
+.spatial-legend-labels {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 2px;
+  font-size: 8px;
+  color: #475569;
+  font-family: var(--font-mono);
+}

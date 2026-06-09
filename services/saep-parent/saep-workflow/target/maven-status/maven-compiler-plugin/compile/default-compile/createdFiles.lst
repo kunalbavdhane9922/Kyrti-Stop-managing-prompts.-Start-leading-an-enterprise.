@@ -1,7 +1,0 @@
-com\saep\workflow\orchestration\TaskActivities.class
-com\saep\workflow\orchestration\TaskOrchestrationWorkflowImpl.class
-com\saep\workflow\config\TemporalConfig$1.class
-com\saep\workflow\orchestration\TaskActivitiesImpl.class
-com\saep\workflow\orchestration\TaskOrchestrationWorkflow.class
-com\saep\workflow\WorkflowApplication.class
-com\saep\workflow\config\TemporalConfig.class

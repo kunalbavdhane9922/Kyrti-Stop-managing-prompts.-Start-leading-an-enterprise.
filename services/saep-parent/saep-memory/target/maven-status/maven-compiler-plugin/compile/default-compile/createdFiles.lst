@@ -1,6 +1,0 @@
-com\saep\memory\controller\SearchMemoryRequest.class
-com\saep\memory\MemoryApplication.class
-com\saep\memory\controller\MemoryController.class
-com\saep\memory\controller\StoreMemoryRequest.class
-com\saep\memory\model\MemoryMetadata.class
-com\saep\memory\repository\MemoryMetadataRepository.class

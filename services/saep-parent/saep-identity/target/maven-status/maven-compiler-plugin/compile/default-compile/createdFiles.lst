@@ -1,5 +1,0 @@
-com\saep\identity\controller\IdentityController.class
-com\saep\identity\controller\AuthController.class
-com\saep\identity\IdentityApplication.class
-com\saep\identity\repository\UserRepository.class
-com\saep\identity\model\IdentityUser.class

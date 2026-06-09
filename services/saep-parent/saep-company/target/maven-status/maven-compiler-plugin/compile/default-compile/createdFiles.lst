@@ -1,6 +1,0 @@
-com\saep\company\repository\CompanyRepository.class
-com\saep\company\CompanyApplication.class
-com\saep\company\model\Tenant.class
-com\saep\company\controller\CompanyController.class
-com\saep\company\model\Company.class
-com\saep\company\repository\TenantRepository.class

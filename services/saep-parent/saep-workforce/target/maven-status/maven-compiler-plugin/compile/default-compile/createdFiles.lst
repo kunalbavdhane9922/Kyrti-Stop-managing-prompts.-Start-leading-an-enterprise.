@@ -1,7 +1,0 @@
-com\saep\workforce\controller\HireRequest.class
-com\saep\workforce\controller\WorkforceController.class
-com\saep\workforce\repository\CareerHistoryRepository.class
-com\saep\workforce\model\DigitalProfessional.class
-com\saep\workforce\repository\DigitalProfessionalRepository.class
-com\saep\workforce\model\CareerHistory.class
-com\saep\workforce\WorkforceApplication.class
