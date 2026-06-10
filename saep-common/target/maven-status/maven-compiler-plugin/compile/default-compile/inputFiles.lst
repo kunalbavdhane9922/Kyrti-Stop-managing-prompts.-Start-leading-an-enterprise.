@@ -1,3 +1,6 @@
 D:\College\Projects\Kyrti-Stop-managing-prompts.-Start-leading-an-enterprise\saep-common\src\main\java\com\saep\common\tenant\TenantContext.java
+D:\College\Projects\Kyrti-Stop-managing-prompts.-Start-leading-an-enterprise\saep-common\src\main\java\com\saep\common\security\SaepSecurityConfig.java
+D:\College\Projects\Kyrti-Stop-managing-prompts.-Start-leading-an-enterprise\saep-common\src\main\java\com\saep\common\event\EventEnvelope.java
+D:\College\Projects\Kyrti-Stop-managing-prompts.-Start-leading-an-enterprise\saep-common\src\main\java\com\saep\common\event\DomainEvents.java
 D:\College\Projects\Kyrti-Stop-managing-prompts.-Start-leading-an-enterprise\saep-common\src\main\java\com\saep\common\config\CommonConfig.java
 D:\College\Projects\Kyrti-Stop-managing-prompts.-Start-leading-an-enterprise\saep-common\src\main\java\com\saep\common\security\JwtAuthenticationFilter.java

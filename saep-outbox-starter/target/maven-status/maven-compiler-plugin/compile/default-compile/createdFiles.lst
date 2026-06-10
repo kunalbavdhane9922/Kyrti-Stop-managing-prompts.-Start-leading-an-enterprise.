@@ -1,0 +1,10 @@
+com\saep\outbox\repository\ProcessedEventRepository.class
+com\saep\outbox\service\IdempotencyService.class
+com\saep\outbox\config\SaepOutboxAutoConfiguration.class
+com\saep\outbox\domain\OutboxEvent.class
+com\saep\outbox\repository\OutboxEventRepository.class
+com\saep\outbox\domain\ProcessedEvent$ProcessedEventBuilder.class
+com\saep\outbox\domain\ProcessedEvent.class
+com\saep\outbox\domain\OutboxEvent$OutboxEventBuilder.class
+com\saep\outbox\service\OutboxProcessor.class
+com\saep\outbox\domain\EventStatus.class

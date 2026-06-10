@@ -1,3 +1,13 @@
-com\saep\common\tenant\TenantContext.class
+com\saep\common\event\DomainEvents$CompanyCreated.class
+com\saep\common\event\DomainEvents$HiringRequested.class
+com\saep\common\event\EventEnvelope.class
 com\saep\common\config\CommonConfig.class
+com\saep\common\event\DomainEvents$PromotionGranted.class
+com\saep\common\security\SaepSecurityConfig.class
+com\saep\common\tenant\TenantContext.class
+com\saep\common\event\DomainEvents$TeamCreated.class
+com\saep\common\event\DomainEvents.class
 com\saep\common\security\JwtAuthenticationFilter.class
+com\saep\common\event\DomainEvents$GovernanceApproved.class
+com\saep\common\event\DomainEvents$ProfessionalCreated.class
+com\saep\common\event\EventEnvelope$EventEnvelopeBuilder.class
