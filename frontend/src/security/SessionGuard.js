@@ -18,6 +18,7 @@ class SessionGuardService {
   constructor() {
     this._timerId = null;
     this._warningTimerId = null;
+    this._heartbeatTimerId = null;
     this._lastActivity = Date.now();
     this._isActive = false;
     this._onExpire = null;
@@ -52,8 +53,7 @@ class SessionGuardService {
     // Monitor tab visibility
     document.addEventListener('visibilitychange', this._boundHandleVisibility);
 
-    // Wipe on tab/browser close
-    window.addEventListener('beforeunload', this._boundHandleBeforeUnload);
+    // (Removed beforeunload listener - sessionStorage handles tab-close wipes natively)
 
     // Start the idle check timer
     this._startIdleCheck();
@@ -75,13 +75,17 @@ class SessionGuardService {
       this._warningTimerId = null;
     }
 
+    if (this._heartbeatTimerId) {
+      clearInterval(this._heartbeatTimerId);
+      this._heartbeatTimerId = null;
+    }
+
     const activityEvents = ['mousedown', 'keydown', 'scroll', 'touchstart', 'mousemove'];
     activityEvents.forEach(event => {
       document.removeEventListener(event, this._boundHandleActivity);
     });
 
     document.removeEventListener('visibilitychange', this._boundHandleVisibility);
-    window.removeEventListener('beforeunload', this._boundHandleBeforeUnload);
   }
 
   /**
@@ -148,6 +152,17 @@ class SessionGuardService {
         this._onWarning(remaining);
       }
     }, 1000);
+
+    // Heartbeat ping every 60 seconds
+    this._heartbeatTimerId = setInterval(async () => {
+      try {
+        const { authApi } = await import('../services/authApi.js');
+        await authApi.heartbeat();
+      } catch (err) {
+        // Ignore single failures; the server will naturally expire the session if it misses too many
+        console.debug('[SessionGuard] Heartbeat skipped or failed');
+      }
+    }, 60000);
   }
 
   _expire() {

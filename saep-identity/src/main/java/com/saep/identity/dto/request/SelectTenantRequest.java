@@ -10,7 +10,7 @@ public class SelectTenantRequest {
     @NotBlank(message = "Tenant selection token is required")
     private String tenantSelectionToken;
 
-    private UUID tenantId;
+    private String tenantId;
 
     private String fingerprint;
 }

@@ -62,11 +62,12 @@ CREATE TABLE tenants (
 );
 
 -- Tenant Users (N-to-N Mapping)
-CREATE TABLE tenant_users (
-    tenant_id UUID REFERENCES tenants(id) ON DELETE CASCADE,
-    user_id UUID REFERENCES users(id) ON DELETE CASCADE,
-    joined_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    PRIMARY KEY (tenant_id, user_id)
+CREATE TABLE user_tenant_memberships (
+    id UUID PRIMARY KEY,
+    user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    tenant_id VARCHAR(255) NOT NULL,
+    status VARCHAR(50) NOT NULL,
+    joined_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 -- Refresh Tokens

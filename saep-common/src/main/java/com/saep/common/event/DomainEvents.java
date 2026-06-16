@@ -11,6 +11,20 @@ public class DomainEvents {
             String createdBy
     ) {}
 
+    public record MemberInvited(String invitationId, String tenantId, String email) {}
+    public record MembershipCreated(String membershipId, String tenantId, String userId) {}
+    public record MemberJoined(String membershipId, String tenantId, String userId, java.time.LocalDateTime joinedAt) {}
+    public record MemberSuspended(String membershipId, String tenantId, String userId) {}
+    public record MemberRemoved(String membershipId, String tenantId, String userId) {}
+
+    // --- Phase 3: Roles & Permissions ---
+    public record RoleCreated(String roleId, String tenantId, String name) {}
+    public record MembershipRoleAssigned(String membershipId, String roleId, String tenantId) {}
+    public record RolePermissionsUpdated(String roleId, String tenantId) {}
+
+    // Audit Event
+    public record AuditEvent(String type, String tenantId, String userId, String resourceId, String details) {}
+
     public record TeamCreated(
             String teamId,
             String companyId,

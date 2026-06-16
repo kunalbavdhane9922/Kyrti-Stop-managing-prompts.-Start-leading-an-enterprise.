@@ -5,6 +5,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.FilterChain;
+import org.slf4j.MDC;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -51,7 +52,19 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
             String email = claims.getSubject();
             String tenantIdStr = claims.get("tenantId", String.class);
+            String correlationId = claims.get("correlationId", String.class);
+            String tokenType = claims.get("type", String.class);
             List<?> rawRoles = claims.get("roles", List.class);
+
+            if (correlationId != null) {
+                MDC.put("correlationId", correlationId);
+            }
+            if (tenantIdStr != null) {
+                MDC.put("tenantId", tenantIdStr);
+            }
+            if (email != null) {
+                MDC.put("userId", email);
+            }
 
             if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
@@ -83,6 +96,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             // CRITICAL: Prevent ThreadLocal leak
             TenantContext.clear();
             SecurityContextHolder.clearContext();
+            MDC.remove("correlationId");
+            MDC.remove("tenantId");
+            MDC.remove("userId");
         }
     }
 }

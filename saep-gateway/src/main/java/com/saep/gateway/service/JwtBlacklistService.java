@@ -22,6 +22,13 @@ public class JwtBlacklistService {
         return redisTemplate.hasKey("blacklist:" + jti);
     }
 
+    public Mono<Boolean> isSessionActive(String sessionId) {
+        if (sessionId == null) {
+            return Mono.just(false);
+        }
+        return redisTemplate.hasKey("session:" + sessionId);
+    }
+
     public Mono<Boolean> blacklistToken(String jti, long remainingExpirationMs) {
         if (jti == null) {
             return Mono.just(false);

@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Shield, Lock, Mail, KeyRound, ArrowRight, UserPlus, LogIn, Eye, EyeOff } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -23,6 +23,17 @@ function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
+  const emailRef = useRef(null);
+  const nameRef = useRef(null);
+
+  // Auto-focus the first input when mode changes
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (mode === 'login' && emailRef.current) emailRef.current.focus();
+      if (mode === 'register' && nameRef.current) nameRef.current.focus();
+    }, 100);
+    return () => clearTimeout(timer);
+  }, [mode]);
 
   const login = useAuthStore(s => s.login);
 
@@ -34,21 +45,29 @@ function LoginPage() {
       const result = await authApi.login({ email: email.trim(), password, fingerprint });
 
       if (result.data.requires2FA) {
+        sessionStorage.setItem('sovereign_partial_token', result.data.partialToken);
         navigate('/verify-2fa', { state: { partialToken: result.data.partialToken } });
       } else if (result.data.requiresTenantSelection) {
-        navigate('/select-tenant', { state: { tenantSelectionToken: result.data.tenantSelectionToken, availableTenants: result.data.availableTenants } });
-      } else {
-        // Session established — store user in auth state
-        login({
-          id: result.data.user.id,
-          email: result.data.user.email,
-          name: result.data.user.name,
-          twoFactorVerified: result.data.user.twoFactorEnabled || false,
+        const availableTenants = result.data.availableTenants || [];
+        const tenantId = availableTenants.length > 0 ? availableTenants[0].id : null;
+        const selResult = await authApi.selectTenant({ 
+          tenantSelectionToken: result.data.tenantSelectionToken, 
+          tenantId, 
+          fingerprint 
         });
-        window.__sovereignAccessToken = result.data.accessToken;
-
-        // Redirect: if 2FA not set up yet, force setup
-        if (!result.data.user.twoFactorEnabled) {
+        
+        login({
+          ...selResult.data.user,
+          sessionFingerprint: fingerprint,
+          provider: 'email',
+          twoFactorVerified: true,
+          tenantId
+        });
+        useIdentityStore.getState().completeLayerA('email');
+        
+        if (!tenantId) {
+          navigate('/create-workspace');
+        } else if (!selResult.data.user.twoFactorEnabled) {
           navigate('/setup-2fa');
         } else {
           navigate('/dashboard');
@@ -106,7 +125,7 @@ function LoginPage() {
                 {successMsg && <div style={{color: 'var(--color-accent-emerald)', fontSize: '12px'}}>{successMsg}</div>}
                 <div className="login-input-group">
                   <label className="login-input-label"><Mail size={14} /> Email</label>
-                  <input className="login-input" type="email" required value={email} onChange={e => setEmail(e.target.value)} disabled={loading} />
+                  <input ref={emailRef} className="login-input" type="email" required value={email} onChange={e => setEmail(e.target.value)} disabled={loading} autoComplete="email" />
                 </div>
                 <div className="login-input-group">
                   <label className="login-input-label"><KeyRound size={14} /> Password</label>
@@ -128,7 +147,7 @@ function LoginPage() {
                 {error && <div className="input-error-text">{error}</div>}
                 <div className="login-input-group">
                   <label className="login-input-label"><UserPlus size={14} /> Full Name</label>
-                  <input className="login-input" type="text" required value={name} onChange={e => setName(e.target.value)} disabled={loading} />
+                  <input ref={nameRef} className="login-input" type="text" required value={name} onChange={e => setName(e.target.value)} disabled={loading} autoComplete="name" />
                 </div>
                 <div className="login-input-group">
                   <label className="login-input-label"><Mail size={14} /> Email</label>

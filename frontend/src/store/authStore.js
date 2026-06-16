@@ -6,9 +6,12 @@
  */
 
 import { create } from 'zustand';
+import { persist, createJSONStorage } from 'zustand/middleware';
 import { ROLES } from '../config/rbac.js';
 
-const useAuthStore = create((set, get) => ({
+const useAuthStore = create(
+  persist(
+    (set, get) => ({
   // --- State ---
   isAuthenticated: false,
   user: null,
@@ -123,7 +126,17 @@ const useAuthStore = create((set, get) => ({
   /**
    * Checks if the current user has a specific role.
    */
-  hasRole: (role) => get().role === role,
-}));
+  }),
+  {
+    name: 'sovereign-auth-storage', // name of item in storage (must be unique)
+    storage: createJSONStorage(() => sessionStorage), // use sessionStorage
+    partialize: (state) => ({ 
+      isAuthenticated: state.isAuthenticated, 
+      user: state.user, 
+      role: state.role,
+      twoFactorVerified: state.twoFactorVerified
+    }), // only save essential fields
+  }
+));
 
 export { useAuthStore };

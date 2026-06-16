@@ -63,7 +63,7 @@ export function Setup2FAPage() {
   };
 
   const handleFinish = () => {
-    navigate('/'); // go to dashboard
+    navigate('/dashboard'); // go to dashboard
   };
 
   if (loading) {
@@ -105,9 +105,9 @@ export function Setup2FAPage() {
           <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-6)' }}>
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 'var(--space-4)', background: 'var(--color-bg-tertiary)', padding: 'var(--space-6)', borderRadius: 'var(--radius-lg)' }}>
               {qrCodeUrl ? (
-                <img src={qrCodeUrl} alt="TOTP QR Code" style={{ width: '200px', height: '200px', background: 'white', padding: 'var(--space-2)', borderRadius: 'var(--radius-md)' }} />
+                <img src={qrCodeUrl} alt="TOTP QR Code" style={{ width: '160px', height: '160px', background: 'white', padding: 'var(--space-2)', borderRadius: 'var(--radius-md)' }} />
               ) : (
-                <div style={{ width: '200px', height: '200px', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--color-bg-hover)', borderRadius: 'var(--radius-md)' }}>
+                <div style={{ width: '160px', height: '160px', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--color-bg-hover)', borderRadius: 'var(--radius-md)' }}>
                   <Loader2 className="animate-spin" />
                 </div>
               )}
@@ -125,25 +125,34 @@ export function Setup2FAPage() {
                 1. Scan the QR code above with your authenticator app.<br/>
                 2. Enter the 6-digit code it generates below to confirm setup.
               </p>
-              <div className="input-group">
-                <label className="input-label" style={{ color: 'var(--color-accent-blue)' }}>Enter Code to Complete Setup</label>
+              <style>{`
+                .totp-input:focus {
+                  border-color: var(--color-text-muted) !important;
+                  box-shadow: none !important;
+                }
+              `}</style>
+              <div className="input-group" style={{ marginTop: 'var(--space-2)' }}>
+                <label className="input-label">Enter Code to Complete Setup</label>
                 <div className="input-wrapper">
                   <input
                     type="text"
-                    className="input-field"
+                    className="input-field totp-input"
                     placeholder="000000"
                     value={code}
                     onChange={(e) => setCode(e.target.value.replace(/\D/g, '').slice(0, 6))}
                     maxLength={6}
                     required
-                    style={{ textAlign: 'center', letterSpacing: '4px', fontSize: 'var(--text-xl)' }}
+                    autoFocus
+                    style={{ textAlign: 'center', letterSpacing: '8px', fontSize: 'var(--text-2xl)', padding: 'var(--space-3)' }}
                   />
                 </div>
               </div>
 
-              <Button type="submit" variant="primary" loading={confirming} disabled={code.length !== 6}>
-                Verify & Enable 2FA
-              </Button>
+              <div style={{ marginTop: 'var(--space-4)' }}>
+                <Button type="submit" variant="primary" fullWidth loading={confirming} disabled={code.length !== 6}>
+                  Verify & Enable 2FA
+                </Button>
+              </div>
             </form>
           </div>
         ) : (

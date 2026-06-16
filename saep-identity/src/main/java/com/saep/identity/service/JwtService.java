@@ -21,7 +21,7 @@ public class JwtService {
     @Value("${jwt.access.expirationMs}")
     private long jwtAccessExpirationMs;
 
-    public String generateAccessToken(User user, UUID sessionId, UUID tenantId) {
+    public String generateAccessToken(User user, UUID sessionId, String tenantId) {
         List<String> roles = user.getRoles().stream()
                 .map(Role::getName)
                 .collect(Collectors.toList());
@@ -37,7 +37,7 @@ public class JwtService {
                 .signWith(Keys.hmacShaKeyFor(jwtSecret.getBytes()));
                 
         if (tenantId != null) {
-            builder.claim("tenantId", tenantId.toString());
+            builder.claim("tenantId", tenantId);
         }
 
         return builder.compact();
@@ -45,6 +45,7 @@ public class JwtService {
 
     public String generatePartialToken(UUID userId, String purpose, long expirationMinutes) {
         return Jwts.builder()
+                .id(UUID.randomUUID().toString())
                 .subject(userId.toString())
                 .claim("userId", userId.toString())
                 .claim("purpose", purpose)

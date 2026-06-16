@@ -4,6 +4,7 @@ import com.saep.identity.domain.User;
 import com.saep.identity.dto.response.SessionDto;
 import com.saep.identity.service.AuthService;
 import com.saep.identity.service.JwtService;
+import com.saep.identity.service.RedisTokenService;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Value;
@@ -26,13 +27,15 @@ public class AuthController {
 
     private final AuthService authService;
     private final JwtService jwtService;
+    private final RedisTokenService redisTokenService;
 
     @Value("${app.cookie.secure:false}")
     private boolean secureCookie;
 
-    public AuthController(AuthService authService, JwtService jwtService) {
+    public AuthController(AuthService authService, JwtService jwtService, RedisTokenService redisTokenService) {
         this.authService = authService;
         this.jwtService = jwtService;
+        this.redisTokenService = redisTokenService;
     }
 
     private UUID getUserIdFromHeader(HttpServletRequest request) {
@@ -113,12 +116,20 @@ public class AuthController {
             return ResponseEntity.ok(Map.of("success", true, "data", Map.of("requires2FA", true, "partialToken", result.partialToken())));
         }
         if (result.requiresTenantSelection()) {
-            return ResponseEntity.ok(Map.of("success", true, "data", Map.of("requiresTenantSelection", true, "tenantSelectionToken", result.partialToken(), "availableTenants", List.of()))); // mock tenants for now
+            List<Map<String, String>> tenants = authService.getActiveMemberships(result.user().getId())
+                    .stream()
+                    .map(m -> Map.of("id", m.getTenantId().toString(), "name", "Workspace " + m.getTenantId())) // Assuming tenant name is fetched or appended
+                    .collect(Collectors.toList());
+
+            return ResponseEntity.ok(Map.of("success", true, "data", Map.of(
+                    "requiresTenantSelection", true, 
+                    "tenantSelectionToken", result.partialToken(), 
+                    "availableTenants", tenants)));
         }
         
         String accessToken = jwtService.generateAccessToken(result.user(), result.session().getId(), result.session().getTenantId());
         ResponseCookie refreshCookie = ResponseCookie.from("refresh_token", result.rawRefreshToken())
-                .httpOnly(true).secure(secureCookie).sameSite("Strict").path("/").maxAge(Duration.ofDays(7)).build();
+                .httpOnly(true).secure(secureCookie).sameSite("Lax").path("/").maxAge(Duration.ofDays(7)).build();
 
         java.util.Map<String, Object> userData = new java.util.HashMap<>();
         userData.put("id", result.user().getId());
@@ -164,11 +175,37 @@ public class AuthController {
         }
     }
 
+    public static class Reset2FaRequest {
+        private String partialToken;
+        public String getPartialToken() { return partialToken; }
+        public void setPartialToken(String partialToken) { this.partialToken = partialToken; }
+    }
+
+    @PostMapping("/reset-2fa")
+    public ResponseEntity<?> reset2fa(@RequestBody Reset2FaRequest request) {
+        try {
+            Claims claims = jwtService.validateAndGetClaims(request.getPartialToken());
+            if (!"2fa".equals(claims.get("purpose"))) throw new IllegalArgumentException("Invalid token purpose");
+            UUID userId = UUID.fromString(claims.getSubject());
+            authService.reset2FA(userId);
+            return ResponseEntity.ok(Map.of("success", true));
+        } catch (Exception e) {
+            return ResponseEntity.status(400).body(Map.of("success", false, "error", Map.of("message", e.getMessage())));
+        }
+    }
+
+    public static class RefreshRequest {
+        private String fingerprint;
+        public String getFingerprint() { return fingerprint; }
+        public void setFingerprint(String fingerprint) { this.fingerprint = fingerprint; }
+    }
+
     @PostMapping("/refresh")
-    public ResponseEntity<?> refresh(@CookieValue(name = "refresh_token", required = false) String refreshToken, HttpServletRequest httpRequest) {
+    public ResponseEntity<?> refresh(@CookieValue(name = "refresh_token", required = false) String refreshToken, @RequestBody(required = false) RefreshRequest body, HttpServletRequest httpRequest) {
         if (refreshToken == null || refreshToken.isBlank()) return ResponseEntity.status(401).body(Map.of("success", false, "error", Map.of("message", "No refresh token")));
         try {
-            AuthService.AuthResult result = authService.refreshToken(refreshToken, "unknown", httpRequest.getRemoteAddr(), httpRequest.getHeader("User-Agent"));
+            String deviceId = (body != null && body.getFingerprint() != null) ? body.getFingerprint() : "unknown";
+            AuthService.AuthResult result = authService.refreshToken(refreshToken, deviceId, httpRequest.getRemoteAddr(), httpRequest.getHeader("User-Agent"));
             return handleAuthResult(result);
         } catch (Exception e) {
             return ResponseEntity.status(401).body(Map.of("success", false, "error", Map.of("message", e.getMessage())));
@@ -178,7 +215,7 @@ public class AuthController {
     @PostMapping("/logout")
     public ResponseEntity<?> logout(@CookieValue(name = "refresh_token", required = false) String refreshToken) {
         if (refreshToken != null && !refreshToken.isBlank()) { try { authService.logout(refreshToken); } catch (Exception ignored) {} }
-        ResponseCookie deleteCookie = ResponseCookie.from("refresh_token", "").httpOnly(true).secure(secureCookie).sameSite("Strict").path("/").maxAge(0).build();
+        ResponseCookie deleteCookie = ResponseCookie.from("refresh_token", "").httpOnly(true).secure(secureCookie).sameSite("Lax").path("/").maxAge(0).build();
         return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, deleteCookie.toString()).body(Map.of("success", true));
     }
 
@@ -217,6 +254,25 @@ public class AuthController {
             return ResponseEntity.ok(Map.of("success", true));
         } catch (Exception e) {
             return ResponseEntity.status(400).body(Map.of("success", false, "error", Map.of("message", e.getMessage())));
+        }
+    }
+
+    @PostMapping("/heartbeat")
+    public ResponseEntity<?> heartbeat(HttpServletRequest request) {
+        try {
+            String authHeader = request.getHeader("Authorization");
+            if (authHeader == null || !authHeader.startsWith("Bearer ")) throw new IllegalArgumentException("Missing token");
+            Claims claims = jwtService.validateAndGetClaims(authHeader.substring(7));
+            
+            String sessionId = (String) claims.get("sessionId");
+            if (sessionId != null) {
+                redisTokenService.heartbeatSession(sessionId);
+                return ResponseEntity.ok(Map.of("success", true));
+            } else {
+                throw new IllegalArgumentException("No session ID in token");
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(401).body(Map.of("success", false, "error", Map.of("message", e.getMessage())));
         }
     }
 

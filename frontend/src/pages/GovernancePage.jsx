@@ -9,7 +9,6 @@ import { Card } from '../components/common/Card.jsx';
 import { Badge } from '../components/common/Badge.jsx';
 import { Button } from '../components/common/Button.jsx';
 import { SafeRenderer } from '../components/common/SafeRenderer.jsx';
-import { TierGate } from '../components/layout/TierGate.jsx';
 import { useGovernanceStore } from '../store/governanceStore.js';
 import { usePermission } from '../hooks/usePermission.js';
 import { usePolicyValidator } from '../hooks/usePolicyValidator.js';
@@ -107,7 +106,6 @@ function GovernancePage() {
   };
 
   return (
-    <TierGate requiredTier={2} requiredFeature="governance">
       <motion.div variants={anim.container} initial="hidden" animate="show" style={{
         display: 'grid',
         gridTemplateColumns: 'repeat(4, minmax(0, 1fr))',
@@ -317,7 +315,6 @@ function GovernancePage() {
         </motion.div>
 
       </motion.div>
-    </TierGate>
   );
 }
 

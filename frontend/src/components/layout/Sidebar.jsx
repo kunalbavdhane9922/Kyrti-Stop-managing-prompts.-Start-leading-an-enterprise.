@@ -2,12 +2,9 @@ import { NavLink, useLocation } from 'react-router-dom';
 import {
   Shield, Landmark, Users, BarChart3, Lock,
   Fingerprint, ChevronLeft, ChevronRight, Layers,
-  Bot, Store, DollarSign, Box, GitPullRequestDraft, Search, Building2
+  Bot, Store, DollarSign, Box, GitPullRequestDraft, Search, Building2, PieChart
 } from 'lucide-react';
 import { useAuthStore } from '../../store/authStore.js';
-import { useOnboardingStore } from '../../store/onboardingStore.js';
-import { useTierGate } from '../../hooks/useTierGate.js';
-import { getTierById } from '../../config/tiers.js';
 import { Badge } from '../common/Badge.jsx';
 
 /**
@@ -15,22 +12,20 @@ import { Badge } from '../common/Badge.jsx';
  */
 function Sidebar({ collapsed, onToggle }) {
   const user = useAuthStore(s => s.user);
-  const { currentTierId, currentTier, isFeatureUnlocked } = useTierGate();
-
   const navItems = [
     { section: 'Identity' },
-    { path: '/identity', label: 'Identity Matrix', icon: Fingerprint, tier: 0 },
-    { path: '/onboarding', label: 'Trust Level', icon: Layers, tier: 0 },
+    { path: '/identity', label: 'Identity Matrix', icon: Fingerprint },
     { section: 'Operations' },
-    { path: '/dashboard', label: 'Dashboard', icon: BarChart3, tier: 1 },
-    { path: '/treasury', label: 'Treasury', icon: Landmark, tier: 2, feature: 'treasury' },
-    { path: '/governance', label: 'Governance', icon: Users, tier: 2, feature: 'governance' },
+    { path: '/dashboard', label: 'Dashboard', icon: BarChart3 },
+    { path: '/company-management', label: 'Company Management', icon: Building2 },
+    { path: '/treasury', label: 'Treasury', icon: Landmark },
+    { path: '/governance', label: 'Governance', icon: Users },
     { section: 'Command Center' },
-    { path: '/agents', label: 'Agent OS', icon: Bot, tier: 1 },
-    { path: '/marketplace', label: 'Marketplace', icon: Store, tier: 1 },
-    { path: '/service-fees', label: 'Service Fees', icon: DollarSign, tier: 2, feature: 'treasury' },
-    { path: '/spatial', label: 'Spatial View', icon: Box, tier: 1 },
-    { path: '/virtual-office', label: 'Virtual Office', icon: Building2, tier: 1 },
+    { path: '/reports', label: 'Intelligence Reports', icon: PieChart },
+    { path: '/agents', label: 'Agent OS', icon: Bot },
+    { path: '/marketplace', label: 'Marketplace', icon: Store },
+    { path: '/service-fees', label: 'Service Fees', icon: DollarSign },
+    { path: '/virtual-office', label: 'Virtual Office', icon: Building2 },
   ];
 
   return (
@@ -54,42 +49,17 @@ function Sidebar({ collapsed, onToggle }) {
             );
           }
 
-          const isLocked = item.feature && !isFeatureUnlocked(item.feature);
-          const isTierLocked = currentTierId < item.tier;
-          const locked = isLocked || isTierLocked;
-
           return (
             <NavLink
               key={item.path}
-              to={locked ? '#' : item.path}
-              className={({ isActive }) =>
-                `sidebar-link ${isActive && !locked ? 'active' : ''} ${locked ? 'locked' : ''}`
-              }
-              onClick={(e) => { if (locked) e.preventDefault(); }}
-              title={`${item.label} ${locked ? '(Locked)' : ''}`}
-              style={locked 
-                ? { cursor: 'not-allowed', justifyContent: collapsed ? 'center' : 'flex-start', position: 'relative', opacity: 0.4 } 
-                : { justifyContent: collapsed ? 'center' : 'flex-start', position: 'relative' }
-              }
+              to={item.path}
+              className={({ isActive }) => `sidebar-link ${isActive ? 'active' : ''}`}
+              title={item.label}
+              style={{ justifyContent: collapsed ? 'center' : 'flex-start', position: 'relative' }}
             >
               <item.icon size={20} className="sidebar-link-icon" />
               {!collapsed && (
                 <span className="sidebar-link-text" style={{ flex: 1 }}>{item.label}</span>
-              )}
-              {locked && (
-                <Lock 
-                  size={12} 
-                  style={{ 
-                    position: collapsed ? 'absolute' : 'relative', 
-                    bottom: collapsed ? '4px' : 'auto', 
-                    right: collapsed ? '16px' : 'auto', 
-                    color: 'var(--color-text-primary)',
-                    background: 'var(--color-bg-secondary)',
-                    borderRadius: '50%',
-                    padding: '1.5px',
-                    boxShadow: '0 0 4px rgba(0,0,0,0.1)'
-                  }} 
-                />
               )}
             </NavLink>
           );
@@ -97,29 +67,7 @@ function Sidebar({ collapsed, onToggle }) {
       </nav>
 
       <div className="sidebar-footer" style={{ padding: 'var(--space-4) 0', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 'var(--space-3)' }}>
-        {/* Dev Unlock Button */}
-        {currentTierId < 3 && (
-          <button
-            onClick={() => useOnboardingStore.getState().setCurrentTier(3)}
-            title="Unlock all pages (Dev Mode)"
-            style={{
-              width: 36, height: 36, borderRadius: 'var(--radius-md)',
-              background: 'rgba(197, 160, 89, 0.1)', border: '1px solid rgba(197, 160, 89, 0.3)',
-              color: 'var(--color-accent-gold)', cursor: 'pointer',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              fontSize: '16px', transition: 'all 0.2s ease',
-            }}
-            onMouseEnter={e => { e.currentTarget.style.background = 'rgba(197, 160, 89, 0.2)'; }}
-            onMouseLeave={e => { e.currentTarget.style.background = 'rgba(197, 160, 89, 0.1)'; }}
-          >
-            🔓
-          </button>
-        )}
-        <div className="sidebar-tier-indicator" style={{ padding: 'var(--space-2)', background: 'transparent', border: 'none' }} title={`Tier ${currentTierId}: ${currentTier.name}`}>
-          <div className="sidebar-tier-icon" style={{ background: currentTier.color ? `linear-gradient(135deg, ${currentTier.color}, ${currentTier.color}aa)` : undefined, width: 32, height: 32 }}>
-            <Shield size={16} />
-          </div>
-        </div>
+        {/* Footer content removed since Trust Level is gone */}
       </div>
     </aside>
   );

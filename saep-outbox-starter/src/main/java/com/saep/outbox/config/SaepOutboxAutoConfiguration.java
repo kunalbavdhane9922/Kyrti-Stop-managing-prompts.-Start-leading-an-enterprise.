@@ -12,8 +12,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 @AutoConfiguration
 @EnableScheduling
-@EntityScan(basePackages = "com.saep.outbox.domain")
-@EnableJpaRepositories(basePackages = "com.saep.outbox.repository")
 @ComponentScan(basePackages = "com.saep.outbox.service")
 public class SaepOutboxAutoConfiguration {
 }

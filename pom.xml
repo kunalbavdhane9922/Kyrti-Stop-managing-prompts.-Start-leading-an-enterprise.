@@ -23,7 +23,11 @@
         <module>saep-gateway</module>
         <module>saep-identity</module>
         <module>services/saep-parent/saep-company</module>
+        <module>services/saep-parent/saep-organization</module>
         <module>services/saep-parent/saep-workforce</module>
+        <module>services/saep-parent/saep-governance</module>
+        <module>services/saep-parent/saep-marketplace</module>
+        <module>saep-architecture-tests</module>
     </modules>
 
     <properties>

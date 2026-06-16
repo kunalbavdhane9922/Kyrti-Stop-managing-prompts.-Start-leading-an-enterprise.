@@ -1,8 +1,13 @@
+com\saep\workforce\consumer\PositionCreatedConsumer.class
 com\saep\workforce\SaepWorkforceApplication.class
+com\saep\workforce\consumer\CompanyCreatedConsumer.class
+com\saep\workforce\domain\WorkerEntity.class
+com\saep\workforce\repository\ConsumerTestLogRepository.class
+com\saep\workforce\consumer\PositionCreatedConsumer$1.class
 com\saep\workforce\consumer\CompanyCreatedConsumer$1.class
 com\saep\workforce\domain\ConsumerTestLog.class
-com\saep\workforce\config\SecurityConfig.class
+com\saep\workforce\domain\WorkerEntity$WorkerEntityBuilder.class
 com\saep\workforce\config\KafkaErrorHandlerConfig.class
-com\saep\workforce\consumer\CompanyCreatedConsumer.class
+com\saep\workforce\config\KafkaTopicConfig.class
 com\saep\workforce\domain\ConsumerTestLog$ConsumerTestLogBuilder.class
-com\saep\workforce\repository\ConsumerTestLogRepository.class
+com\saep\workforce\repository\WorkerRepository.class

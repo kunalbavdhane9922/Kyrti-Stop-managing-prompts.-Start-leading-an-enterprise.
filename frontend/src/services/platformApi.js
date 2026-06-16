@@ -190,31 +190,37 @@ const platformApi = {
   // ================================================================
 
   async getMarketplaceAgents() {
-    await delay(900);
-    return [
-      { id: 'mkt_agent_1', displayName: 'Apex-Coder-7', specialization: 'Full-Stack Engineering', skills: ['Python', 'React', 'Node.js', 'PostgreSQL'], reputationScore: 97.3, verifiedBadgeCount: 8, avgROI: 340, avgLatency: 290, totalTasksCompleted: 2841, isAvailable: true, tier: 'elite', createdAt: '2025-11-01T00:00:00Z' },
-      { id: 'mkt_agent_2', displayName: 'StrategyMind-4', specialization: 'Business Strategy', skills: ['Market Analysis', 'Forecasting', 'Competitive Intel'], reputationScore: 94.1, verifiedBadgeCount: 6, avgROI: 280, avgLatency: 410, totalTasksCompleted: 1523, isAvailable: true, tier: 'elite', createdAt: '2025-12-15T00:00:00Z' },
-      { id: 'mkt_agent_3', displayName: 'ContentForge-2', specialization: 'Content Marketing', skills: ['SEO', 'Copywriting', 'Social Media', 'Brand Voice'], reputationScore: 91.8, verifiedBadgeCount: 5, avgROI: 220, avgLatency: 350, totalTasksCompleted: 967, isAvailable: true, tier: 'standard', createdAt: '2026-01-10T00:00:00Z' },
-      { id: 'mkt_agent_4', displayName: 'DataSentinel-9', specialization: 'Data Engineering', skills: ['ETL', 'Spark', 'Data Modeling', 'ML Pipelines'], reputationScore: 96.5, verifiedBadgeCount: 7, avgROI: 310, avgLatency: 380, totalTasksCompleted: 1892, isAvailable: false, tier: 'elite', createdAt: '2025-10-20T00:00:00Z' },
-      { id: 'mkt_agent_5', displayName: 'LegalDraft-3', specialization: 'Legal Documentation', skills: ['Contract Review', 'Compliance', 'IP Analysis'], reputationScore: 89.4, verifiedBadgeCount: 4, avgROI: 190, avgLatency: 520, totalTasksCompleted: 634, isAvailable: true, tier: 'standard', createdAt: '2026-02-05T00:00:00Z' },
-      { id: 'mkt_agent_6', displayName: 'SecOps-Prime-1', specialization: 'Security Operations', skills: ['Vulnerability Scan', 'Incident Response', 'Pen Testing'], reputationScore: 98.1, verifiedBadgeCount: 9, avgROI: 420, avgLatency: 260, totalTasksCompleted: 3102, isAvailable: true, tier: 'elite', createdAt: '2025-09-01T00:00:00Z' },
-    ];
+    const token = window.__sovereignAccessToken;
+    const res = await fetch('http://localhost:3000/api/v1/marketplace/agents', {
+      headers: { ...(token ? { 'Authorization': `Bearer ${token}` } : {}) }
+    });
+    if (!res.ok) throw new Error('Failed to fetch marketplace agents');
+    return res.json();
   },
 
   async getMarketplaceFilters() {
-    await delay(300);
-    return {
-      skills: ['Python', 'React', 'Node.js', 'PostgreSQL', 'SEO', 'Copywriting', 'Social Media', 'Market Analysis', 'Forecasting', 'ETL', 'Spark', 'Data Modeling', 'ML Pipelines', 'Contract Review', 'Compliance', 'Vulnerability Scan', 'Incident Response'],
-      specializations: ['Full-Stack Engineering', 'Business Strategy', 'Content Marketing', 'Data Engineering', 'Legal Documentation', 'Security Operations'],
-    };
+    const token = window.__sovereignAccessToken;
+    const res = await fetch('http://localhost:3000/api/v1/marketplace/filters', {
+      headers: { ...(token ? { 'Authorization': `Bearer ${token}` } : {}) }
+    });
+    if (!res.ok) throw new Error('Failed to fetch marketplace filters');
+    return res.json();
   },
 
   async hireAgentToSandbox(agentId, trialDays) {
-    await delay(1200);
-    return {
-      success: true,
-      hire: { id: 'hire_' + crypto.randomUUID().slice(0, 8), agentId, status: 'sandbox_active', trialDays: trialDays || 7, startedAt: new Date().toISOString(), restrictions: { treasuryAccess: false, companyMemoryAccess: false, environment: 'pre-production', tier: 0 } },
-    };
+    const token = window.__sovereignAccessToken;
+    const tenantId = sessionStorage.getItem('sovereign_active_tenant') || 'default-tenant';
+    const res = await fetch(`http://localhost:3000/api/v1/marketplace/agents/${agentId}/hire`, {
+      method: 'POST',
+      headers: { 
+        'Content-Type': 'application/json',
+        'X-Tenant-ID': tenantId,
+        ...(token ? { 'Authorization': `Bearer ${token}` } : {}) 
+      },
+      body: JSON.stringify({ trialDays: trialDays || 7 })
+    });
+    if (!res.ok) throw new Error('Failed to hire agent');
+    return res.json();
   },
 
   // ================================================================

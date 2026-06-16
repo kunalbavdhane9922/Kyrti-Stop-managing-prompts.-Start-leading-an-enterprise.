@@ -17,6 +17,9 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import java.util.concurrent.atomic.AtomicLong;
+import jakarta.annotation.PostConstruct;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -26,9 +29,26 @@ public class OutboxProcessor {
     private final OutboxEventRepository outboxEventRepository;
     private final KafkaTemplate<String, String> kafkaTemplate;
     private final MeterRegistry meterRegistry;
+    
+    private final AtomicLong pendingEventsGauge = new AtomicLong(0);
 
     @Value("${saep.outbox.max-retries:15}")
     private int maxRetries;
+    
+    @Value("${spring.application.name:unknown-service}")
+    private String applicationName;
+
+    @PostConstruct
+    public void init() {
+        meterRegistry.gauge("outbox.pending.total", pendingEventsGauge);
+    }
+    
+    @Scheduled(fixedDelay = 10000)
+    public void updatePendingGauge() {
+        // Safe, cached metric update every 10 seconds
+        long pendingCount = outboxEventRepository.countByStatus(EventStatus.PENDING);
+        pendingEventsGauge.set(pendingCount);
+    }
 
     @Scheduled(fixedDelayString = "${saep.outbox.poll-interval-ms:1000}")
     @Transactional
@@ -51,7 +71,7 @@ public class OutboxProcessor {
                 outboxEventRepository.save(event);
 
                 long publishLatencyMs = java.time.temporal.ChronoUnit.MILLIS.between(event.getCreatedAt(), LocalDateTime.now());
-                meterRegistry.counter("event.published", "topic", event.getTopic()).increment();
+                meterRegistry.counter("event.publish.success.total", "topic", event.getTopic()).increment();
                 log.info("Successfully published event {} with publish latency: {} ms", event.getEventId(), publishLatencyMs);
 
             } catch (Exception e) {
@@ -68,7 +88,10 @@ public class OutboxProcessor {
                 }
                 outboxEventRepository.save(event);
 
-                meterRegistry.counter("event.failed", "topic", event.getTopic()).increment();
+                meterRegistry.counter("event.publish.failure.total", 
+                        "topic", event.getTopic(), 
+                        "service", applicationName,
+                        "reason", e.getClass().getSimpleName()).increment();
                 log.error("Failed to publish event {}: {}", event.getEventId(), e.getMessage());
             }
         }

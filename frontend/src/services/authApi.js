@@ -7,7 +7,7 @@
  * All auth endpoints hit: POST /api/v1/auth/*
  */
 
-const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:3002';
+const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:8080';
 const AUTH_BASE = `${API_BASE}/api/v1/auth`;
 
 /**
@@ -34,14 +34,55 @@ async function request(url, options = {}) {
     credentials: 'include', // Send httpOnly cookies (refresh token)
   });
 
-  const data = await response.json();
+  let data = {};
+  const text = await response.text();
+  if (text) {
+    try {
+      data = JSON.parse(text);
+    } catch (e) {
+      // Non-JSON response (e.g., empty 401)
+    }
+  }
+
+  if (response.status === 401 && !url.includes('/auth/refresh') && !options._retry) {
+    try {
+      // Avoid infinite loops
+      options._retry = true;
+      
+      // Request a new token via refresh endpoint
+      const refreshResponse = await fetch(`${AUTH_BASE}/refresh`, {
+        method: 'POST',
+        credentials: 'include',
+      });
+      
+      if (refreshResponse.ok) {
+        const refreshData = await refreshResponse.json();
+        window.__sovereignAccessToken = refreshData.data?.accessToken;
+        
+        // Retry original request
+        return await request(url, options);
+      }
+    } catch (refreshErr) {
+      // Refresh failed, fall through to throw original 401
+    }
+  }
 
   if (!response.ok) {
-    const error = new Error(data.error?.message || 'Request failed');
-    error.code = data.error?.code || 'UNKNOWN_ERROR';
+    const error = new Error(data?.error?.message || `Authentication failed (HTTP ${response.status})`);
+    error.code = data?.error?.code || 'UNKNOWN_ERROR';
     error.status = response.status;
-    error.details = data.error?.details;
-    error.violations = data.error?.violations;
+    error.details = data?.error?.details;
+    error.violations = data?.error?.violations;
+    
+    // Auto logout if refresh fails
+    if (response.status === 401) {
+      window.__sovereignAccessToken = null;
+      // Trigger logout via event to avoid circular imports with store
+      if (!options.ignoreAuthError) {
+        window.dispatchEvent(new Event('sovereign_unauthorized'));
+      }
+    }
+    
     throw error;
   }
 
@@ -106,9 +147,13 @@ const authApi = {
    * Refreshes the access token using the httpOnly refresh cookie.
    */
   async refresh() {
+    const { CryptoService } = await import('../security/CryptoService.js');
+    const fingerprint = await CryptoService.generateSessionFingerprint();
     const result = await request(`${AUTH_BASE}/refresh`, {
       method: 'POST',
       skipAuth: true,
+      ignoreAuthError: true,
+      body: JSON.stringify({ fingerprint })
     });
 
     if (result.data?.accessToken) {
@@ -116,6 +161,17 @@ const authApi = {
     }
 
     return result;
+  },
+
+  /**
+   * Pings the server to keep the session alive (Heartbeat)
+   * The server tracks this to detect when a tab is closed.
+   */
+  async heartbeat() {
+    return request(`${AUTH_BASE}/heartbeat`, {
+      method: 'POST',
+      ignoreAuthError: true, // Don't trigger a hard logout on a single dropped packet
+    });
   },
 
   /**
@@ -172,10 +228,21 @@ const authApi = {
   /**
    * Verifies a recovery code.
    */
-  async verifyRecoveryCode({ partialToken, code }) {
+  async verifyRecoveryCode(data) {
     return request(`${AUTH_BASE}/verify-recovery-code`, {
       method: 'POST',
-      body: JSON.stringify({ partialToken, code }),
+      body: JSON.stringify(data),
+      skipAuth: true,
+    });
+  },
+
+  /**
+   * Resets 2FA settings.
+   */
+  async reset2FA(data) {
+    return request(`${AUTH_BASE}/reset-2fa`, {
+      method: 'POST',
+      body: JSON.stringify(data),
       skipAuth: true,
     });
   },

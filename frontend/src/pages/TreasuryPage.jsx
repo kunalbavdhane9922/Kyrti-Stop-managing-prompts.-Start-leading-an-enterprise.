@@ -7,7 +7,6 @@ import {
 import { Card } from '../components/common/Card.jsx';
 import { Badge } from '../components/common/Badge.jsx';
 import { Button } from '../components/common/Button.jsx';
-import { TierGate } from '../components/layout/TierGate.jsx';
 import { useTreasuryStore } from '../store/treasuryStore.js';
 import { platformApi } from '../services/platformApi.js';
 
@@ -89,7 +88,6 @@ function TreasuryPage() {
   const opsPct = Math.min(100, (opsSpent / opsLimit) * 100);
 
   return (
-    <TierGate requiredTier={2} requiredFeature="treasury">
       <motion.div variants={anim.container} initial="hidden" animate="show" style={{
         display: 'grid',
         gridTemplateColumns: 'repeat(3, minmax(0, 1fr))',
@@ -295,7 +293,6 @@ function TreasuryPage() {
         </motion.div>
 
       </motion.div>
-    </TierGate>
   );
 }
 

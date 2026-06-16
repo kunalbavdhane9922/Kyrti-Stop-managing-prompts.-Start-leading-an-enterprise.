@@ -11,7 +11,6 @@ import { useAuthStore } from '../store/authStore.js';
 import { useIdentityStore } from '../store/identityStore.js';
 import { useTreasuryStore } from '../store/treasuryStore.js';
 import { useGovernanceStore } from '../store/governanceStore.js';
-import { useOnboardingStore } from '../store/onboardingStore.js';
 import { AUDIT_ACTIONS } from '../config/constants.js';
 
 export function useSessionGuard() {
@@ -23,7 +22,6 @@ export function useSessionGuard() {
   const resetIdentity = useIdentityStore(s => s.reset);
   const resetTreasury = useTreasuryStore(s => s.reset);
   const resetGovernance = useGovernanceStore(s => s.reset);
-  const resetOnboarding = useOnboardingStore(s => s.reset);
 
   /**
    * Wipes ALL sensitive state from all stores.
@@ -41,11 +39,10 @@ export function useSessionGuard() {
     resetIdentity();
     resetTreasury();
     resetGovernance();
-    resetOnboarding();
 
     // Wipe audit logger last
     AuditLogger._resetForSessionWipe();
-  }, [logout, resetIdentity, resetTreasury, resetGovernance, resetOnboarding]);
+  }, [logout, resetIdentity, resetTreasury, resetGovernance]);
 
   useEffect(() => {
     if (!isAuthenticated) return;

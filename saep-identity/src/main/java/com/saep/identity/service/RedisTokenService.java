@@ -21,7 +21,7 @@ public class RedisTokenService {
         this.rotateRefreshTokenScript = rotateRefreshTokenScript;
     }
 
-    public SessionDto createSession(UUID userId, UUID tenantId, String deviceId, String ipAddress, String userAgent, String rawRefreshToken) {
+    public SessionDto createSession(UUID userId, String tenantId, String deviceId, String ipAddress, String userAgent, String rawRefreshToken) {
         UUID sessionId = UUID.randomUUID();
         String tokenHash = hashToken(rawRefreshToken);
         
@@ -37,7 +37,7 @@ public class RedisTokenService {
         String sessionKey = "session:" + sessionId;
         Map<String, String> sessionMap = new HashMap<>();
         sessionMap.put("userId", userId.toString());
-        if (tenantId != null) sessionMap.put("tenantId", tenantId.toString());
+        if (tenantId != null) sessionMap.put("tenantId", tenantId);
         sessionMap.put("deviceId", deviceId != null ? deviceId : "");
         sessionMap.put("ipAddress", ipAddress != null ? ipAddress : "");
         sessionMap.put("userAgent", userAgent != null ? userAgent : "");
@@ -45,7 +45,7 @@ public class RedisTokenService {
         sessionMap.put("lastAccessedAt", LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME));
         
         redisTemplate.opsForHash().putAll(sessionKey, sessionMap);
-        redisTemplate.expire(sessionKey, 30, TimeUnit.DAYS);
+        redisTemplate.expire(sessionKey, 2, TimeUnit.MINUTES);
         
         // Store reverse mapping to allow cascading eviction
         redisTemplate.opsForValue().set("session_refresh:" + sessionId, tokenHash, 30, TimeUnit.DAYS);
@@ -105,7 +105,7 @@ public class RedisTokenService {
         SessionDto dto = new SessionDto();
         dto.setId(UUID.fromString(sessionId));
         dto.setUserId(UUID.fromString((String) map.get("userId")));
-        if (map.containsKey("tenantId")) dto.setTenantId(UUID.fromString((String) map.get("tenantId")));
+        if (map.containsKey("tenantId")) dto.setTenantId((String) map.get("tenantId"));
         dto.setDeviceId((String) map.get("deviceId"));
         dto.setIpAddress((String) map.get("ipAddress"));
         dto.setUserAgent((String) map.get("userAgent"));
@@ -162,6 +162,14 @@ public class RedisTokenService {
             return java.util.Base64.getEncoder().encodeToString(hash);
         } catch (Exception e) {
             throw new RuntimeException("Failed to hash token", e);
+        }
+    }
+
+    public void heartbeatSession(String sessionId) {
+        String sessionKey = "session:" + sessionId;
+        Boolean exists = redisTemplate.hasKey(sessionKey);
+        if (Boolean.TRUE.equals(exists)) {
+            redisTemplate.expire(sessionKey, 2, TimeUnit.MINUTES);
         }
     }
 }

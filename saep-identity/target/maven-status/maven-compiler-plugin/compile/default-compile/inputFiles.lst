@@ -5,8 +5,10 @@ D:\College\Projects\Kyrti-Stop-managing-prompts.-Start-leading-an-enterprise\sae
 D:\College\Projects\Kyrti-Stop-managing-prompts.-Start-leading-an-enterprise\saep-identity\src\main\java\com\saep\identity\dto\request\VerifyRecoveryCodeRequest.java
 D:\College\Projects\Kyrti-Stop-managing-prompts.-Start-leading-an-enterprise\saep-identity\src\main\java\com\saep\identity\SaepIdentityApplication.java
 D:\College\Projects\Kyrti-Stop-managing-prompts.-Start-leading-an-enterprise\saep-identity\src\main\java\com\saep\identity\service\JwtService.java
+D:\College\Projects\Kyrti-Stop-managing-prompts.-Start-leading-an-enterprise\saep-identity\src\main\java\com\saep\identity\service\UserAuthorizationService.java
 D:\College\Projects\Kyrti-Stop-managing-prompts.-Start-leading-an-enterprise\saep-identity\src\main\java\com\saep\identity\controller\AuthController.java
 D:\College\Projects\Kyrti-Stop-managing-prompts.-Start-leading-an-enterprise\saep-identity\src\main\java\com\saep\identity\dto\request\LoginRequest.java
+D:\College\Projects\Kyrti-Stop-managing-prompts.-Start-leading-an-enterprise\saep-identity\src\main\java\com\saep\identity\repository\UserTenantMembershipRepository.java
 D:\College\Projects\Kyrti-Stop-managing-prompts.-Start-leading-an-enterprise\saep-identity\src\main\java\com\saep\identity\service\RedisTokenService.java
 D:\College\Projects\Kyrti-Stop-managing-prompts.-Start-leading-an-enterprise\saep-identity\src\main\java\com\saep\identity\dto\request\RegisterRequest.java
 D:\College\Projects\Kyrti-Stop-managing-prompts.-Start-leading-an-enterprise\saep-identity\src\main\java\com\saep\identity\service\KafkaAuditService.java
@@ -15,11 +17,14 @@ D:\College\Projects\Kyrti-Stop-managing-prompts.-Start-leading-an-enterprise\sae
 D:\College\Projects\Kyrti-Stop-managing-prompts.-Start-leading-an-enterprise\saep-identity\src\main\java\com\saep\identity\domain\User.java
 D:\College\Projects\Kyrti-Stop-managing-prompts.-Start-leading-an-enterprise\saep-identity\src\main\java\com\saep\identity\repository\RecoveryCodeRepository.java
 D:\College\Projects\Kyrti-Stop-managing-prompts.-Start-leading-an-enterprise\saep-identity\src\main\java\com\saep\identity\domain\TrustedDevice.java
+D:\College\Projects\Kyrti-Stop-managing-prompts.-Start-leading-an-enterprise\saep-identity\src\main\java\com\saep\identity\controller\UserController.java
 D:\College\Projects\Kyrti-Stop-managing-prompts.-Start-leading-an-enterprise\saep-identity\src\main\java\com\saep\identity\domain\RecoveryCode.java
+D:\College\Projects\Kyrti-Stop-managing-prompts.-Start-leading-an-enterprise\saep-identity\src\main\java\com\saep\identity\domain\UserTenantMembership.java
 D:\College\Projects\Kyrti-Stop-managing-prompts.-Start-leading-an-enterprise\saep-identity\src\main\java\com\saep\identity\dto\request\SelectTenantRequest.java
 D:\College\Projects\Kyrti-Stop-managing-prompts.-Start-leading-an-enterprise\saep-identity\src\main\java\com\saep\identity\domain\Role.java
 D:\College\Projects\Kyrti-Stop-managing-prompts.-Start-leading-an-enterprise\saep-identity\src\main\java\com\saep\identity\repository\RoleRepository.java
 D:\College\Projects\Kyrti-Stop-managing-prompts.-Start-leading-an-enterprise\saep-identity\src\main\java\com\saep\identity\repository\UserRepository.java
+D:\College\Projects\Kyrti-Stop-managing-prompts.-Start-leading-an-enterprise\saep-identity\src\main\java\com\saep\identity\consumer\OrganizationEventConsumer.java
 D:\College\Projects\Kyrti-Stop-managing-prompts.-Start-leading-an-enterprise\saep-identity\src\main\java\com\saep\identity\dto\request\Confirm2FaRequest.java
 D:\College\Projects\Kyrti-Stop-managing-prompts.-Start-leading-an-enterprise\saep-identity\src\main\java\com\saep\identity\dto\response\SessionDto.java
 D:\College\Projects\Kyrti-Stop-managing-prompts.-Start-leading-an-enterprise\saep-identity\src\main\java\com\saep\identity\repository\TrustedDeviceRepository.java

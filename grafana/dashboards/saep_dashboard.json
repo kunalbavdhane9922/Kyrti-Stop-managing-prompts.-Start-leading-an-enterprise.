@@ -1,0 +1,58 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": "-- Grafana --",
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "panels": [
+    {
+      "title": "Active Onboardings",
+      "type": "stat",
+      "gridPos": { "h": 8, "w": 6, "x": 0, "y": 0 },
+      "targets": [ { "expr": "sum(rate(onboarding_provisioning_time_seconds_count[5m])) * 300" } ]
+    },
+    {
+      "title": "Failed Onboardings (24h)",
+      "type": "stat",
+      "gridPos": { "h": 8, "w": 6, "x": 6, "y": 0 },
+      "targets": [ { "expr": "sum(increase(saga_failure_total[24h]))" } ]
+    },
+    {
+      "title": "Average Provisioning Time",
+      "type": "gauge",
+      "gridPos": { "h": 8, "w": 6, "x": 12, "y": 0 },
+      "targets": [ { "expr": "rate(onboarding_provisioning_time_seconds_sum[5m]) / rate(onboarding_provisioning_time_seconds_count[5m])" } ]
+    },
+    {
+      "title": "DLQ Messages Total",
+      "type": "stat",
+      "gridPos": { "h": 8, "w": 6, "x": 18, "y": 0 },
+      "targets": [ { "expr": "sum(dlq_messages_total)" } ]
+    },
+    {
+      "title": "Outbox Pending Backlog",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 8 },
+      "targets": [ { "expr": "outbox_pending_total" } ]
+    },
+    {
+      "title": "Kafka Consumer Lag",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 8 },
+      "targets": [ { "expr": "sum(kafka_consumer_fetch_manager_records_lag) by (topic)" } ]
+    }
+  ],
+  "schemaVersion": 30,
+  "title": "SAEP Executive & Operational Dashboard",
+  "uid": "saep-main",
+  "version": 1
+}

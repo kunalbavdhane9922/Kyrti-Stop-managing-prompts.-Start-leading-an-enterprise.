@@ -11,7 +11,6 @@ import { StatusIndicator } from '../components/common/StatusIndicator.jsx';
 import { FileUploader } from '../components/common/FileUploader.jsx';
 import { CopyToClipboard } from '../components/common/CopyToClipboard.jsx';
 import { useIdentityStore } from '../store/identityStore.js';
-import { useOnboardingStore } from '../store/onboardingStore.js';
 import { useGovernanceStore } from '../store/governanceStore.js';
 import { useWallet } from '../hooks/useWallet.js';
 import { platformApi } from '../services/platformApi.js';
@@ -130,7 +129,6 @@ function IdentityPage() {
     updateDnsStatus, updateEmailStatus,
     setMultiSigThreshold, addMultiSigSignature, bindWallet,
   } = useIdentityStore();
-  const setCurrentTier = useOnboardingStore(s => s.setCurrentTier);
   const resetGovernance = useGovernanceStore(s => s.reset);
   const resetIdentity = useIdentityStore(s => s.reset);
   const { connectWallet, signBindingMessage, isConnecting, error: walletError } = useWallet();
@@ -181,13 +179,12 @@ function IdentityPage() {
         const result = await platformApi.checkKYBStatus('kyb_request_1');
         if (result.status === 'verified') {
           completeLayerB({ name: result.businessName, registrationNumber: result.registrationNumber });
-          setCurrentTier(1);
           AuditLogger.log({ action: AUDIT_ACTIONS.IDENTITY_VERIFY, details: { layer: 'B', business: result.businessName } });
         }
       } catch (err) { updateLayerB({ govApiStatus: 'rejected' }); }
       finally { setKybLoading(false); }
     });
-  }, [updateLayerB, completeLayerB, setCurrentTier, runScanSequence]);
+  }, [updateLayerB, completeLayerB, runScanSequence]);
 
   const handleGenerateDNS = useCallback(async () => {
     setDnsLoading(true);
@@ -223,22 +220,20 @@ function IdentityPage() {
         const result = await platformApi.verifyMagicLink('mock_token');
         if (result.success) {
           updateEmailStatus('verified', result.domain);
-          setCurrentTier(2);
           AuditLogger.log({ action: AUDIT_ACTIONS.EMAIL_VERIFY, details: { email: result.email } });
         }
       } finally { setEmailLoading(false); }
     });
-  }, [updateEmailStatus, setCurrentTier, runScanSequence]);
+  }, [updateEmailStatus, runScanSequence]);
 
   const handleAnchorCrypto = useCallback(async () => {
     runScanSequence('c', 'c', LOG_SEQUENCES.wallet, async () => {
       const wallet = await connectWallet();
       if (wallet) {
-        const binding = await signBindingMessage(wallet.address, layerB.registrationNumber || 'BIZ_001');
-        if (binding) setCurrentTier(3);
+        await signBindingMessage(wallet.address, layerB.registrationNumber || 'BIZ_001');
       }
     });
-  }, [connectWallet, signBindingMessage, layerB.registrationNumber, setCurrentTier, runScanSequence]);
+  }, [connectWallet, signBindingMessage, layerB.registrationNumber, runScanSequence]);
 
   const handleRevocation = useCallback(() => {
     if (window.confirm('SOVEREIGN REVOCATION\n\nThis will permanently destroy all AI episodic memory and revoke all identity attestations.\n\nThis action cannot be undone. Proceed?')) {

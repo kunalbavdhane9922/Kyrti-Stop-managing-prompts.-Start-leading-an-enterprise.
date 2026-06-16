@@ -8,7 +8,7 @@ import java.util.UUID;
 public class SessionDto {
     private UUID id;
     private UUID userId;
-    private UUID tenantId;
+    private String tenantId;
     private String deviceId;
     private String ipAddress;
     private String userAgent;

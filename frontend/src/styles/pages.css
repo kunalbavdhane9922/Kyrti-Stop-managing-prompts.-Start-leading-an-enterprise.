@@ -8,8 +8,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 100dvh;
-  overflow: hidden;
+  min-height: 100dvh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: var(--space-8) 0;
   position: relative;
   background: var(--color-bg-primary);
 }
@@ -346,6 +348,15 @@
 .login-card-bubble .login-2fa-input:focus {
   border-color: rgba(99, 102, 241, 0.5);
   box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+.login-card-bubble .btn-ghost {
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.login-card-bubble .btn-ghost:hover {
+  background: rgba(0, 0, 0, 0.05);
+  color: rgba(0, 0, 0, 0.9);
 }
 
 /* --- Security Clearance Portal --- */
@@ -1036,3 +1047,4 @@
   font-family: "JetBrains Mono", var(--font-mono), monospace;
   letter-spacing: 0.02em;
 }
+

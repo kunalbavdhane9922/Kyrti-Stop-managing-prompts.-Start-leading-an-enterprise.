@@ -8,12 +8,12 @@ import { Card } from '../components/common/Card.jsx';
 import { Badge } from '../components/common/Badge.jsx';
 import { Modal } from '../components/common/Modal.jsx';
 import { Button } from '../components/common/Button.jsx';
-import { TierGate } from '../components/layout/TierGate.jsx';
 import { platformApi } from '../services/platformApi.js';
 import { useAgentOSStore } from '../store/agentOSStore.js';
 import { AuditLogger } from '../security/AuditLogger.js';
 import { AUDIT_ACTIONS } from '../config/constants.js';
 import { useAuthStore } from '../store/authStore.js';
+import { usePermission } from '../hooks/usePermission.js';
 
 const anim = {
   container: { hidden: { opacity: 0 }, show: { opacity: 1, transition: { staggerChildren: 0.04 } } },
@@ -27,6 +27,7 @@ function AgentManagementPage() {
   
   const { agents, selectedAgentId, memoryVaults, detachmentState, setAgents, setMemoryVault, selectAgent, promoteAgent, initiateDetachment, cancelDetachment, confirmDetachment } = useAgentOSStore();
   const user = useAuthStore(s => s.user);
+  const { can } = usePermission();
 
   useEffect(() => {
     if (dataLoaded) return;
@@ -98,7 +99,7 @@ function AgentManagementPage() {
   ];
 
   return (
-    <TierGate requiredTier={2} requiredFeature="agents">
+    <>
       <motion.div variants={anim.container} initial="hidden" animate="show" style={{
         display: 'grid',
         gridTemplateColumns: 'minmax(0, 1fr) 340px',
@@ -304,7 +305,7 @@ function AgentManagementPage() {
           <Button variant="danger" onClick={handleConfirmDetach}>Confirm Revocation</Button>
         </div>
       </Modal>
-    </TierGate>
+    </>
   );
 }
 

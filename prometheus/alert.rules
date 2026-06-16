@@ -1,0 +1,38 @@
+groups:
+  - name: saep_alerts
+    rules:
+      - alert: DeadLetterQueueNotEmpty
+        expr: sum(dlq_messages_total) > 0
+        for: 5m
+        labels:
+          severity: critical
+        annotations:
+          summary: "DLQ Messages Detected"
+          description: "There are unprocessable messages sitting in the Dead Letter Topic. Check the DLQ consumer or Zipkin for trace details."
+
+      - alert: OutboxPendingBacklog
+        expr: outbox_pending_total > 100
+        for: 1m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High Outbox Pending Backlog"
+          description: "The outbox polling mechanism is falling behind or failing to publish to Kafka."
+
+      - alert: HighSagaFailureRate
+        expr: rate(saga_failure_total[5m]) / rate(onboarding_provisioning_time_seconds_count[5m]) > 0.05
+        for: 2m
+        labels:
+          severity: critical
+        annotations:
+          summary: "High Saga Failure Rate"
+          description: "Over 5% of recent onboarding sagas are failing. Immediate investigation required."
+
+      - alert: HighConsumerLag
+        expr: sum(kafka_consumer_fetch_manager_records_lag) > 500
+        for: 2m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High Kafka Consumer Lag"
+          description: "Consumers are falling behind by over 500 messages."

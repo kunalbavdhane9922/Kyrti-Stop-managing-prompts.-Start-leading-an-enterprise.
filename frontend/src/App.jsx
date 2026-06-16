@@ -1,26 +1,28 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { lazy, Suspense, useEffect, useState } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { AppShell } from './components/layout/AppShell.jsx';
-import { TierGate } from './components/layout/TierGate.jsx';
 import { LoginPage } from './pages/LoginPage.jsx';
 import { Verify2FAPage } from './pages/Verify2FAPage.jsx';
 import { Setup2FAPage } from './pages/Setup2FAPage.jsx';
-import { SelectTenantPage } from './pages/SelectTenantPage.jsx';
+import { CompanyWizardPage } from './pages/CompanyWizardPage.jsx';
 import { DashboardPage } from './pages/DashboardPage.jsx';
 import { IdentityPage } from './pages/IdentityPage.jsx';
 import { TreasuryPage } from './pages/TreasuryPage.jsx';
 import { GovernancePage } from './pages/GovernancePage.jsx';
-import { OnboardingPage } from './pages/OnboardingPage.jsx';
 import { AgentManagementPage } from './pages/AgentManagementPage.jsx';
 import { MarketplacePage } from './pages/MarketplacePage.jsx';
 import { ServiceFeePage } from './pages/ServiceFeePage.jsx';
 import { IntroductionPage } from './pages/IntroductionPage.jsx';
+import { MembersPage } from './pages/MembersPage.jsx';
+import InvitePage from './pages/InvitePage.jsx';
 const SpatialWorkspacePage = lazy(() => import('./pages/SpatialWorkspacePage.jsx').then(m => ({ default: m.SpatialWorkspacePage })));
 const VirtualOfficePage = lazy(() => import('./pages/VirtualOfficePage.jsx'));
 import { DPEPipelinePage } from './pages/DPEPipelinePage.jsx';
 import { ForensicAuditPage } from './pages/ForensicAuditPage.jsx';
 import { AuditPage } from './pages/AuditPage.jsx';
+import { CompanyManagementPage } from './pages/CompanyManagementPage.jsx';
+import { ReportsPage } from './pages/ReportsPage.jsx';
 import { useAuthStore } from './store/authStore.js';
 import { authApi } from './services/authApi.js';
 
@@ -39,6 +41,8 @@ const queryClient = new QueryClient({
  */
 function PrivateRoute({ children, isInitializing }) {
   const isAuthenticated = useAuthStore(s => s.isAuthenticated);
+  const user = useAuthStore(s => s.user);
+  const location = useLocation();
   
   if (isInitializing) {
     return (
@@ -53,7 +57,18 @@ function PrivateRoute({ children, isInitializing }) {
   }
 
   if (!isAuthenticated) return <Navigate to="/login" replace />;
+  if (user && !user.twoFactorEnabled && location.pathname !== '/setup-2fa') {
+    return <Navigate to="/setup-2fa" replace />;
+  }
   return children;
+}
+
+/**
+ * Smart fallback — redirects based on auth state.
+ */
+function FallbackRedirect() {
+  const isAuthenticated = useAuthStore(s => s.isAuthenticated);
+  return <Navigate to={isAuthenticated ? '/dashboard' : '/login'} replace />;
 }
 
 /**
@@ -77,6 +92,13 @@ function App() {
       }
     }
     initSession();
+
+    // Listen for unauthorized events triggered by API clients
+    const handleUnauthorized = () => {
+      useAuthStore.getState().logout();
+    };
+    window.addEventListener('sovereign_unauthorized', handleUnauthorized);
+    return () => window.removeEventListener('sovereign_unauthorized', handleUnauthorized);
   }, [restoreSession]);
 
   return (
@@ -86,32 +108,36 @@ function App() {
           {/* Public: Introduction */}
           <Route path="/" element={<IntroductionPage />} />
 
-          {/* Public: Login */}
+          {/* Public: Auth flow */}
           <Route path="/login" element={<LoginPage />} />
           <Route path="/verify-2fa" element={<Verify2FAPage />} />
-          <Route path="/select-tenant" element={<SelectTenantPage />} />
+          <Route path="/invite/:token" element={<InvitePage />} />
+          <Route path="/create-workspace" element={<CompanyWizardPage />} />
 
           {/* Private Standalone Pages */}
           <Route path="/setup-2fa" element={<PrivateRoute isInitializing={isInitializing}><Setup2FAPage /></PrivateRoute>} />
+          <Route path="/introduction" element={<PrivateRoute isInitializing={isInitializing}><IntroductionPage /></PrivateRoute>} />
+          <Route path="/members" element={<PrivateRoute isInitializing={isInitializing}><MembersPage /></PrivateRoute>} />
 
           {/* Private: App Shell with nested routes */}
           <Route
             element={
-              <TierGate requiredTier={0} isInitializing={isInitializing}>
+              <PrivateRoute isInitializing={isInitializing}>
                 <AppShell />
-              </TierGate>
+              </PrivateRoute>
             }
           >
             <Route path="/dashboard" element={<DashboardPage />} />
             <Route path="/identity" element={<IdentityPage />} />
-            <Route path="/onboarding" element={<OnboardingPage />} />
             <Route path="/treasury" element={<TreasuryPage />} />
             <Route path="/governance" element={<GovernancePage />} />
             <Route path="/audit" element={<AuditPage />} />
+            <Route path="/company-management" element={<CompanyManagementPage />} />
             {/* Module 2: Command Center */}
             <Route path="/agents" element={<AgentManagementPage />} />
             <Route path="/marketplace" element={<MarketplacePage />} />
             <Route path="/service-fees" element={<ServiceFeePage />} />
+            <Route path="/reports" element={<ReportsPage />} />
             {/* Module 3: Spatial Workspace (lazy-loaded for performance) */}
             <Route path="/spatial" element={<Suspense fallback={<div style={{display:'flex',alignItems:'center',justifyContent:'center',height:'80vh',color:'#64748b'}}>Loading 3D workspace...</div>}><SpatialWorkspacePage /></Suspense>} />
             <Route path="/virtual-office" element={<Suspense fallback={<div style={{display:'flex',alignItems:'center',justifyContent:'center',height:'80vh',color:'#64748b'}}>Loading Virtual Office...</div>}><VirtualOfficePage /></Suspense>} />
@@ -120,8 +146,8 @@ function App() {
             <Route path="/forensic-audit" element={<ForensicAuditPage />} />
           </Route>
 
-          {/* Fallback */}
-          <Route path="*" element={<Navigate to="/login" replace />} />
+          {/* Fallback — smart redirect based on auth state */}
+          <Route path="*" element={<FallbackRedirect />} />
         </Routes>
       </BrowserRouter>
     </QueryClientProvider>
@@ -129,3 +155,4 @@ function App() {
 }
 
 export default App;
+

@@ -17,6 +17,7 @@ public class AuthService {
     private final UserRepository userRepository;
     private final RecoveryCodeRepository recoveryCodeRepository;
     private final TrustedDeviceRepository trustedDeviceRepository;
+    private final UserTenantMembershipRepository membershipRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final TwoFactorAuthService twoFactorAuthService;
@@ -26,6 +27,7 @@ public class AuthService {
     public AuthService(UserRepository userRepository,
                        RecoveryCodeRepository recoveryCodeRepository,
                        TrustedDeviceRepository trustedDeviceRepository,
+                       UserTenantMembershipRepository membershipRepository,
                        PasswordEncoder passwordEncoder,
                        JwtService jwtService,
                        TwoFactorAuthService twoFactorAuthService,
@@ -34,6 +36,7 @@ public class AuthService {
         this.userRepository = userRepository;
         this.recoveryCodeRepository = recoveryCodeRepository;
         this.trustedDeviceRepository = trustedDeviceRepository;
+        this.membershipRepository = membershipRepository;
         this.passwordEncoder = passwordEncoder;
         this.jwtService = jwtService;
         this.twoFactorAuthService = twoFactorAuthService;
@@ -43,6 +46,10 @@ public class AuthService {
 
     public record AuthResult(User user, SessionDto session, String rawRefreshToken, String partialToken, boolean requires2FA, boolean requiresTenantSelection) {}
     public record Setup2FAResult(String setupToken, String secret, String totpUri) {}
+
+    public List<UserTenantMembership> getActiveMemberships(UUID userId) {
+        return membershipRepository.findByUserIdAndStatus(userId, "ACTIVE");
+    }
 
     @Transactional
     public User register(String email, String password, String firstName, String lastName) {
@@ -161,14 +168,14 @@ public class AuthService {
     }
 
     @Transactional
-    public AuthResult selectTenant(String tenantToken, UUID tenantId, String deviceId, String ipAddress, String userAgent) {
+    public AuthResult selectTenant(String tenantToken, String tenantId, String deviceId, String ipAddress, String userAgent) {
         Claims claims = jwtService.validateAndGetClaims(tenantToken);
         if (!"tenant-selection".equals(claims.get("purpose"))) throw new IllegalArgumentException("Invalid token purpose");
         UUID userId = UUID.fromString(claims.getSubject());
         
         User user = userRepository.findById(userId).orElseThrow();
         AuthResult sessionResult = createSession(user, tenantId, deviceId, ipAddress, userAgent);
-        auditEventService.emit(AuditEventService.EventType.SESSION_CREATED, userId.toString(), Map.of("tenantId", tenantId != null ? tenantId.toString() : "null"));
+        auditEventService.emit(AuditEventService.EventType.SESSION_CREATED, userId.toString(), Map.of("tenantId", tenantId != null ? tenantId : "null"));
         return sessionResult;
     }
 
@@ -246,6 +253,16 @@ public class AuthService {
     }
 
     @Transactional
+    public void reset2FA(UUID userId) {
+        User user = userRepository.findById(userId).orElseThrow();
+        user.setTwoFactorEnabled(false);
+        user.setTwoFactorSecret(null);
+        userRepository.save(user);
+        recoveryCodeRepository.deleteByUserId(userId);
+        auditEventService.emit(AuditEventService.EventType.TWO_FA_DISABLED, userId.toString(), Map.of("reason", "reset"));
+    }
+
+    @Transactional
     public AuthResult refreshToken(String rawRefreshToken, String deviceId, String ipAddress, String userAgent) {
         Map<String, String> tokenData = redisTokenService.getRefreshTokenData(rawRefreshToken);
         if (tokenData == null) {
@@ -256,15 +273,17 @@ public class AuthService {
         String sessionId = tokenData.get("sessionId");
 
         SessionDto oldSession = redisTokenService.getSession(sessionId);
-        if (oldSession != null) {
-            if (!deviceId.equals(oldSession.getDeviceId())) {
-                redisTokenService.revokeSessionAndRefreshTokens(userId, sessionId);
-                auditEventService.emit(AuditEventService.EventType.SESSION_RISK_DETECTED, userId.toString(), Map.of("reason", "device_mismatch"));
-                throw new IllegalArgumentException("Session risk validation failed");
-            }
-            if (!userAgent.equals(oldSession.getUserAgent())) {
-                auditEventService.emit(AuditEventService.EventType.SESSION_RISK_DETECTED, userId.toString(), Map.of("reason", "user_agent_mismatch"));
-            }
+        if (oldSession == null) {
+            throw new IllegalArgumentException("Session expired or tab closed");
+        }
+
+        if (!deviceId.equals(oldSession.getDeviceId())) {
+            redisTokenService.revokeSessionAndRefreshTokens(userId, sessionId);
+            auditEventService.emit(AuditEventService.EventType.SESSION_RISK_DETECTED, userId.toString(), Map.of("reason", "device_mismatch"));
+            throw new IllegalArgumentException("Session risk validation failed");
+        }
+        if (!userAgent.equals(oldSession.getUserAgent())) {
+            auditEventService.emit(AuditEventService.EventType.SESSION_RISK_DETECTED, userId.toString(), Map.of("reason", "user_agent_mismatch"));
         }
 
         boolean rotated = redisTokenService.rotateRefreshToken(rawRefreshToken, userId);
@@ -273,11 +292,9 @@ public class AuthService {
         }
 
         User user = userRepository.findById(userId).orElseThrow();
-        UUID tenantId = oldSession != null ? oldSession.getTenantId() : null;
+        String tenantId = oldSession.getTenantId();
         
-        if (oldSession != null) {
-            redisTokenService.revokeSessionAndRefreshTokens(userId, sessionId);
-        }
+        redisTokenService.revokeSessionAndRefreshTokens(userId, sessionId);
 
         return createSession(user, tenantId, deviceId, ipAddress, userAgent);
     }
@@ -311,7 +328,7 @@ public class AuthService {
         redisTokenService.revokeSessionAndRefreshTokens(userId, sessionId.toString());
     }
 
-    private AuthResult createSession(User user, UUID tenantId, String deviceId, String ipAddress, String userAgent) {
+    private AuthResult createSession(User user, String tenantId, String deviceId, String ipAddress, String userAgent) {
         String rawRefreshToken = UUID.randomUUID().toString() + "-" + UUID.randomUUID().toString();
         SessionDto session = redisTokenService.createSession(user.getId(), tenantId, deviceId, ipAddress, userAgent, rawRefreshToken);
         return new AuthResult(user, session, rawRefreshToken, null, false, false);

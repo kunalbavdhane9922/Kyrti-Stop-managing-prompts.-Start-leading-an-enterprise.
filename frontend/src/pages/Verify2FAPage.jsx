@@ -1,26 +1,31 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Shield, Lock } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { Button } from '../components/common/Button.jsx';
 import { authApi } from '../services/authApi.js';
 import { CryptoService } from '../security/CryptoService.js';
+import { useAuthStore } from '../store/authStore.js';
+import { useIdentityStore } from '../store/identityStore.js';
 import { LuxuryFluidBackground } from '../components/spatial/LuxuryFluidBackground.jsx';
 
 function Verify2FAPage() {
   const navigate = useNavigate();
   const location = useLocation();
-  const partialToken = location.state?.partialToken;
+  const partialToken = location.state?.partialToken || sessionStorage.getItem('sovereign_partial_token');
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [twoFaCode, setTwoFaCode] = useState(['', '', '', '', '', '']);
   const [trustDevice, setTrustDevice] = useState(false);
 
-  if (!partialToken) {
-    navigate('/login');
-    return null;
-  }
+  useEffect(() => {
+    if (!partialToken) {
+      navigate('/login');
+    }
+  }, [partialToken, navigate]);
+
+  if (!partialToken) return null;
 
   const handle2FAInput = (index, value) => {
     if (!/^\d*$/.test(value)) return;
@@ -51,7 +56,33 @@ function Verify2FAPage() {
       const result = await authApi.verify2FA({ partialToken, code: codeStr, trustDevice, fingerprint });
       
       if (result.data.requiresTenantSelection) {
-        navigate('/select-tenant', { state: { tenantSelectionToken: result.data.tenantSelectionToken, availableTenants: result.data.availableTenants } });
+        const availableTenants = result.data.availableTenants || [];
+        const tenantId = availableTenants.length > 0 ? availableTenants[0].id : null;
+        
+        const selResult = await authApi.selectTenant({ 
+          tenantSelectionToken: result.data.tenantSelectionToken, 
+          tenantId, 
+          fingerprint 
+        });
+        
+        useAuthStore.getState().login({
+          ...selResult.data.user,
+          sessionFingerprint: fingerprint,
+          provider: 'email',
+          twoFactorVerified: true,
+          tenantId
+        });
+        useIdentityStore.getState().completeLayerA('email');
+
+        sessionStorage.removeItem('sovereign_partial_token');
+        
+        if (!tenantId) {
+          navigate('/create-workspace');
+        } else if (!selResult.data.user.twoFactorEnabled) {
+          navigate('/setup-2fa');
+        } else {
+          navigate('/dashboard');
+        }
       }
     } catch (err) {
       setError(err.message || 'Verification failed.');
@@ -93,7 +124,24 @@ function Verify2FAPage() {
             <div style={{ marginBottom: '24px' }}></div>
 
             <Button variant="primary" loading={loading} fullWidth onClick={handleVerify}>Verify Code</Button>
-            <Button variant="ghost" onClick={() => navigate('/login')} fullWidth>Cancel</Button>
+            <Button variant="ghost" onClick={() => { sessionStorage.removeItem('sovereign_partial_token'); navigate('/login'); }} fullWidth>Cancel</Button>
+            
+            <div style={{ marginTop: '16px', textAlign: 'center' }}>
+              <Button variant="ghost" style={{ fontSize: '12px', color: 'var(--color-text-muted)' }} onClick={async () => {
+                setLoading(true); setError(null);
+                try {
+                  await authApi.reset2FA({ partialToken });
+                  sessionStorage.removeItem('sovereign_partial_token');
+                  navigate('/login', { state: { message: '2FA reset successful. Please log in again to set it up.' } });
+                } catch (err) {
+                  setError('Failed to reset 2FA: ' + err.message);
+                } finally {
+                  setLoading(false);
+                }
+              }}>
+                Lost access to authenticator? Reset 2FA
+              </Button>
+            </div>
           </div>
         </motion.div>
       </div>

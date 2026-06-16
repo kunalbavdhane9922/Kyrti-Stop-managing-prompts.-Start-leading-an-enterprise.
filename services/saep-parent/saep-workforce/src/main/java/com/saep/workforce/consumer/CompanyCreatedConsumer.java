@@ -7,6 +7,7 @@ import com.saep.common.event.EventEnvelope;
 import com.saep.outbox.service.IdempotencyService;
 import com.saep.workforce.domain.ConsumerTestLog;
 import com.saep.workforce.repository.ConsumerTestLogRepository;
+import com.saep.workforce.repository.WorkerRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -22,6 +23,7 @@ public class CompanyCreatedConsumer {
     private final IdempotencyService idempotencyService;
     private final ObjectMapper objectMapper;
     private final ConsumerTestLogRepository consumerTestLogRepository;
+    private final WorkerRepository workerRepository;
 
     @Value("${saep.test.force-failure:false}")
     private boolean forceFailure;
@@ -52,7 +54,25 @@ public class CompanyCreatedConsumer {
             long latencyMs = java.time.temporal.ChronoUnit.MILLIS.between(envelope.getOccurredAt(), java.time.LocalDateTime.now());
             log.info("Event {} processed with end-to-end latency: {} ms", envelope.getEventId(), latencyMs);
 
-            // TODO: Execute workforce specific logic for the new company (e.g. creating default teams)
+            // Execute workforce specific logic for the new company: Initialize default worker for the creator
+            String createdBy = envelope.getPayload().createdBy();
+            if (createdBy != null && !createdBy.isBlank() && !createdBy.equals("SYSTEM")) {
+                try {
+                    java.util.UUID workerId = java.util.UUID.fromString(createdBy);
+                    com.saep.workforce.domain.WorkerEntity owner = com.saep.workforce.domain.WorkerEntity.builder()
+                            .id(workerId)
+                            .tenantId(envelope.getTenantId())
+                            .workerType("HUMAN")
+                            .status("ACTIVE")
+                            .createdAt(LocalDateTime.now())
+                            .build();
+                    workerRepository.save(owner);
+                    log.info("Provisioned default HUMAN worker for company owner: {}", workerId);
+                } catch (IllegalArgumentException e) {
+                    log.warn("createdBy field is not a valid UUID, skipping worker creation. Value: {}", createdBy);
+                }
+            }
+
             if (consumerLoggingEnabled) {
                 ConsumerTestLog logEntry = ConsumerTestLog.builder()
                     .tenantId(envelope.getTenantId())

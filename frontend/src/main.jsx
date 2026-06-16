@@ -12,6 +12,7 @@ import './styles/module2.css';
 import './styles/module3.css';
 import './styles/module4.css';
 import './styles/virtual-office.css';
+import './styles/wizard.css';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>

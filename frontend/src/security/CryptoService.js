@@ -15,6 +15,18 @@ const CryptoService = {
    * @returns {Promise<string>} The hex-encoded hash
    */
   async hash(data) {
+    if (!window.crypto || !window.crypto.subtle) {
+      // Fallback for non-secure contexts (e.g., local network IP testing)
+      const str = typeof data === 'string' ? data : new TextDecoder().decode(data);
+      let hash = 0;
+      for (let i = 0; i < str.length; i++) {
+        const char = str.charCodeAt(i);
+        hash = ((hash << 5) - hash) + char;
+        hash = hash & hash;
+      }
+      return Math.abs(hash).toString(16).padStart(64, '0');
+    }
+
     let buffer;
     if (typeof data === 'string') {
       const encoder = new TextEncoder();
@@ -105,16 +117,21 @@ const CryptoService = {
   },
 
   /**
-   * Generates a unique session fingerprint.
-   * Combines timestamp and random bytes for session identification.
+   * Generates a stable session fingerprint.
+   * Combines browser characteristics for stable identification across page refreshes,
+   * necessary for zero-persistence environments.
    * 
    * @returns {Promise<string>} The session fingerprint hash
    */
   async generateSessionFingerprint() {
-    const timestamp = Date.now().toString();
-    const randomBytes = crypto.getRandomValues(new Uint8Array(32));
-    const combined = timestamp + Array.from(randomBytes).join('');
-    return await this.hash(combined);
+    const components = [
+      navigator.userAgent,
+      navigator.language,
+      window.screen.colorDepth,
+      window.screen.width + 'x' + window.screen.height,
+      new Date().getTimezoneOffset()
+    ].join('||');
+    return await this.hash(components);
   },
 
   /**
@@ -141,7 +158,72 @@ const CryptoService = {
    * @returns {string} A UUID v4 string
    */
   generateId() {
-    return crypto.randomUUID();
+    if (window.crypto && window.crypto.randomUUID) {
+      return crypto.randomUUID();
+    }
+    // Fallback for non-secure contexts
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+      const r = Math.random() * 16 | 0;
+      const v = c === 'x' ? r : (r & 0x3 | 0x8);
+      return v.toString(16);
+    });
+  },
+
+  /**
+   * Encrypts arbitrary JSON data using AES-GCM with a user-derived key.
+   * Used for secure local auto-saving.
+   */
+  async encryptData(data, userId) {
+    if (!window.crypto || !window.crypto.subtle) {
+      console.warn("Web Crypto API unavailable. Falling back to insecure base64 storage.");
+      const str = JSON.stringify(data);
+      return { _fallback: true, data: btoa(encodeURIComponent(str)) };
+    }
+
+    const encoder = new TextEncoder();
+    const hashHex = await this.hash(userId || 'anonymous');
+    const rawKey = new Uint8Array(hashHex.match(/.{1,2}/g).slice(0, 32).map(byte => parseInt(byte, 16)));
+    
+    const key = await crypto.subtle.importKey(
+      'raw', rawKey, { name: 'AES-GCM' }, false, ['encrypt']
+    );
+    const iv = crypto.getRandomValues(new Uint8Array(12));
+    const encrypted = await crypto.subtle.encrypt(
+      { name: 'AES-GCM', iv }, key, encoder.encode(JSON.stringify(data))
+    );
+    
+    return {
+      iv: Array.from(iv),
+      data: Array.from(new Uint8Array(encrypted))
+    };
+  },
+
+  /**
+   * Decrypts AES-GCM encrypted data.
+   */
+  async decryptData(encryptedPayload, userId) {
+    if (encryptedPayload._fallback) {
+      return JSON.parse(decodeURIComponent(atob(encryptedPayload.data)));
+    }
+    
+    if (!window.crypto || !window.crypto.subtle) {
+       throw new Error("Web Crypto API unavailable to decrypt secure data");
+    }
+
+    const hashHex = await this.hash(userId || 'anonymous');
+    const rawKey = new Uint8Array(hashHex.match(/.{1,2}/g).slice(0, 32).map(byte => parseInt(byte, 16)));
+    
+    const key = await crypto.subtle.importKey(
+      'raw', rawKey, { name: 'AES-GCM' }, false, ['decrypt']
+    );
+    const iv = new Uint8Array(encryptedPayload.iv);
+    const data = new Uint8Array(encryptedPayload.data);
+    
+    const decrypted = await crypto.subtle.decrypt(
+      { name: 'AES-GCM', iv }, key, data
+    );
+    const decoder = new TextDecoder();
+    return JSON.parse(decoder.decode(decrypted));
   },
 };
 

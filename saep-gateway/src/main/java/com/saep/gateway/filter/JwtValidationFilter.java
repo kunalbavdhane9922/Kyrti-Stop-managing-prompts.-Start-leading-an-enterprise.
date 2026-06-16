@@ -28,14 +28,17 @@ public class JwtValidationFilter implements GlobalFilter, Ordered {
         this.jwtBlacklistService = jwtBlacklistService;
     }
 
-    // Routes that skip JWT validation at the edge
     private static final List<String> OPEN_ROUTES = List.of(
             "/api/v1/auth/login",
             "/api/v1/auth/register",
             "/api/v1/auth/refresh",
             "/api/v1/auth/verify-email",
             "/api/v1/auth/forgot-password",
-            "/api/v1/auth/reset-password"
+            "/api/v1/auth/reset-password",
+            "/api/v1/auth/verify-2fa",
+            "/api/v1/auth/verify-recovery-code",
+            "/api/v1/auth/reset-2fa",
+            "/api/v1/auth/select-tenant"
     );
 
     @Override
@@ -44,6 +47,10 @@ public class JwtValidationFilter implements GlobalFilter, Ordered {
 
         // Skip auth for open endpoints
         if (OPEN_ROUTES.stream().anyMatch(path::startsWith)) {
+            return chain.filter(exchange);
+        }
+
+        if (path.startsWith("/api/v1/invites/") && exchange.getRequest().getMethod().matches("GET")) {
             return chain.filter(exchange);
         }
 
@@ -74,20 +81,80 @@ public class JwtValidationFilter implements GlobalFilter, Ordered {
             return exchange.getResponse().setComplete();
         }
 
-        // 2. Query Redis Blacklist
-        return jwtBlacklistService.isBlacklisted(jti)
-                .flatMap(isBlacklisted -> {
-                    if (Boolean.TRUE.equals(isBlacklisted)) {
-                        exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
+        String sessionId = claims.get("sessionId", String.class);
+
+        // 2. Query Redis Blacklist and Session Status
+        return Mono.zip(
+                jwtBlacklistService.isBlacklisted(jti),
+                jwtBlacklistService.isSessionActive(sessionId)
+        ).flatMap(tuple -> {
+            boolean isBlacklisted = tuple.getT1();
+            boolean isSessionActive = tuple.getT2();
+
+            if (isBlacklisted || !isSessionActive) {
+                exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
+                return exchange.getResponse().setComplete();
+            }
+
+                    String initialUserId = (String) claims.get("userId");
+                    if (initialUserId == null) initialUserId = claims.getSubject();
+                    final String finalUserId = initialUserId;
+                    
+                    String tenantId = (String) claims.get("tenantId");
+                    
+                    // Enforce tenantId for all routes that are not explicitly allowed without it
+                    boolean requiresTenant = !isAllowedWithoutTenant(path, exchange.getRequest().getMethod().name());
+                    if (requiresTenant && (tenantId == null || tenantId.isBlank())) {
+                        exchange.getResponse().setStatusCode(HttpStatus.FORBIDDEN);
                         return exchange.getResponse().setComplete();
                     }
-                    return chain.filter(exchange);
+
+                    String initialEmail = (String) claims.get("email"); // Fallback if subject is email
+                    if (initialEmail == null && claims.getSubject() != null && claims.getSubject().contains("@")) {
+                        initialEmail = claims.getSubject();
+                    }
+                    final String finalEmail = initialEmail;
+
+                    ServerWebExchange mutatedExchange = exchange.mutate()
+                            .request(builder -> {
+                                if (finalUserId != null) builder.header("X-User-Id", finalUserId);
+                                if (tenantId != null) builder.header("X-Tenant-Id", tenantId);
+                                if (finalEmail != null) builder.header("X-User-Email", finalEmail);
+                            })
+                            .build();
+
+                    return chain.filter(mutatedExchange);
                 })
                 .onErrorResume(throwable -> {
                     // FAIL CLOSED strategy on Redis outage
                     exchange.getResponse().setStatusCode(HttpStatus.SERVICE_UNAVAILABLE);
                     return exchange.getResponse().setComplete();
                 });
+    }
+
+    private boolean isAllowedWithoutTenant(String path, String method) {
+        if (path.startsWith("/api/v1/users/me")) {
+            return true;
+        }
+        if (path.equals("/api/v1/companies") && "POST".equalsIgnoreCase(method)) {
+            return true;
+        }
+        if (path.startsWith("/api/v1/companies/join") && "POST".equalsIgnoreCase(method)) {
+            return true;
+        }
+        // Allow company initialization during wizard flow (JWT may not have tenantId yet)
+        if (path.matches("/api/v1/companies/[^/]+/initialize") && "POST".equalsIgnoreCase(method)) {
+            return true;
+        }
+        // Allow organization build submission during wizard flow
+        if (path.matches("/api/v1/organizations/[^/]+/build") && "POST".equalsIgnoreCase(method)) {
+            return true;
+        }
+        // Allow frontend to fetch permissions catalog during wizard
+        if (path.matches("/api/v1/organizations/[^/]+/permissions/catalog") && "GET".equalsIgnoreCase(method)) {
+            return true;
+        }
+        return false;
     }
 
     @Override

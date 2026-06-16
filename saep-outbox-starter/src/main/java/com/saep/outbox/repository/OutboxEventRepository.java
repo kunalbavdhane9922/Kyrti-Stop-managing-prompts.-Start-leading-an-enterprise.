@@ -14,4 +14,6 @@ import java.util.List;
 public interface OutboxEventRepository extends JpaRepository<OutboxEvent, String> {
     @Query(value = "SELECT * FROM outbox_events WHERE ((status IN :statuses AND (next_attempt_at IS NULL OR next_attempt_at <= NOW())) OR (status = 'PROCESSING' AND last_attempt_at < NOW() - INTERVAL '15 minutes')) ORDER BY created_at ASC LIMIT :limit FOR UPDATE SKIP LOCKED", nativeQuery = true)
     List<OutboxEvent> findAndLockNextEvents(@Param("statuses") List<String> statuses, @Param("limit") int limit);
+    
+    long countByStatus(EventStatus status);
 }
