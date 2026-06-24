@@ -3,6 +3,8 @@
  * Handles interactions with the saep-company microservice.
  */
 
+import { CompanyDto } from '../dto/CompanyDto.js';
+
 const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:8080';
 const COMPANY_BASE = `${API_BASE}/api/v1/companies`;
 
@@ -80,11 +82,13 @@ export const companyApi = {
    * @param {Object} payload { name, domain }
    */
   createCompany: async (payload, options = {}) => {
-    return request(COMPANY_BASE, {
+    const res = await request(COMPANY_BASE, {
       method: 'POST',
       body: JSON.stringify(payload),
       ...options
     });
+    if (res.data) res.data = CompanyDto.fromApi(res.data);
+    return res;
   },
 
   /**
@@ -93,11 +97,13 @@ export const companyApi = {
    * @param {Object} payload { tenantId, schemaVersion, payload }
    */
   initializeCompany: async (tenantId, payload, options = {}) => {
-    return request(`${COMPANY_BASE}/${tenantId}/initialize`, {
+    const res = await request(`${COMPANY_BASE}/${tenantId}/initialize`, {
       method: 'POST',
       body: JSON.stringify(payload),
       ...options
     });
+    if (res.data) res.data = CompanyDto.fromApi(res.data);
+    return res;
   },
 
   getMembers: async (tenantId, status = '') => {

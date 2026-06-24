@@ -5,7 +5,7 @@ spring:
   application:
     name: saep-governance
   datasource:
-    url: jdbc:postgresql://${DB_HOST:localhost}:5432/saep_db
+    url: jdbc:postgresql://${DB_HOST:localhost}:5432/saep_governance
     username: ${POSTGRES_USER:postgres}
     password: ${POSTGRES_PASSWORD:password}
   jpa:

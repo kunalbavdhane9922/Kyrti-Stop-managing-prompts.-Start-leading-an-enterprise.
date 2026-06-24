@@ -1,0 +1,61 @@
+server:
+  port: 8087
+
+spring:
+  datasource:
+    hikari:
+      schema: saep_audit
+  jpa:
+    properties:
+      hibernate:
+        default_schema: saep_audit
+  flyway:
+    schemas: saep_audit
+    default-schema: saep_audit
+    create-schemas: true
+  main:
+    allow-bean-definition-overriding: true
+  application:
+    name: saep-audit
+
+  datasource:
+    url: jdbc:postgresql://${POSTGRES_HOST:localhost}:${POSTGRES_PORT:5432}/${POSTGRES_DB:saep_db}
+    username: ${POSTGRES_USER:postgres}
+    password: ${POSTGRES_PASSWORD:password}
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        format_sql: true
+
+  flyway:
+    enabled: true
+    table: audit_flyway_history
+    baseline-on-migrate: true
+    baseline-version: 0
+    locations: classpath:db/migration
+
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9094}
+    consumer:
+      group-id: saep-audit-group
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: "com.saep.common.event"
+    listener:
+      ack-mode: MANUAL
+      missing-topics-fatal: false
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,metrics,prometheus
+  tracing:
+    sampling:
+      probability: 1.0

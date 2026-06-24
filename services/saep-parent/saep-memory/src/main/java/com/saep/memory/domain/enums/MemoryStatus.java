@@ -1,0 +1,17 @@
+package com.saep.memory.domain.enums;
+
+public enum MemoryStatus {
+    PENDING_EMBEDDING,
+    EMBEDDING_PROCESSING,
+    EMBEDDING_COMPLETE,
+    VECTOR_INDEXING,
+    ACTIVE,
+    UPDATED,
+    REINDEXED,
+    PENDING_TRANSFER,
+    ARCHIVED,
+    DELETED,
+    EMBEDDING_FAILED,
+    VECTOR_INDEX_FAILED,
+    INDEXING_FAILED
+}

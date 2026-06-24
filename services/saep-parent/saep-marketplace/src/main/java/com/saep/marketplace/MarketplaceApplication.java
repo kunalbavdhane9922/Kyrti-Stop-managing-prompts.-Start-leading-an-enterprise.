@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication(scanBasePackages = {"com.saep.common", "com.saep.marketplace"})
 @EntityScan(basePackages = {"com.saep.common.domain", "com.saep.marketplace.domain"})
-@EnableJpaRepositories(basePackages = "com.saep.marketplace.repository")
+@EnableJpaRepositories(basePackages = {"com.saep.marketplace.repository", "com.saep.outbox.repository"})
 public class MarketplaceApplication {
     public static void main(String[] args) {
         SpringApplication.run(MarketplaceApplication.class, args);

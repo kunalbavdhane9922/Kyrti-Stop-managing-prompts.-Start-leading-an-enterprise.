@@ -109,12 +109,35 @@ const platformApi = {
   // ================================================================
 
   async getProposals() {
-    await delay(800);
-    return [
-      { id: 'prop_1', title: 'Optimize CI/CD Pipeline', description: 'Reduce build times by 40% through parallel test execution and artifact caching.', agentId: 'agent_dev_1', agentName: 'Dev-Agent-1', category: 'engineering', status: 'draft', createdAt: '2026-05-07T09:00:00Z' },
-      { id: 'prop_2', title: 'Q3 Content Calendar Draft', description: 'Generated a 12-week content calendar targeting enterprise SaaS decision-makers.', agentId: 'agent_mkt_1', agentName: 'Marketing-Agent-1', category: 'marketing', status: 'proposed', createdAt: '2026-05-06T14:30:00Z' },
-      { id: 'prop_3', title: 'Customer Ticket Triage Report', description: 'Analyzed 847 support tickets. Identified 3 recurring issues affecting 23% of enterprise clients.', agentId: 'agent_sup_1', agentName: 'Support-Agent-1', category: 'support', status: 'approved', createdAt: '2026-05-05T11:00:00Z' },
-    ];
+    try {
+      const { fetchWithAuth } = await import('./apiClient.js');
+      const proposals = await fetchWithAuth('/governance/proposals');
+      return proposals.map(p => {
+        let payloadData = {};
+        try {
+          payloadData = JSON.parse(p.payload || '{}');
+        } catch (e) {}
+        
+        return {
+          id: p.id,
+          title: payloadData.title || `Proposal ${p.type}`,
+          description: payloadData.description || 'No description provided.',
+          agentId: p.proposerId,
+          agentName: payloadData.agentName || p.proposerType,
+          category: p.type,
+          status: p.status.toLowerCase(),
+          createdAt: p.createdAt
+        };
+      });
+    } catch (error) {
+      console.warn("Governance API failed, falling back to mock data.", error);
+      await delay(800);
+      return [
+        { id: 'prop_1', title: 'Optimize CI/CD Pipeline', description: 'Reduce build times by 40% through parallel test execution and artifact caching.', agentId: 'agent_dev_1', agentName: 'Dev-Agent-1', category: 'engineering', status: 'draft', createdAt: '2026-05-07T09:00:00Z' },
+        { id: 'prop_2', title: 'Q3 Content Calendar Draft', description: 'Generated a 12-week content calendar targeting enterprise SaaS decision-makers.', agentId: 'agent_mkt_1', agentName: 'Marketing-Agent-1', category: 'marketing', status: 'proposed', createdAt: '2026-05-06T14:30:00Z' },
+        { id: 'prop_3', title: 'Customer Ticket Triage Report', description: 'Analyzed 847 support tickets. Identified 3 recurring issues affecting 23% of enterprise clients.', agentId: 'agent_sup_1', agentName: 'Support-Agent-1', category: 'support', status: 'approved', createdAt: '2026-05-05T11:00:00Z' },
+      ];
+    }
   },
 
   async getAgents() {
@@ -305,34 +328,46 @@ const platformApi = {
   },
 
   async getForensicTimeline() {
-    await delay(400);
-    return [
-      { id: 'tl-001', timestamp: '2026-05-07T07:00:00Z', action: 'PROPOSAL_CREATED', actor: 'NEXUS-3', target: 'prop-003', stateBefore: '—', stateAfter: 'draft', details: 'Marketing budget proposal created by agent NEXUS-3' },
-      { id: 'tl-002', timestamp: '2026-05-07T08:15:00Z', action: 'PROPOSAL_SUBMITTED', actor: 'NEXUS-3', target: 'prop-003', stateBefore: 'draft', stateAfter: 'proposed', details: 'Proposal submitted for human review' },
-      { id: 'tl-003', timestamp: '2026-05-07T09:00:00Z', action: 'RISK_ASSESSMENT', actor: 'SUPERVISOR-AGENT', target: 'prop-003', stateBefore: 'proposed', stateAfter: 'proposed', details: 'Risk score calculated: 48 (MEDIUM)' },
-      { id: 'tl-004', timestamp: '2026-05-07T10:00:00Z', action: 'REASONING_REVIEWED', actor: 'founder-001', target: 'prop-003', stateBefore: 'proposed', stateAfter: 'proposed', details: 'Human CEO reviewed 5-step reasoning path' },
-      { id: 'tl-005', timestamp: '2026-05-07T11:00:00Z', action: 'PROPOSAL_APPROVED', actor: 'founder-001', target: 'prop-003', stateBefore: 'proposed', stateAfter: 'approved', details: 'Approved for execution. Multi-sig required.' },
-    ];
+    try {
+      const { fetchWithAuth } = await import('./apiClient.js');
+      return await fetchWithAuth('/audit/timeline');
+    } catch (error) {
+      console.warn("Audit API failed, falling back to mock data.", error);
+      await delay(400);
+      return [
+        { id: 'tl-001', timestamp: '2026-05-07T07:00:00Z', action: 'PROPOSAL_CREATED', actor: 'NEXUS-3', target: 'prop-003', stateBefore: '—', stateAfter: 'draft', details: 'Marketing budget proposal created by agent NEXUS-3' },
+        { id: 'tl-002', timestamp: '2026-05-07T08:15:00Z', action: 'PROPOSAL_SUBMITTED', actor: 'NEXUS-3', target: 'prop-003', stateBefore: 'draft', stateAfter: 'proposed', details: 'Proposal submitted for human review' },
+        { id: 'tl-003', timestamp: '2026-05-07T09:00:00Z', action: 'RISK_ASSESSMENT', actor: 'SUPERVISOR-AGENT', target: 'prop-003', stateBefore: 'proposed', stateAfter: 'proposed', details: 'Risk score calculated: 48 (MEDIUM)' },
+        { id: 'tl-004', timestamp: '2026-05-07T10:00:00Z', action: 'REASONING_REVIEWED', actor: 'founder-001', target: 'prop-003', stateBefore: 'proposed', stateAfter: 'proposed', details: 'Human CEO reviewed 5-step reasoning path' },
+        { id: 'tl-005', timestamp: '2026-05-07T11:00:00Z', action: 'PROPOSAL_APPROVED', actor: 'founder-001', target: 'prop-003', stateBefore: 'proposed', stateAfter: 'approved', details: 'Approved for execution. Multi-sig required.' },
+      ];
+    }
   },
 
   async getAuditHashes() {
-    await delay(300);
-    const entries = [
-      { id: 'ah-001', action: 'DPE_PROPOSAL_APPROVE', userId: 'founder-001', timestamp: '2026-05-07T11:00:00Z', severity: 'info', context: 'prop-003' },
-      { id: 'ah-002', action: 'DPE_EXECUTE', userId: 'founder-001', timestamp: '2026-05-07T11:30:00Z', severity: 'critical', context: 'prop-003 — multi-sig execution' },
-      { id: 'ah-003', action: 'POLICY_VIOLATION', userId: 'system', timestamp: '2026-05-07T09:45:00Z', severity: 'warning', context: 'Agent ORION-5 attempted $150 spend (exceeds $100 cap)' },
-      { id: 'ah-004', action: 'SPATIAL_SCENE_LOAD', userId: 'founder-001', timestamp: '2026-05-07T08:00:00Z', severity: 'info', context: 'Loaded 6 agent positions' },
-      { id: 'ah-005', action: 'AGENT_TERMINATE', userId: 'founder-001', timestamp: '2026-05-07T07:30:00Z', severity: 'critical', context: 'Terminated agent CIPHER-1 for policy violation' },
-    ];
-    const hashed = [];
-    for (const e of entries) {
-      const { id, ...data } = e;
-      const str = JSON.stringify(data);
-      const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
-      const hash = Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
-      hashed.push({ ...e, hash });
+    try {
+      const { fetchWithAuth } = await import('./apiClient.js');
+      return await fetchWithAuth('/audit/hashes');
+    } catch (error) {
+      console.warn("Audit API failed, falling back to mock data.", error);
+      await delay(300);
+      const entries = [
+        { id: 'ah-001', action: 'DPE_PROPOSAL_APPROVE', userId: 'founder-001', timestamp: '2026-05-07T11:00:00Z', severity: 'info', context: 'prop-003' },
+        { id: 'ah-002', action: 'DPE_EXECUTE', userId: 'founder-001', timestamp: '2026-05-07T11:30:00Z', severity: 'critical', context: 'prop-003 — multi-sig execution' },
+        { id: 'ah-003', action: 'POLICY_VIOLATION', userId: 'system', timestamp: '2026-05-07T09:45:00Z', severity: 'warning', context: 'Agent ORION-5 attempted $150 spend (exceeds $100 cap)' },
+        { id: 'ah-004', action: 'SPATIAL_SCENE_LOAD', userId: 'founder-001', timestamp: '2026-05-07T08:00:00Z', severity: 'info', context: 'Loaded 6 agent positions' },
+        { id: 'ah-005', action: 'AGENT_TERMINATE', userId: 'founder-001', timestamp: '2026-05-07T07:30:00Z', severity: 'critical', context: 'Terminated agent CIPHER-1 for policy violation' },
+      ];
+      const hashed = [];
+      for (const e of entries) {
+        const { id, ...data } = e;
+        const str = JSON.stringify(data);
+        const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+        const hash = Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+        hashed.push({ ...e, hash });
+      }
+      return hashed;
     }
-    return hashed;
   },
 };
 

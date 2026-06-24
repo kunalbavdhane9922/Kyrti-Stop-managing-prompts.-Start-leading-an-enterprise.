@@ -112,7 +112,7 @@ function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/verify-2fa" element={<Verify2FAPage />} />
           <Route path="/invite/:token" element={<InvitePage />} />
-          <Route path="/create-workspace" element={<CompanyWizardPage />} />
+          <Route path="/create-workspace" element={<PrivateRoute isInitializing={isInitializing}><CompanyWizardPage /></PrivateRoute>} />
 
           {/* Private Standalone Pages */}
           <Route path="/setup-2fa" element={<PrivateRoute isInitializing={isInitializing}><Setup2FAPage /></PrivateRoute>} />

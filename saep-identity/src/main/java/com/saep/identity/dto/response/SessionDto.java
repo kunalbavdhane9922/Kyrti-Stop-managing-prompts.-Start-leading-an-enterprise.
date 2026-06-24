@@ -14,4 +14,5 @@ public class SessionDto {
     private String userAgent;
     private LocalDateTime createdAt;
     private LocalDateTime lastAccessedAt;
+    private LocalDateTime mfaVerifiedAt;
 }

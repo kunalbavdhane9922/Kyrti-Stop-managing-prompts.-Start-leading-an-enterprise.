@@ -1,0 +1,553 @@
+I'll read through the docs folder and map how the AI system is described so we can suggest concrete improvements.
+
+Based on your docs/ folder, Kyrti (SAEP) is designed as a governed AI workforce operating system, not a chatbot platform. The AI system spans five interconnected layers:
+
+Digital Professionals (LangGraph + Ollama)
+        ↓
+Runtime (Temporal orchestration, tools, state recovery)
+        ↓
+Memory (Personal / Company / Profession / Ecosystem)
+        ↓
+Intelligence (scoring, reputation, marketplace signals)
+        ↓
+Human Governance (recommendations ≠ approvals)
+Below is a structured improvement plan aligned with what your docs actually prescribe.
+
+1. Anchor on V1 success before V2/V3 ambition
+Your roadmap is explicit: Foundation → Workforce → Intelligence → Evolution → Economy, and V1’s core question is:
+
+Can AI professionals operate inside structured companies?
+
+V1 success means a company can create projects, hire AI professionals, assign work, receive completed work, and generate reports — with governance, tenant isolation, and memory intact.
+
+Improvement: Treat everything else as secondary until that loop works end-to-end. Your V1_Release_Checklist.md already defines the bar (JWT/RBAC, tenant isolation, memory retrieval <200ms, Kafka outbox, governance approval gates). The AI system should be measured against those, not against “billions of professionals” (V3 language).
+
+2. Close the architecture gap: docs vs. runtime
+Your docs define a clean separation:
+
+Layer	Responsibility
+Temporal
+Workflow orchestration, recovery
+LangGraph
+Reasoning, planning, tool selection
+Memory Service
+All Qdrant access with permission checks
+Tools
+Only way agents touch external systems
+Kafka
+Auditable events (AgentTaskStarted, etc.)
+Gaps to fix (highest impact):
+
+Memory must go through the Memory Service, never direct Qdrant access from agents.
+MemoryArchitecture.md and Runtime.md both forbid direct vector DB access. Your agent-service has multiple Qdrant clients (qdrant_manager, qdrant_service, semantic cache). Consolidate behind one permission-aware Memory API that enforces the four scopes (personal, company, profession, ecosystem).
+
+Wire Profession Templates → Dynamic Graphs properly.
+LangGraph.md says a Digital Professional = Template + DNA + Memory + Skills + LangGraph. ProfessionTemplates.md defines memory_profile, permissions, skills, and evaluation rules. Today, graph compilation partially injects defaults (allowed_tools, mock professional_id). The compiler should be fully driven by template JSON, not scaffolding.
+
+Complete the execution context.
+Every run should carry: Task, Professional Identity, Memory, Permissions, Tenant Context, Workflow Context (Runtime.md). Missing any of these breaks auditability and tenant isolation.
+
+Publish runtime events to Kafka.
+Docs require auditable agent lifecycle events. Without them, reputation, scoring, and marketplace intelligence have no signal source.
+
+3. Make memory the differentiator (your moat)
+Your vision says: without memory, Digital Professionals are disposable chat sessions; with memory, they are persistent workforce entities.
+
+Improvements aligned with MemoryArchitecture.md:
+
+Priority	Improvement	Why
+High
+Enforce scope hierarchy at retrieval time
+Personal always; company only when authorized; profession/ecosystem via policy
+High
+Implement knowledge transfer rules on termination/hiring
+Skills/patterns travel; secrets never do (KnowledgeTransfer.md)
+Medium
+Memory compression / semantic decay
+Docs flag open questions on retention, aging, summarization — start with task-level summarization into personal memory
+Medium
+Hybrid retrieval (vector + metadata + reranking)
+V2 calls for “Advanced RAG” and ranking; you already have BM25/RRF stubs in hippocampus/ — wire them into the standard retrieval pipeline
+Low (V3)
+Knowledge graph as relationship storage
+Explicitly deferred to V3 in docs; don’t block V1 on Neo4j
+The retrieval pipeline in docs is:
+
+Query → Permission Check → Scope Detection → Vector Search → Ranking → Context Assembly → LLM
+If any step is skipped, you get either leakage (security) or hallucination (quality).
+
+4. Build the intelligence feedback loop (even in V1)
+Your docs describe a self-improving ecosystem loop:
+
+Work → Memory → Intelligence → Recommendations → Human Review → Execution
+V1 includes basic marketplace intelligence (demand/supply/utilization/population management), not profession evolution.
+
+Improvements:
+
+Instrument task outcomes as scoring signals.
+WorkforceScoring.md requires evidence-based, explainable scores from task/project outcomes — not LLM self-assessment.
+
+Separate capability from trust.
+Scoring = can they do the work? Reputation = do we trust them? Keep these independent (WorkforceScoring.md + ReputationEngine.md).
+
+Implement the Intelligence Engine signal weights.
+IntelligenceEngine.md defines a concrete formula:
+
+Demand 30%, Supply 20%, Utilization 25%, Complaints 15%, Trend 10%
+Profession Health 0–100 with intervention thresholds
+Even a simplified version gives you marketplace balancing before V2 forecasting.
+
+Human-in-the-loop by design.
+Intelligence may recommend; it may not approve governance actions. Bake this into APIs and UI, not just docs.
+
+5. Improve agent reasoning quality (LangGraph layer)
+Near-term improvements from LangGraph.md and AgentStates.md:
+
+Profession-specific graphs, not one universal swarm.
+Open question in docs: how specialized should profession graphs become?
+Start with distinct graph templates per V1 profession (CEO, CTO, Backend, Frontend, QA) rather than a generic Architect → Developer → QA swarm for everyone.
+
+Structured planning before tool use.
+Standard graph: Task → Context → Memory → Reasoning → Tool Selection → Execution → Result Evaluation → Response. Add an explicit plan + self-critique node before expensive tool calls.
+
+Governance-safe tool boundaries.
+Tools may read, recommend, retrieve memory. They may not approve governance, escalate permissions, or change authority without human approval.
+
+State recovery via Temporal checkpoints.
+AgentStates.md defines lifecycle: Created → Assigned → Executing → Completed (with Failed/Paused/Cancelled/Retried). Persist state transitions; don’t rely on in-graph shared_memory alone.
+
+Multi-agent collaboration via workflows, not ad-hoc messaging.
+PM → Architect → Backend → QA should be a Temporal workflow with handoffs, not informal agent-to-agent chat (AgentCommunication.md).
+
+6. Add evaluation and observability (under-documented but critical)
+Docs emphasize explainability and auditability everywhere, but there’s no dedicated AI evaluation doc. Add:
+
+Metric	Source
+Task completion rate
+Workforce / task service
+Tool success/failure rate
+Runtime
+Memory retrieval precision
+Memory service
+Hallucination / policy violation rate
+Gateway (hallucination_guard.py exists)
+Time-to-completion
+Temporal
+Human override rate
+Governance
+Your Runtime.md and V1 checklist already require: execution ID, duration, tool usage, correlation IDs, Prometheus metrics. Tie these to per-profession dashboards so humans can govern outcomes with data.
+
+7. Resolve strategic open questions (docs flag these repeatedly)
+Before building V2/V3 features, decide:
+
+Question	Doc sources	Recommendation
+How much authority for marketplace intelligence?
+Vision, SystemArchitecture, IntelligenceEngine
+Keep at “recommend only”; add approval workflows
+Memory retention & compression
+MemoryArchitecture
+TTL + summarization tiers by memory type
+Profession graph specialization
+LangGraph
+Template-driven graph per profession
+When to add knowledge graph?
+MemoryArchitecture, SystemArchitecture
+V3; use PostgreSQL relationships in V1
+External industry signals for trends?
+IntelligenceEngine
+V2; use internal hiring/task data in V1
+8. Simplify the codebase to match the docs
+Your ai_plan describes five clean subsystems (Profession Generator, Workforce Spawner, Agent Runtime, Memory Service, Marketplace Intelligence). That matches the docs well.
+
+However, agent-service also contains advanced/experimental modules (chaos injection, BFT consensus, evolution/overlord, ast validators) that aren’t in V1 scope and may distract from shipping the core loop.
+
+Improvement: Align code structure to the five subsystems in ai_plan and defer experimental modules until V1 checklist passes.
+
+Recommended priority order
+V1 Core Loop
+Memory Service + Scopes
+Template-Driven Agents
+Events + Scoring Signals
+Basic Intelligence Engine
+V2: Reputation + Advanced RAG
+V3: Evolution + Ecosystem Memory
+Phase 1 (now): End-to-end task execution with governance gates, tenant-safe memory retrieval, profession-template-driven agents, Kafka audit events.
+
+Phase 2: Workforce scoring + reputation from real outcomes; hybrid memory retrieval; profession-specific graphs.
+
+Phase 3: Marketplace intelligence automation (population targets, health scores), knowledge transfer on workforce mobility, profession evolution with human approval.
+
+Bottom line
+Your docs describe a strong AI architecture whose differentiator is persistent, governed, portable professionals — not raw LLM capability. The biggest improvements are not “smarter prompts” but:
+
+Closing the loop (work → memory → intelligence → human decision)
+Enforcing boundaries (memory scopes, tool permissions, governance gates)
+Making quality measurable (scoring, reputation, explainable signals)
+Shipping V1 completely before swarm/evolution/knowledge-graph ambitions
+If you want, switch to Agent mode and I can map these recommendations to specific files in services/agent-service and identify the highest-impact gaps file-by-file.
+
+
+
+What the docs say agent-service is
+It is not “a chatbot API.” It is the Python AI execution layer that sits behind Java platform services:
+
+Frontend → API Gateway → Java Platform Services → Kafka → agent-service → Ollama
+                              ↓
+                         Temporal (orchestration)
+                              ↓
+                         LangGraph (reasoning)
+                              ↓
+                         Tools → Java APIs / GitHub / sandbox
+                              ↓
+                         Memory Service (not direct Qdrant from agents)
+Responsibilities (in scope)
+From docs	agent-service owns
+Runtime.md
+Agent execution, state, tool coordination, event publishing
+LangGraph.md
+Reasoning, planning, tool selection, graph state
+Temporal.md
+Long-running task workflows, retries, recovery, human gates
+AgentPermissions.md
+Enforcing profession/template tool permissions at runtime
+V1.md
+Digital Professional runtime, memory retrieval integration, workflow participation
+ai_plan
+Profession generation, workforce spawning, execution, memory coordination, basic intelligence
+Not in scope for agent-service (per docs)
+Belongs elsewhere	Why
+Human governance / approvals
+Java saep-governance
+Identity / RBAC
+Java saep-identity + gateway
+Company/workforce business rules
+Java platform services
+Memory ownership & policies
+Memory platform / MemoryAPI.md (agent calls it)
+Marketplace catalog CRUD
+Java marketplace service
+Production UI
+Platform frontend (not inside agent-service)
+Long term, ServiceArchitecture.md also lists 6 AI microservices (Agent, RAG, Embedding, Memory Retrieval, Evaluation, Marketplace Intelligence). For V1, one deployable agent-service with clear internal modules is fine; split later at V2/V3.
+
+Recommended folder architecture (doc-aligned)
+This merges ServiceArchitecture.md + ai_plan + Runtime.md into one clean tree:
+
+services/agent-service/
+├── main.py                      # FastAPI: health, internal/admin hooks only
+├── worker.py                    # Temporal worker entrypoint (separate process)
+├── requirements.txt
+├── Dockerfile
+├── pyproject.toml               # optional
+├── tests/                       # target 40–60% of prod LOC in V1
+│   ├── unit/
+│   ├── integration/
+│   └── e2e/
+│
+└── app/
+    ├── core/                    # ~300–500 LOC
+    │   ├── config.py            # env, Ollama, Temporal, Kafka
+    │   ├── security.py          # JWT validation, tenant context
+    │   ├── logging.py
+    │   └── exceptions.py
+    │
+    ├── api/                     # ~400–700 LOC  (thin layer only)
+    │   ├── deps.py              # auth + tenant injection
+    │   ├── health.py
+    │   └── internal/            # service-to-service only, not public
+    │
+    ├── events/                  # ~800–1,200 LOC
+    │   ├── schemas/             # Pydantic Kafka event models
+    │   ├── producers/           # AgentTaskStarted, Completed, Failed...
+    │   └── consumers/           # TaskAssigned, ProfessionalCreated...
+    │
+    ├── generators/              # ~600–1,000 LOC  (ai_plan #1 & #2)
+    │   ├── profession_generator.py
+    │   ├── workforce_spawner.py
+    │   └── dna_builder.py
+    │
+    ├── runtime/                 # ~2,500–4,000 LOC  (largest module)
+    │   ├── context.py           # per-execution context (NOT singleton)
+    │   ├── state/               # AgentStates.md lifecycle
+    │   │   ├── models.py
+    │   │   └── transitions.py
+    │   ├── graph/
+    │   │   ├── compiler/        # builds graph from Profession Template + DNA
+    │   │   ├── nodes/           # reasoning, tool, evaluate, respond
+    │   │   ├── edges/
+    │   │   └── templates/       # per-profession graphs (CEO, Backend, QA...)
+    │   ├── tools/
+    │   │   ├── registry.py      # maps template permissions → tools
+    │   │   ├── company_tools.py
+    │   │   ├── workforce_tools.py
+    │   │   ├── memory_tools.py
+    │   │   └── coding_tools.py  # sandboxed only
+    │   └── llm/
+    │       └── ollama_client.py
+    │
+    ├── orchestrator/            # ~1,000–1,800 LOC
+    │   └── temporal/
+    │       ├── workflows/       # SAEPWorkflow, task lifecycle
+    │       ├── activities/      # invoke LangGraph, publish events
+    │       └── worker.py
+    │
+    ├── memory/                  # ~800–1,500 LOC  (client/coordinator, NOT full Memory platform)
+    │   ├── client.py            # calls Memory API / saep-memory
+    │   ├── scopes.py            # personal | company | profession | ecosystem
+    │   ├── retrieval.py         # assemble context for LangGraph
+    │   └── embedder.py          # or call embedding service later
+    │
+    ├── intelligence/            # ~500–900 LOC  (V1 basic only)
+    │   ├── signals/             # demand, supply, utilization
+    │   ├── profession_health.py
+    │   └── cron_workflows.py    # Temporal scheduled jobs
+    │
+    ├── integrations/            # ~400–800 LOC
+    │   └── github/              # token vault refs, PR creation
+    │
+    ├── sandbox/                 # ~600–1,000 LOC
+    │   ├── executor.py
+    │   ├── resource_limits.py
+    │   └── path_guard.py
+    │
+    └── telemetry/               # ~300–600 LOC
+        ├── metrics.py
+        ├── tracing.py
+        └── audit_events.py
+Processes you should run
+Process	Entry	Role
+API
+main.py
+Health, metrics, optional internal callbacks
+Worker
+worker.py
+Temporal worker + Kafka consumers
+(optional)
+second worker
+Intelligence cron workflows at V2
+Docs rule: Temporal orchestrates, LangGraph reasons, runtime executes — so the worker is the primary production process, not the FastAPI sync endpoints you have now.
+
+Target lines of code (by release)
+Docs do not specify exact LOC. These are reasonable engineering targets derived from V1 scope and your doc modules.
+
+V1 — Workforce Foundation (~4,500–7,500 LOC Python)
+Module	Files	Target LOC	Notes
+core/
+4–6
+300–500
+config, security, logging
+api/
+3–5
+400–700
+thin; mostly health + internal
+events/
+8–12
+800–1,200
+Kafka in/out
+generators/
+3–5
+600–1,000
+profession + workforce spawn
+runtime/
+20–35
+2,500–4,000
+LangGraph + tools + state
+orchestrator/temporal/
+6–10
+1,000–1,500
+workflows + activities
+memory/
+5–8
+800–1,200
+client to memory service
+integrations/
+2–4
+400–600
+GitHub, platform APIs
+sandbox/
+3–5
+600–900
+safe tool execution
+telemetry/
+3–5
+300–500
+metrics, traces, audit
+intelligence/
+2–4
+200–400
+V1: stubs + basic signals only
+Tests
+15–30
++2,500–4,000
+unit + integration
+Total V1 (prod)
+~60–90 .py files
+~4,500–7,500
+excluding frontend
+Per-file guideline: most files 80–200 LOC; none should exceed ~350 LOC except graph compiler or workflow definitions.
+
+V2 — Workforce Intelligence (+2,000–3,500 LOC)
+Add:
+
+Multi-agent collaboration workflows
+Advanced RAG/ranking (hybrid retrieval)
+Role/team fit hooks for scoring
+Voice/meeting integration stubs
+Evaluation module (evaluation/ ~400–800 LOC)
+V2 total prod: ~7,000–11,000 LOC
+
+V3 — Adaptive ecosystem (+3,000–6,000 LOC)
+Add:
+
+Profession evolution support
+Ecosystem memory integration
+Advanced scheduling, federation
+Optional split into separate microservices
+V3 total prod: ~10,000–17,000 LOC
+
+What you have today vs what docs want
+Current snapshot (~107 Python files, ~4,000 LOC in app/)
+Folder (current)	~LOC	Doc status
+runtime/
+~1,000+
+✅ Core — keep, simplify
+orchestrator/temporal/ + temporal/
+~600
+⚠️ Duplicate — merge
+kafka/ + events/kafka/
+~540
+⚠️ Duplicate — merge
+memory/ + hippocampus/
+~530
+⚠️ Over-built; should be memory client
+sandboxing/
+~270
+✅ Keep (V1 need)
+chaos/
+~130
+❌ Not in V1 docs — dev/test only
+evolution/ (Overlord)
+~130
+❌ Conflicts with human governance docs
+runtime/graph/bft_consensus/
+~90
+❌ Not in docs
+runtime/graph/ast_validators/
+~140
+⚠️ Nice-to-have, not V1
+gateway/
+~160
+⚠️ LLM routing OK; don’t duplicate API gateway
+agents/
+~205
+✅ Maps to generators/
+ai_frontend/
+separate
+❌ Should not live inside agent-service
+Problem: You’re at ~4,000 LOC but a large chunk is V3/experimental scaffolding (chaos, BFT, self-modifying code, hippocampus stubs) while V1 gaps remain (auth, memory client, proper Temporal-only execution, event audit trail).
+
+Module boundaries (critical rules from docs)
+1. Memory
+Agents must not touch Qdrant directly (Runtime.md, LangGraph.md):
+
+LangGraph → memory_tools → Memory Service API → Qdrant
+Your memory/qdrant_client.py and duplicate managers violate this. V1 memory/ should be mostly an HTTP client + scope enforcement.
+
+2. Tools
+Only way to affect external systems (LangGraph.md):
+
+runtime/tools/registry.py  ← maps Profession Template permissions
+3. Events
+Every execution publishes auditable events (Runtime.md):
+
+AgentTaskStarted | AgentTaskCompleted | AgentTaskFailed | AgentRecommendationGenerated
+4. State
+Follow AgentStates.md:
+
+Created → Assigned → Executing → Completed
+         ↘ Failed / Paused / Cancelled / Retried
+5. Security layer in core/security.py
+Even though Java gateway validates JWT, agent-service must still:
+
+Validate service tokens on any HTTP endpoint
+Bind tenant_id from token, never from request body
+Never use global singleton context for credentials
+Recommended file counts (V1)
+Category	Target # files
+Production .py
+60–90
+Test .py
+15–30
+Config/deploy
+5–8 (Dockerfile, requirements.txt, worker.py, etc.)
+No nested micro-framework folders
+0 hippocampus/, 0 bft_consensus/ in V1
+What to remove or relocate from current agent-service
+Remove from prod tree	Move to
+app/chaos/
+tests/chaos/ or delete until V3 ops
+app/evolution/ (Overlord, AST mutator)
+Delete — conflicts with governance docs
+app/runtime/graph/bft_consensus/
+Delete for V1
+app/memory/hippocampus/ (stubs)
+V2 memory/ranking/ when real
+app/orchestrator/temporal/federation/
+V3
+app/events/kafka/stream_windowing/ etc.
+Simplify to basic consumer/producer first
+ai_frontend/
+Platform frontend repo, not agent-service
+Duplicate temporal/ vs orchestrator/temporal/
+Single orchestrator/temporal/
+Duplicate kafka/ vs events/kafka/
+Single events/
+Public /execute_task_sync
+Internal Temporal trigger only
+Deployment layout (doc-aligned)
+┌─────────────────────┐     ┌──────────────────────┐
+│  agent-service-api  │     │  agent-service-worker │
+│  (main.py)          │     │  (worker.py)          │
+│  - /health          │     │  - Temporal workflows   │
+│  - /metrics         │     │  - Kafka consumers      │
+│  - optional /ws     │     │  - LangGraph execution  │
+└─────────────────────┘     └──────────────────────┘
+         │                              │
+         └────────── Kafka / Temporal / Ollama ──────┘
+V1 should not depend on synchronous /execute_task_sync for production; Java fires TaskAssigned → Kafka → Temporal workflow → activity runs graph.
+
+Practical “definition of done” for V1 agent-service size
+When V1 is truly done per docs, expect roughly:
+
+Metric	Target
+Production Python LOC
+5,000–7,000
+Test LOC
+2,500–4,000
+Python files
+60–90
+Top-level app/ modules
+9–11 (table above)
+LangGraph profession templates
+5 (CEO, CTO, Backend, Frontend, QA)
+Temporal workflows
+2–4 (task execution, spawn, optional intelligence cron)
+Kafka event types
+6–10
+Tool modules
+4–6
+Direct Qdrant access from runtime
+0
+Summary
+Docs intent: agent-service is a focused Python worker — Temporal + LangGraph + tools + Kafka + memory client — not a mega-framework with chaos, consensus, and self-modifying code.
+
+Folder architecture: 9 clean modules under app/ (core, api, events, generators, runtime, orchestrator, memory, intelligence, integrations, sandbox, telemetry).
+
+Size: Aim for ~5K–7.5K LOC production and ~2.5K–4K test LOC at V1; grow to ~10K–17K by V3 if you keep it monolithic, or split into the 6 AI services from ServiceArchitecture.md.
+
+Today: You’re ~4K LOC but misallocated — too much experimental infra, not enough doc-required V1 plumbing (auth, memory client, audit events, template-driven graphs, Temporal-first execution).
+
+If you want, switch to Agent mode and I can produce a file-by-file migration map (current path → target path, keep/delete/merge) for restructuring services/agent-service.
+
+
+

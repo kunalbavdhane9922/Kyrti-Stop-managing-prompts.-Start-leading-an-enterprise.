@@ -133,6 +133,9 @@ public class JwtValidationFilter implements GlobalFilter, Ordered {
     }
 
     private boolean isAllowedWithoutTenant(String path, String method) {
+        if (path.startsWith("/api/v1/auth/")) {
+            return true;
+        }
         if (path.startsWith("/api/v1/users/me")) {
             return true;
         }

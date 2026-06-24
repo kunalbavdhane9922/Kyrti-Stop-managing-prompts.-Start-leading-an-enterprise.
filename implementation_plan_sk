@@ -1,0 +1,98 @@
+# Fix Backend Startup Errors & Enable Login
+
+The backend has 5 failing services preventing login. This plan fixes each root cause with targeted code changes, then rebuilds everything.
+
+## Root Cause Analysis
+
+| # | Service | Root Cause | Fix Type |
+|---|---------|-----------|----------|
+| 1 | **Identity** | `spring.flyway.enabled: false` in `application.yml` prevents Flyway from creating the `saep_identity` schema, so Hibernate DDL fails | Config fix |
+| 2 | **Communication** | Two `@Service` classes both named `idempotencyService` — one from `saep-outbox-starter` and one local — cause a `ConflictingBeanDefinitionException` | Rename bean |
+| 3 | **Governance** | `GenericProposalValidator` has `@Component` **and** is manually instantiated via `@Bean` methods in `ValidatorConfig`. Spring also tries to auto-create it via component scan, but can't inject the `String type` constructor param | Remove `@Component` |
+| 4 | **Audit** | Uses a stale `saep-common` JAR where `SaepSecurityConfig` had a constructor requiring `JwtAuthenticationFilter`. Current source is fixed, just needs rebuild | Rebuild only |
+| 5 | **Marketplace** | Missing JAR — service was never compiled | Rebuild only |
+| 6 | **Gateway** | Fails because Identity service (port 3002) isn't up. Fixing Identity fixes Gateway | Cascading fix |
+
+## Proposed Changes
+
+### 1. Identity Service — Enable Flyway Schema Creation
+
+#### [MODIFY] [application.yml](file:///d:/College/Projects/Kyrti-Stop-managing-prompts.-Start-leading-an-enterprise/saep-identity/src/main/resources/application.yml)
+
+Change `spring.flyway.enabled` from `false` to `true` and add `create-schemas: true` so Flyway creates the `saep_identity` schema before Hibernate attempts DDL:
+
+```diff
+   flyway:
+-    enabled: false
++    enabled: true
+     baseline-on-migrate: true
++    create-schemas: true
++    schemas: saep_identity
++    default-schema: saep_identity
+```
+
+> [!IMPORTANT]
+> The `application.properties` already has `spring.flyway.create-schemas=true` and `spring.flyway.schemas=saep_identity`, but the `.yml` file explicitly sets `enabled: false` which takes precedence since both are loaded. Enabling it in the yml and adding the schema config ensures Flyway creates the schema on startup.
+
+---
+
+### 2. Communication Service — Resolve Bean Name Conflict
+
+#### [MODIFY] [IdempotencyService.java](file:///d:/College/Projects/Kyrti-Stop-managing-prompts.-Start-leading-an-enterprise/services/saep-parent/saep-communication/src/main/java/com/saep/communication/service/IdempotencyService.java)
+
+Give the communication service's `IdempotencyService` a unique bean name to avoid conflicting with the outbox starter's bean:
+
+```diff
+-@Service
++@Service("communicationIdempotencyService")
+ @RequiredArgsConstructor
+ public class IdempotencyService {
+```
+
+This resolves the `ConflictingBeanDefinitionException` since both beans are named `idempotencyService` by default.
+
+---
+
+### 3. Governance Service — Remove @Component from GenericProposalValidator
+
+#### [MODIFY] [GenericProposalValidator.java](file:///d:/College/Projects/Kyrti-Stop-managing-prompts.-Start-leading-an-enterprise/services/saep-parent/saep-governance/src/main/java/com/saep/governance/validation/GenericProposalValidator.java)
+
+Remove `@Component` since instances are already created via `@Bean` methods in `ValidatorConfig`:
+
+```diff
+ package com.saep.governance.validation;
+ 
+ import com.fasterxml.jackson.databind.ObjectMapper;
+-import org.springframework.stereotype.Component;
+ 
+-@Component
+ public class GenericProposalValidator implements ProposalPayloadValidator {
+```
+
+The `@Component` annotation causes Spring to try creating an additional instance via component scan, auto-wiring the `String type` constructor param — which fails because there's no `String` bean. Removing it ensures only the explicitly configured `@Bean` instances from `ValidatorConfig` are used.
+
+---
+
+### 4. Full Maven Rebuild
+
+After the code fixes, run a full Maven build to rebuild all modules (including Audit and Marketplace):
+
+```bash
+mvn clean package -DskipTests
+```
+
+This resolves:
+- **Audit**: Gets the updated `saep-common` JAR (current `SaepSecurityConfig` no longer requires `JwtAuthenticationFilter` constructor param)
+- **Marketplace**: Builds the missing JAR
+
+---
+
+## Verification Plan
+
+### Automated Tests
+- `mvn clean package -DskipTests` — all modules must build successfully
+
+### Manual Verification
+- Restart backend via `start_backend.ps1`
+- Confirm all services show "Started" status
+- Attempt login at `http://localhost:5173`

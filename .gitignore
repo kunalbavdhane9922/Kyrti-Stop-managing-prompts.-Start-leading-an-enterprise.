@@ -18,3 +18,7 @@ target/
 # Logs
 *.log
 *.err
+
+*.mp4
+*.log
+*.err

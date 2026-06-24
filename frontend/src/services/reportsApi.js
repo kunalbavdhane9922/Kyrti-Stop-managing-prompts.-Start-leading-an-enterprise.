@@ -45,33 +45,43 @@ async function request(url, options = {}) {
 
 export const reportsApi = {
   getOperationalMetrics: async (companyId) => {
-    // Return mock promise until backend is ready
-    return Promise.resolve({
-      data: {
-        activeAgents: 142,
-        activeWorkflows: 89,
-        completedTasks: 12540,
-        errorRate: 0.8,
-      }
-    });
-    // return request(`${REPORTS_BASE}/${companyId}/operational`, { method: 'GET' });
+    try {
+      const { fetchWithAuth } = await import('./apiClient.js');
+      const data = await fetchWithAuth('/metrics/operational');
+      return { data };
+    } catch (error) {
+      console.warn("Metrics API failed, falling back to mock data.", error);
+      return Promise.resolve({
+        data: {
+          activeAgents: 142,
+          activeWorkflows: 89,
+          completedTasks: 12540,
+          errorRate: 0.8,
+        }
+      });
+    }
   },
 
   getWorkforceMetrics: async (companyId) => {
-    // Return mock promise until backend is ready
-    return Promise.resolve({
-      data: {
-        utilization: {
-          Engineering: 92,
-          Marketing: 72,
-          Finance: 85,
-          Operations: 88
-        },
-        capacity: 100,
-        humanVsAiSplit: { human: 15, ai: 85 }
-      }
-    });
-    // return request(`${REPORTS_BASE}/${companyId}/workforce`, { method: 'GET' });
+    try {
+      const { fetchWithAuth } = await import('./apiClient.js');
+      const data = await fetchWithAuth('/metrics/workforce');
+      return { data };
+    } catch (error) {
+      console.warn("Metrics API failed, falling back to mock data.", error);
+      return Promise.resolve({
+        data: {
+          utilization: {
+            Engineering: 92,
+            Marketing: 72,
+            Finance: 85,
+            Operations: 88
+          },
+          capacity: 100,
+          humanVsAiSplit: { human: 15, ai: 85 }
+        }
+      });
+    }
   },
 
   getRecommendations: async (companyId) => {
