@@ -67,7 +67,7 @@ if ($LASTEXITCODE -eq 0) {
 if (-not $dockerReady) {
     Write-Host "Proceeding without Docker. Note: Services may crash if they cannot connect to databases or Kafka." -ForegroundColor Yellow
 } else {
-    Write-Host "Starting infrastructure with docker-compose..."
+    Write-Host "Starting infrastructure with infrastructure\docker\docker-compose..."
     docker compose up -d
     if ($LASTEXITCODE -ne 0) {
         Write-Host "Docker compose failed." -ForegroundColor Red
@@ -209,12 +209,12 @@ function Start-Microservice {
 }
 
 $svcs = @()
-$svcs += Start-Microservice -Name "Gateway" -JarPath "saep-gateway\target\saep-gateway-1.0.0-SNAPSHOT-exec.jar" -LogName "gateway.log"
-$svcs += Start-Microservice -Name "Identity" -JarPath "saep-identity\target\saep-identity-1.0.0-SNAPSHOT-exec.jar" -LogName "identity.log"
-$svcs += Start-Microservice -Name "Company" -JarPath "services\saep-parent\saep-company\target\saep-company-1.0.0-SNAPSHOT-exec.jar" -LogName "company.log"
-$svcs += Start-Microservice -Name "Organization" -JarPath "services\saep-parent\saep-organization\target\saep-organization-1.0.0-SNAPSHOT-exec.jar" -LogName "organization.log"
-$svcs += Start-Microservice -Name "Workforce" -JarPath "services\saep-parent\saep-workforce\target\saep-workforce-1.0.0-SNAPSHOT-exec.jar" -LogName "workforce.log"
-# $svcs += Start-Microservice -Name "Marketplace" -JarPath "services\saep-parent\saep-marketplace\target\saep-marketplace-1.0.0-SNAPSHOT-exec.jar" -LogName "marketplace.log"
+$svcs += Start-Microservice -Name "Gateway" -JarPath "backend\services\saep-gateway\target\backend\services\saep-gateway-1.0.0-SNAPSHOT-exec.jar" -LogName "gateway.log"
+$svcs += Start-Microservice -Name "Identity" -JarPath "backend\services\saep-identity\target\backend\services\saep-identity-1.0.0-SNAPSHOT-exec.jar" -LogName "identity.log"
+$svcs += Start-Microservice -Name "Company" -JarPath "backend\services\saep-company\target\saep-company-1.0.0-SNAPSHOT-exec.jar" -LogName "company.log"
+$svcs += Start-Microservice -Name "Organization" -JarPath "backend\services\saep-organization\target\saep-organization-1.0.0-SNAPSHOT-exec.jar" -LogName "organization.log"
+$svcs += Start-Microservice -Name "Workforce" -JarPath "backend\services\saep-workforce\target\saep-workforce-1.0.0-SNAPSHOT-exec.jar" -LogName "workforce.log"
+# $svcs += Start-Microservice -Name "Marketplace" -JarPath "backend\services\saep-marketplace\target\saep-marketplace-1.0.0-SNAPSHOT-exec.jar" -LogName "marketplace.log"
 $backendSuccess = ($svcs -notcontains $false) -and ($svcs -notcontains $null)
 
 # Launch Frontend

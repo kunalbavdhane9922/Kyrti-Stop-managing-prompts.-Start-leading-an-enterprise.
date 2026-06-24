@@ -47,7 +47,12 @@ if (-not (Check-Command "java")) {
     exit 1
 }
 
-$JavaVer = java -version 2>&1 | Select-String -Pattern '"(\d+)' | % { $_.Matches.Groups[1].Value }
+$OldErrorActionPreference = $ErrorActionPreference
+$ErrorActionPreference = "Continue"
+$JavaVerOut = java -version 2>&1
+$ErrorActionPreference = $OldErrorActionPreference
+
+$JavaVer = $JavaVerOut | Select-String -Pattern '"(\d+)' | % { $_.Matches.Groups[1].Value }
 if ([int]$JavaVer -lt 17) {
     Write-Log "Java version must be 17 or higher. Found: $JavaVer" "ERROR"
     exit 1
@@ -114,9 +119,12 @@ Write-Log "Environment configuration validated."
 # 3. Infrastructure Startup
 Write-Log "Starting infrastructure via Docker Compose..."
 try {
+    Push-Location ".\infrastructure\docker"
     docker-compose up -d
+    Pop-Location
 } catch {
     Write-Log "Failed to start Docker Compose infrastructure." "ERROR"
+    if (Test-Path ".\infrastructure\docker") { Pop-Location }
     exit 1
 }
 
@@ -126,14 +134,16 @@ $MaxRetries = 30
 $WaitSeconds = 5
 
 function Check-Port {
-    param([string]$Host, [int]$Port)
+    param([string]$TargetHost, [int]$Port)
     try {
-        $TcpClient = New-Object System.Net.Sockets.TcpClient
-        $ConnectTask = $TcpClient.ConnectAsync($Host, $Port)
-        $ConnectTask.Wait(2000) | Out-Null
-        $IsConnected = $TcpClient.Connected
-        $TcpClient.Close()
-        return $IsConnected
+        $tcpClient = New-Object System.Net.Sockets.TcpClient
+        $result = $tcpClient.BeginConnect($TargetHost, $Port, $null, $null)
+        $success = $result.AsyncWaitHandle.WaitOne(1000)
+        if ($success) {
+            $tcpClient.EndConnect($result)
+        }
+        $tcpClient.Close()
+        return $success
     } catch {
         return $false
     }
@@ -174,15 +184,20 @@ foreach ($Service in $RequiredPorts.GetEnumerator()) {
 Write-Log "Building Backend Microservices..."
 try {
     # Ensure wrapper is executable if needed, but on Windows .cmd is used
-    if (Test-Path ".\mvnw.cmd") {
+    if (Test-Path ".\backend\mvnw.cmd") {
         Write-Log "Running Maven Wrapper build..."
+        Push-Location ".\backend"
+        $OldJavaHome = $env:JAVA_HOME
+        $env:JAVA_HOME = ""
         $process = Start-Process -FilePath ".\mvnw.cmd" -ArgumentList "clean","install","-DskipTests" -NoNewWindow -Wait -PassThru
+        $env:JAVA_HOME = $OldJavaHome
+        Pop-Location
         if ($process.ExitCode -ne 0) {
             Write-Log "Backend build failed with exit code $($process.ExitCode)" "ERROR"
             exit 1
         }
     } else {
-        Write-Log "Maven wrapper (mvnw.cmd) not found in root directory!" "ERROR"
+        Write-Log "Maven wrapper (mvnw.cmd) not found in backend directory!" "ERROR"
         exit 1
     }
     Write-Log "Backend build completed successfully."

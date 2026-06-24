@@ -18,16 +18,19 @@
     <description>SAEP Backend Parent Project</description>
 
     <modules>
-        <module>saep-common</module>
-        <module>saep-outbox-starter</module>
-        <module>saep-gateway</module>
-        <module>saep-identity</module>
-        <module>services/saep-parent/saep-company</module>
-        <module>services/saep-parent/saep-organization</module>
-        <module>services/saep-parent/saep-workforce</module>
-        <module>services/saep-parent/saep-governance</module>
-        <module>services/saep-parent/saep-marketplace</module>
-        <module>saep-architecture-tests</module>
+        <module>shared/saep-common</module>
+        <module>shared/saep-outbox-starter</module>
+        <module>services/saep-gateway</module>
+        <module>services/saep-identity</module>
+        <module>services/saep-company</module>
+        <module>services/saep-organization</module>
+        <module>services/saep-workforce</module>
+        <module>services/saep-governance</module>
+        <module>services/saep-marketplace</module>
+        <module>services/saep-memory</module>
+        <module>services/saep-audit</module>
+        <module>services/saep-communication</module>
+        <module>services/saep-workflow</module>
     </modules>
 
     <properties>
