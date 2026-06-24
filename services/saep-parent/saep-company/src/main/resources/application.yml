@@ -5,7 +5,7 @@ spring:
   application:
     name: saep-company
   datasource:
-    url: jdbc:postgresql://localhost:5432/saep_db
+    url: jdbc:postgresql://localhost:5432/saep_company
     username: postgres
     password: password
   jpa:

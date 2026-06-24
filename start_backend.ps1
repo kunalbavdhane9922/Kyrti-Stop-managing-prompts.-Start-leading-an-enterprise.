@@ -99,7 +99,7 @@ if (Test-Path $envFile) {
 
 # Stop any existing processes on our specific ports to avoid conflicts
 Write-Host "Terminating processes holding our specific backend and frontend ports..." -ForegroundColor Yellow
-$PortsToKill = @(3000, 3002, 8081, 8082, 8084, 5173)
+$PortsToKill = @(3000, 3002, 8081, 8082, 8084, 8085, 5173)
 
 foreach ($port in $PortsToKill) {
     $connections = Get-NetTCPConnection -LocalPort $port -State Listen -ErrorAction SilentlyContinue
@@ -214,7 +214,7 @@ $svcs += Start-Microservice -Name "Identity" -JarPath "saep-identity\target\saep
 $svcs += Start-Microservice -Name "Company" -JarPath "services\saep-parent\saep-company\target\saep-company-1.0.0-SNAPSHOT-exec.jar" -LogName "company.log"
 $svcs += Start-Microservice -Name "Organization" -JarPath "services\saep-parent\saep-organization\target\saep-organization-1.0.0-SNAPSHOT-exec.jar" -LogName "organization.log"
 $svcs += Start-Microservice -Name "Workforce" -JarPath "services\saep-parent\saep-workforce\target\saep-workforce-1.0.0-SNAPSHOT-exec.jar" -LogName "workforce.log"
-$svcs += Start-Microservice -Name "Marketplace" -JarPath "services\saep-parent\saep-marketplace\target\saep-marketplace-1.0.0-SNAPSHOT-exec.jar" -LogName "marketplace.log"
+# $svcs += Start-Microservice -Name "Marketplace" -JarPath "services\saep-parent\saep-marketplace\target\saep-marketplace-1.0.0-SNAPSHOT-exec.jar" -LogName "marketplace.log"
 $backendSuccess = ($svcs -notcontains $false) -and ($svcs -notcontains $null)
 
 # Launch Frontend

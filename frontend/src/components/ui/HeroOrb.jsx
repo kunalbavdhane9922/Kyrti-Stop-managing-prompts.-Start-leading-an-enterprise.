@@ -202,6 +202,7 @@ export function HeroOrb() {
                  <motion.line 
                    key={`beam-${i}`}
                    x1={0} y1={0}
+                   x2={0} y2={0}
                    animate={{ x2: bx, y2: by, opacity: isBuilding ? 0.9 : 0 }}
                    transition={{ duration: 0.2 }}
                    stroke="#E63946" strokeWidth="4" strokeDasharray="4 8"

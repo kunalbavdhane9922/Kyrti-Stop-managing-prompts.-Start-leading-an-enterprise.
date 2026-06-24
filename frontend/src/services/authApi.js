@@ -7,6 +7,8 @@
  * All auth endpoints hit: POST /api/v1/auth/*
  */
 
+import { AuthDto } from '../dto/AuthDto.js';
+
 const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:8080';
 const AUTH_BASE = `${API_BASE}/api/v1/auth`;
 
@@ -57,7 +59,8 @@ async function request(url, options = {}) {
       
       if (refreshResponse.ok) {
         const refreshData = await refreshResponse.json();
-        window.__sovereignAccessToken = refreshData.data?.accessToken;
+        const refreshDto = AuthDto.fromApi(refreshData.data);
+        window.__sovereignAccessToken = refreshDto.token;
         
         // Retry original request
         return await request(url, options);
@@ -93,7 +96,6 @@ const authApi = {
   /**
    * Registers a new user account.
    * @param {{ email: string, password: string, name: string }} params
-   * @returns {Promise<{ success: boolean, data: { userId: string, email: string } }>}
    */
   async register({ email, password, name }) {
     return request(`${AUTH_BASE}/register`, {
@@ -106,7 +108,6 @@ const authApi = {
   /**
    * Authenticates a user with email and password.
    * @param {{ email: string, password: string, fingerprint?: string }} params
-   * @returns {Promise<{ success: boolean, data: { requires2FA: boolean, partialToken?: string, accessToken?: string, user: object } }>}
    */
   async login({ email, password, fingerprint }) {
     const result = await request(`${AUTH_BASE}/login`, {
@@ -115,9 +116,9 @@ const authApi = {
       skipAuth: true,
     });
 
-    // Store access token in memory (zero-persistence)
-    if (result.data?.accessToken) {
-      window.__sovereignAccessToken = result.data.accessToken;
+    if (result.data && !result.data.requires2FA && !result.data.requiresTenantSelection) {
+      result.data = AuthDto.fromApi(result.data);
+      window.__sovereignAccessToken = result.data.token;
     }
 
     return result;
@@ -126,7 +127,6 @@ const authApi = {
   /**
    * Verifies a 2FA code after login.
    * @param {{ partialToken: string, code: string }} params
-   * @returns {Promise<{ success: boolean, data: { accessToken: string, user: object } }>}
    */
   async verify2FA({ partialToken, code }) {
     const result = await request(`${AUTH_BASE}/verify-2fa`, {
@@ -135,9 +135,9 @@ const authApi = {
       skipAuth: true,
     });
 
-    // Store access token in memory
-    if (result.data?.accessToken) {
-      window.__sovereignAccessToken = result.data.accessToken;
+    if (result.data) {
+      result.data = AuthDto.fromApi(result.data);
+      window.__sovereignAccessToken = result.data.token;
     }
 
     return result;
@@ -156,8 +156,9 @@ const authApi = {
       body: JSON.stringify({ fingerprint })
     });
 
-    if (result.data?.accessToken) {
-      window.__sovereignAccessToken = result.data.accessToken;
+    if (result.data) {
+      result.data = AuthDto.fromApi(result.data);
+      window.__sovereignAccessToken = result.data.token;
     }
 
     return result;

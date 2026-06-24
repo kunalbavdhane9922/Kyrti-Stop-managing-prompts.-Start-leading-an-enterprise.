@@ -1,0 +1,37 @@
+server:
+  port: 8086
+
+spring:
+  application:
+    name: saep-workflow
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9094}
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
+
+temporal:
+  host: ${TEMPORAL_HOST:localhost:7233}
+  task-queue: BUSINESS_WORKFLOW_TASK_QUEUE
+
+jwt:
+  secret: ${JWT_SECRET:saep-default-secret-change-in-production-must-be-at-least-32-chars}
+
+saep:
+  services:
+    workforce: ${WORKFORCE_SERVICE_URL:http://localhost:8082}
+    company: ${COMPANY_SERVICE_URL:http://localhost:8081}
+    marketplace: ${MARKETPLACE_SERVICE_URL:http://localhost:8085}
+    governance: ${GOVERNANCE_SERVICE_URL:http://localhost:8083}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      show-details: when-authorized

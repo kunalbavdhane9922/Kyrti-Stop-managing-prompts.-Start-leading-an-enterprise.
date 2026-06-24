@@ -1,0 +1,97 @@
+server:
+  port: 8088
+
+spring:
+  datasource:
+    hikari:
+      schema: saep_memory
+  jpa:
+    properties:
+      hibernate:
+        default_schema: saep_memory
+  flyway:
+    schemas: saep_memory
+    default-schema: saep_memory
+    create-schemas: true
+  main:
+    allow-bean-definition-overriding: true
+  autoconfigure:
+    exclude: org.springframework.boot.actuate.autoconfigure.tracing.OpenTelemetryAutoConfiguration
+  main:
+    allow-bean-definition-overriding: true
+  application:
+    name: saep-memory
+  datasource:
+    url: jdbc:postgresql://${POSTGRES_HOST:localhost}:${POSTGRES_PORT:5432}/saep_memory
+    username: ${POSTGRES_USER:postgres}
+    password: ${POSTGRES_PASSWORD:password}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+    show-sql: false
+  flyway:
+    enabled: true
+    table: memory_flyway_history
+    baseline-on-migrate: true
+    baseline-version: 0
+    locations: classpath:db/migration
+
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9094}
+    consumer:
+      group-id: saep-embedding-worker
+      enable-auto-commit: false
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    listener:
+      ack-mode: manual
+
+saep:
+  qdrant:
+    host: ${QDRANT_HOST:localhost}
+    port: ${QDRANT_PORT:6334} # gRPC port is 6334
+  ollama:
+    url: ${OLLAMA_URL:http://localhost:11434}
+    embedding:
+      model: ${OLLAMA_EMBEDDING_MODEL:nomic-embed-text}
+      dimensions: ${OLLAMA_EMBEDDING_DIMENSIONS:768}
+  memory:
+    chunking:
+      max-tokens: 512
+      overlap: 50
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      marketplaceCircuitBreaker:
+        slidingWindowSize: 20
+        minimumNumberOfCalls: 10
+        failureRateThreshold: 50
+        waitDurationInOpenState: 30s
+        permittedNumberOfCallsInHalfOpenState: 5
+      ollamaCircuitBreaker:
+        slidingWindowSize: 20
+        minimumNumberOfCalls: 10
+        failureRateThreshold: 50
+        waitDurationInOpenState: 30s
+        permittedNumberOfCallsInHalfOpenState: 5
+  retry:
+    instances:
+      ollamaRetry:
+        maxAttempts: 3
+        waitDuration: 500ms
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus
+  endpoint:
+    health:
+      show-details: always
