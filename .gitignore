@@ -20,7 +20,6 @@ target/
 *.war
 *.ear
 *.class
-.mvn/
 maven/
 apache-maven-*/
 
