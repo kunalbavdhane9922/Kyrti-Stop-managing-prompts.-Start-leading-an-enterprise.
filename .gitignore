@@ -8,17 +8,51 @@
 .vscode/
 *.iml
 
-# Build
+# Node / JS
+node_modules/
+dist/
+build/
+.npm/
+
+# Java / Spring Boot / Build
 target/
 *.jar
 *.war
 *.ear
 *.class
+.mvn/
+maven/
+apache-maven-*/
 
-# Logs
+# OS Files
+.DS_Store
+Thumbs.db
+
+# Logs and Errors
 *.log
 *.err
 
+# Media & Large Files
 *.mp4
-*.log
-*.err
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.zip
+*.tar.gz
+
+# Test Results & Scratchpads
+*_results.txt
+*_test.js
+test-*.js
+ai_curosr_improvements.txt
+identity_threads.txt
+test_lock.txt
+test_lock.log
+generate_jwt.js
+temp_db_check/
+
+# Old Plans and Notes
+ai_plan
+implementation_plan*.md
+Creating Backend Startup Script*.md
