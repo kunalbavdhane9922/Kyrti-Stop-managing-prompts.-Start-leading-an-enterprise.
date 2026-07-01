@@ -118,6 +118,14 @@ if (Test-Path $envFile) {
     Write-Host "No .env file found in project root. Proceeding with system defaults." -ForegroundColor Yellow
 }
 
+# Override hostnames for host execution (localhost connection to Docker mapped ports)
+[Environment]::SetEnvironmentVariable("POSTGRES_HOST", "localhost", "Process")
+[Environment]::SetEnvironmentVariable("REDIS_HOST", "localhost", "Process")
+[Environment]::SetEnvironmentVariable("KAFKA_BROKER", "localhost:9094", "Process")
+[Environment]::SetEnvironmentVariable("KAFKA_BOOTSTRAP_SERVERS", "localhost:9094", "Process")
+[Environment]::SetEnvironmentVariable("ZIPKIN_ENDPOINT", "http://localhost:9411/api/v2/spans", "Process")
+[Environment]::SetEnvironmentVariable("TEMPORAL_ADDRESS", "localhost:7233", "Process")
+
 # Stop any existing processes on our specific ports to avoid conflicts
 Write-Host "Terminating processes holding our specific backend and frontend ports..." -ForegroundColor Yellow
 $PortsToKill = @(3000, 3002, 8081, 8082, 8084, 8085, 5173)
