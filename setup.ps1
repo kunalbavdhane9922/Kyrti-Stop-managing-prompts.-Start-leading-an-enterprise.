@@ -189,6 +189,11 @@ try {
         Push-Location ".\backend"
         $OldJavaHome = $env:JAVA_HOME
         $env:JAVA_HOME = ""
+        $process1 = Start-Process -FilePath ".\mvnw.cmd" -ArgumentList "clean","install","-N" -NoNewWindow -Wait -PassThru
+        if ($process1.ExitCode -ne 0) {
+            Write-Log "Backend parent build failed with exit code $($process1.ExitCode)" "ERROR"
+            exit 1
+        }
         $process = Start-Process -FilePath ".\mvnw.cmd" -ArgumentList "clean","install","-DskipTests" -NoNewWindow -Wait -PassThru
         $env:JAVA_HOME = $OldJavaHome
         Pop-Location
