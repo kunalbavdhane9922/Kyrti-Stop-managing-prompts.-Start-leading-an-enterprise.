@@ -1,0 +1,80 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  name      String?
+  role      Role     @default(USER)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  // Spatial Data
+  avatarUrl String?
+  x         Float    @default(0)
+  y         Float    @default(0)
+  
+  // Relations
+  officeId  String?
+  office    Office?   @relation(fields: [officeId], references: [id])
+}
+
+model Office {
+  id        String   @id @default(uuid())
+  name      String
+  tenantId  String
+  
+  // Grid bounds
+  width     Int      @default(30)
+  height    Int      @default(30)
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  users     User[]
+  agents    Agent[]
+}
+
+model Agent {
+  id        String   @id @default(uuid())
+  name      String
+  prompt    String
+  x         Float    @default(0)
+  y         Float    @default(0)
+  
+  officeId  String
+  office    Office   @relation(fields: [officeId], references: [id])
+}
+
+enum Role {
+  USER
+  ADMIN
+  OWNER
+}
+
+model LedgerTransaction {
+  id        String   @id @default(uuid())
+  amount    Float
+  txType    String   // "DEPOSIT", "PURCHASE", "EXPANSION"
+  reason    String
+  officeId  String
+  office    Office   @relation(fields: [officeId], references: [id])
+  createdAt DateTime @default(now())
+}
+
+model MarketplaceItem {
+  id          String   @id @default(uuid())
+  name        String
+  description String
+  price       Float
+  category    String   // "FURNITURE", "AI_AGENT", "UPGRADE"
+}

@@ -12,6 +12,7 @@ import './styles/module2.css';
 import './styles/module3.css';
 import './styles/module4.css';
 import './styles/virtual-office.css';
+import './virtual-office-app/index.css';
 import './styles/wizard.css';
 import './styles/meetings.css';
 
