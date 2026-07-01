@@ -101,7 +101,7 @@ function Verify2FAPage() {
       <div className="login-container">
         <motion.div className="login-content" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
           <div className="login-header">
-            <div className="login-logo"><Shield size={24} color="#FFF" /></div>
+            <img src="/main_logo.png" alt="Kyrti" style={{ width: '56px', height: '56px', objectFit: 'contain', marginBottom: '16px' }} />
             <h1 className="login-title">Security Check</h1>
           </div>
 

@@ -74,7 +74,7 @@ export function MarketplacePage() {
 
         {/* ═══ HEADER ═══ */}
         <motion.div variants={anim.item}>
-          <h1 className="page-title" style={{ marginBottom: 2 }}>Sovereign Labor Exchange</h1>
+          <h1 className="page-title" style={{ marginBottom: 2 }}>Kyrti Labor Exchange</h1>
           <p style={{ fontSize: 'var(--text-sm)', color: 'var(--color-text-tertiary)', fontFamily: 'var(--font-sans)' }}>
             Recruit verified Digital Professionals from the global AI workforce marketplace.
           </p>

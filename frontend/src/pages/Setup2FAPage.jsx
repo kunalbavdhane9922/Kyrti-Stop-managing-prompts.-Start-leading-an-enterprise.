@@ -83,9 +83,7 @@ export function Setup2FAPage() {
           style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-6)', maxWidth: '600px', width: '100%' }}
         >
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', gap: 'var(--space-4)' }}>
-          <div className="auth-icon-wrapper" style={{ background: 'rgba(56, 189, 248, 0.1)', color: 'var(--color-accent-blue)', padding: 'var(--space-4)', borderRadius: '50%' }}>
-            <ShieldCheck size={32} />
-          </div>
+          <img src="/main_logo.png" alt="Kyrti" style={{ width: '56px', height: '56px', objectFit: 'contain' }} />
           <h1 style={{ fontSize: 'var(--text-2xl)', color: 'var(--color-text-primary)' }}>Secure Your Account</h1>
           <p style={{ color: 'var(--color-text-secondary)' }}>
             {success ? '2FA Enabled Successfully' : 'Set up Two-Factor Authentication (TOTP)'}

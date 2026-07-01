@@ -37,7 +37,7 @@ const platformApi = {
     return {
       requestId,
       status: 'verified',
-      businessName: 'Sovereign Dynamics Inc.',
+      businessName: 'Kyrti Dynamics Inc.',
       registrationNumber: 'GSTIN-29ABCDE1234F1Z5',
       verifiedAt: new Date().toISOString(),
     };

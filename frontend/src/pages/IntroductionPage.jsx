@@ -155,18 +155,7 @@ export function IntroductionPage() {
             onClick={() => scrollToSection('hero')}
             style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer' }}
           >
-            <div style={{
-              width: '32px',
-              height: '32px',
-              borderRadius: '8px',
-              background: 'linear-gradient(135deg, #FF5C00, #FF8A00)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              boxShadow: '0 3px 8px rgba(255, 92, 0, 0.2)'
-            }}>
-              <Layers size={18} color="#FFFFFF" strokeWidth={2.5} />
-            </div>
+            <img src="/main_logo.png" alt="Kyrti" style={{ width: '36px', height: '36px', objectFit: 'contain' }} />
             <span style={{ 
               fontSize: '1.25rem', 
               fontWeight: '800', 
@@ -259,7 +248,7 @@ export function IntroductionPage() {
               marginBottom: '2rem'
             }}
           >
-            Sovereign AI Enterprise Protocol
+            Kyrti AI Enterprise Platform
           </motion.div>
 
           {/* Heading */}
@@ -422,7 +411,7 @@ export function IntroductionPage() {
                   background: '#FCFDFE'
                 }}>
                   <span style={{ fontSize: '0.75rem', color: '#64748B', fontWeight: '600' }}>
-                    Sovereign Core: <span style={{ color: '#10B981', fontWeight: '700' }}>Active Swarm Ready</span>
+                    Kyrti Core: <span style={{ color: '#10B981', fontWeight: '700' }}>Active Swarm Ready</span>
                   </span>
                   
                   {/* Operator Label */}
@@ -967,7 +956,7 @@ export function IntroductionPage() {
             {/* Branding column */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', maxWidth: '320px' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                <div style={{ width: '28px', height: '28px', borderRadius: '6px', background: '#FF5C00' }} />
+                <img src="/main_logo.png" alt="Kyrti" style={{ width: '28px', height: '28px', objectFit: 'contain' }} />
                 <span style={{ fontSize: '1.2rem', fontWeight: '800', color: '#0F172A', letterSpacing: '-0.5px' }}>Kyrti</span>
               </div>
               <p style={{ fontSize: '0.85rem', color: '#475569', lineHeight: '1.6', margin: 0 }}>
@@ -1011,7 +1000,7 @@ export function IntroductionPage() {
             fontSize: '0.8rem',
             color: '#64748B'
           }}>
-            <span>&copy; {new Date().getFullYear()} Kyrti Sovereign Protocol. All rights reserved.</span>
+            <span>&copy; {new Date().getFullYear()} Kyrti Platform. All rights reserved.</span>
             <div style={{ display: 'flex', gap: '1.5rem' }}>
               <a href="#" style={{ color: 'inherit', textDecoration: 'none' }} onMouseOver={e => e.currentTarget.style.color = '#FF5C00'} onMouseOut={e => e.currentTarget.style.color = '#64748B'}>Privacy Policy</a>
               <a href="#" style={{ color: 'inherit', textDecoration: 'none' }} onMouseOver={e => e.currentTarget.style.color = '#FF5C00'} onMouseOut={e => e.currentTarget.style.color = '#64748B'}>Terms of Service</a>

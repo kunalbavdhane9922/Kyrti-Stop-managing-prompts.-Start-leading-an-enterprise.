@@ -236,7 +236,7 @@ function IdentityPage() {
   }, [connectWallet, signBindingMessage, layerB.registrationNumber, runScanSequence]);
 
   const handleRevocation = useCallback(() => {
-    if (window.confirm('SOVEREIGN REVOCATION\n\nThis will permanently destroy all AI episodic memory and revoke all identity attestations.\n\nThis action cannot be undone. Proceed?')) {
+    if (window.confirm('KYRTI REVOCATION\n\nThis will permanently destroy all AI episodic memory and revoke all identity attestations.\n\nThis action cannot be undone. Proceed?')) {
       resetIdentity();
       resetGovernance();
     }
@@ -270,7 +270,7 @@ function IdentityPage() {
           <ScanOverlay active={scanningModule === 'a'} label="Sealing Protocol" />
           <div className="clearance-module-header">
             <div className="clearance-module-eyebrow">Module A</div>
-            <h2 className="clearance-module-title">Sovereign Human ID</h2>
+            <h2 className="clearance-module-title">Kyrti Human ID</h2>
             <p className="clearance-module-subtitle">Individual KYC & Biometric Authority</p>
           </div>
 
@@ -462,14 +462,14 @@ function IdentityPage() {
         </motion.div>
       </motion.div>
 
-      {/* Sovereign Revocation */}
+      {/* Kyrti Revocation */}
       <motion.div className="revocation-section" variants={itemVariants}>
         <div className="revocation-card">
-          <h3 className="revocation-title">Sovereign Revocation</h3>
+          <h3 className="revocation-title">Kyrti Revocation</h3>
           <p className="revocation-subtitle">Emergency Protocol — Instant Memory Wipe</p>
           <button className="revocation-btn" onClick={handleRevocation} id="revocation-btn">
             <AlertTriangle size={16} />
-            Initiate Sovereign Revocation
+            Initiate Kyrti Revocation
           </button>
           <p className="revocation-warning">
             This action will permanently destroy all AI episodic memory and revoke all identity attestations.

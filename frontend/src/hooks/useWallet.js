@@ -72,7 +72,7 @@ export function useWallet() {
         action: 'BIND_WALLET_TO_BUSINESS',
         walletAddress: address,
         businessId: businessId,
-        platform: 'Sovereign Protocol',
+        platform: 'Kyrti',
         timestamp: new Date().toISOString(),
         nonce: crypto.randomUUID(),
       });

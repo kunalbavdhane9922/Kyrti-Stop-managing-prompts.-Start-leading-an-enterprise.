@@ -80,7 +80,7 @@ export const MULTI_SIG_THRESHOLDS = Object.freeze({
 export const AGENT_WALLET_CAP = '1000000000000000000'; // 1 ETH equivalent
 
 /** Platform identification */
-export const PLATFORM_NAME = 'Sovereign Protocol';
+export const PLATFORM_NAME = 'Kyrti';
 export const PLATFORM_VERSION = '1.0.0';
 
 /** Cryptographic constants */

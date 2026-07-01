@@ -236,9 +236,7 @@ export function WizardShell({ children, onSubmit, loading }) {
             {/* Header */}
             <div className="wizard-header">
               <div className="wizard-header-left">
-                <div className="wizard-logo">
-                  <Building2 size={20} color="#FFF" />
-                </div>
+                <img src="/main_logo.png" alt="Kyrti" style={{ width: '40px', height: '40px', objectFit: 'contain', marginRight: '8px' }} />
                 <div>
                   <h1 className="wizard-title">Enterprise Initialization</h1>
                   <p className="wizard-subtitle">{currentDef?.subtitle}</p>

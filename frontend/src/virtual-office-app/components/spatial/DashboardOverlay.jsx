@@ -78,16 +78,12 @@ export default function DashboardOverlay() {
           style={{ borderRight: '0.5px solid var(--color-border-tertiary)' }}
         >
           <div className="px-6 mb-8 flex items-center gap-3">
-            <div style={{ color: 'var(--purple-400)' }}>
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/>
-              </svg>
-            </div>
+            <img src="/main_logo.png" alt="Kyrti" style={{ width: '24px', height: '24px', objectFit: 'contain' }} />
             <span
               className="tracking-wider text-xs uppercase"
-              style={{ fontWeight: 500, color: 'var(--color-text-primary)' }}
+              style={{ fontWeight: 600, color: 'var(--color-text-primary)' }}
             >
-              Sovereign protocol
+              Kyrti Platform
             </span>
           </div>
 

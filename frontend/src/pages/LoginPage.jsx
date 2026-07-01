@@ -114,8 +114,8 @@ function LoginPage() {
       <div className="login-container">
         <motion.div className="login-content" variants={containerVariants} initial="hidden" animate="visible">
           <motion.div variants={itemVariants} className="login-header">
-            <div className="login-logo"><Shield size={24} color="#FFF" /></div>
-            <h1 className="login-title">Sovereign Protocol</h1>
+            <img src="/main_logo.png" alt="Kyrti" style={{ width: '64px', height: '64px', objectFit: 'contain', marginBottom: '16px' }} />
+            <h1 className="login-title">Kyrti</h1>
             <p className="login-subtitle">Enterprise Authority Access</p>
           </motion.div>
 
