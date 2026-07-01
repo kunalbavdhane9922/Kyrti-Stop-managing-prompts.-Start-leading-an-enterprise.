@@ -7,11 +7,9 @@ import { useAuthStore } from '../store/authStore.js';
 import { useIdentityStore } from '../store/identityStore.js';
 import { CryptoService } from '../security/CryptoService.js';
 import { authApi } from '../services/authApi.js';
-import { LuxuryFluidBackground } from '../components/spatial/LuxuryFluidBackground.jsx';
-
-const containerVariants = { hidden: { opacity: 0 }, visible: { opacity: 1, transition: { staggerChildren: 0.05, delayChildren: 0.1, duration: 0.4 } } };
-const itemVariants = { hidden: { opacity: 0, scale: 0.95, filter: 'blur(10px)' }, visible: { opacity: 1, scale: 1, filter: 'blur(0px)', transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } } };
-const formTransition = { initial: { opacity: 0, y: 12, filter: 'blur(6px)' }, animate: { opacity: 1, y: 0, filter: 'blur(0px)', transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] } }, exit: { opacity: 0, y: -12, filter: 'blur(6px)', transition: { duration: 0.3 } } };
+const containerVariants = { hidden: { opacity: 0 }, visible: { opacity: 1, transition: { duration: 0.2 } } };
+const itemVariants = { hidden: { opacity: 0 }, visible: { opacity: 1, transition: { duration: 0.2 } } };
+const formTransition = { initial: { opacity: 0 }, animate: { opacity: 1, transition: { duration: 0.15 } }, exit: { opacity: 0, transition: { duration: 0.1 } } };
 
 function LoginPage() {
   const navigate = useNavigate();
@@ -113,7 +111,6 @@ function LoginPage() {
 
   return (
     <div className="login-page">
-      <LuxuryFluidBackground />
       <div className="login-container">
         <motion.div className="login-content" variants={containerVariants} initial="hidden" animate="visible">
           <motion.div variants={itemVariants} className="login-header">

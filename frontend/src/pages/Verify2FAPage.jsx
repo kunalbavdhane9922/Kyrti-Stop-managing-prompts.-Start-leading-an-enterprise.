@@ -7,7 +7,6 @@ import { authApi } from '../services/authApi.js';
 import { CryptoService } from '../security/CryptoService.js';
 import { useAuthStore } from '../store/authStore.js';
 import { useIdentityStore } from '../store/identityStore.js';
-import { LuxuryFluidBackground } from '../components/spatial/LuxuryFluidBackground.jsx';
 
 function Verify2FAPage() {
   const navigate = useNavigate();
@@ -99,7 +98,6 @@ function Verify2FAPage() {
 
   return (
     <div className="login-page">
-      <LuxuryFluidBackground />
       <div className="login-container">
         <motion.div className="login-content" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
           <div className="login-header">

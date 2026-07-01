@@ -6,7 +6,6 @@ import QRCode from 'qrcode';
 import { authApi } from '../services/authApi.js';
 import { Button } from '../components/common/Button.jsx';
 import { CopyToClipboard } from '../components/common/CopyToClipboard.jsx';
-import { LuxuryFluidBackground } from '../components/spatial/LuxuryFluidBackground.jsx';
 import { useAuthStore } from '../store/authStore.js';
 
 export function Setup2FAPage() {
@@ -76,7 +75,6 @@ export function Setup2FAPage() {
 
   return (
     <div className="login-page">
-      <LuxuryFluidBackground />
       <div className="login-container">
         <motion.div 
           className="login-content"
