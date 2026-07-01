@@ -1,0 +1,53 @@
+services:
+  # 1. API Gateway Entry Point
+  - type: web
+    name: saep-gateway
+    env: docker
+    dockerContext: ./backend
+    dockerfilePath: ./backend/Dockerfile
+    dockerArgs:
+      SERVICE_NAME: saep-gateway
+    envVars:
+      - key: SPRING_PROFILES_ACTIVE
+        value: prod
+      - key: SPRING_DATASOURCE_URL
+        fromDatabase:
+          name: saep-postgres
+          property: connectionString
+
+  # 2. Core Identity Microservice
+  - type: web
+    name: saep-identity
+    env: docker
+    dockerContext: ./backend
+    dockerfilePath: ./backend/Dockerfile
+    dockerArgs:
+      SERVICE_NAME: saep-identity
+    envVars:
+      - key: SPRING_PROFILES_ACTIVE
+        value: prod
+      - key: SPRING_DATASOURCE_URL
+        fromDatabase:
+          name: saep-postgres
+          property: connectionString
+
+  # 3. Company & Hierarchy Microservice
+  - type: web
+    name: saep-company
+    env: docker
+    dockerContext: ./backend
+    dockerfilePath: ./backend/Dockerfile
+    dockerArgs:
+      SERVICE_NAME: saep-company
+    envVars:
+      - key: SPRING_PROFILES_ACTIVE
+        value: prod
+      - key: SPRING_DATASOURCE_URL
+        fromDatabase:
+          name: saep-postgres
+          property: connectionString
+
+databases:
+  - name: saep-postgres
+    databaseName: saep_db
+    user: saep_user
