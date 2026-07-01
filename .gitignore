@@ -34,6 +34,9 @@ Thumbs.db
 # Media & Large Files
 *.mp4
 *.png
+!frontend/public/*.png
+!frontend/public/*.jpg
+!frontend/public/*.svg
 *.jpg
 *.jpeg
 *.gif
