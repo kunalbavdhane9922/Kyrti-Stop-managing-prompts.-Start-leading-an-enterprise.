@@ -1,8 +1,9 @@
-import { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
-import { Bell, LogOut, Clock, ChevronRight } from 'lucide-react';
+import { useState, useEffect, useRef } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { Bell, LogOut, Clock, ChevronRight, Video, Store, Calendar, X } from 'lucide-react';
 import { useAuthStore } from '../../store/authStore.js';
 import { useGovernanceStore } from '../../store/governanceStore.js';
+import { useMeetingStore } from '../../store/meetingStore.js';
 import { SessionGuard } from '../../security/SessionGuard.js';
 import { Button } from '../common/Button.jsx';
 import { Badge } from '../common/Badge.jsx';
@@ -11,7 +12,7 @@ import { AUDIT_ACTIONS } from '../../config/constants.js';
 
 /**
  * Sovereign Protocol — TopBar
- * Displays session timer, user info, and security status.
+ * Displays session timer, user info, security status, and meeting notifications.
  */
 function TopBar({ sidebarCollapsed }) {
   const user = useAuthStore(s => s.user);
@@ -19,7 +20,18 @@ function TopBar({ sidebarCollapsed }) {
   const logout = useAuthStore(s => s.logout);
   const blockerReports = useGovernanceStore(s => s.blockerReports);
   const location = useLocation();
+  const navigate = useNavigate();
   const [remainingSeconds, setRemainingSeconds] = useState(300);
+
+  // Meeting notifications
+  const notifications = useMeetingStore(s => s.notifications);
+  const showNotifications = useMeetingStore(s => s.showNotifications);
+  const toggleNotifications = useMeetingStore(s => s.toggleNotifications);
+  const closeNotifications = useMeetingStore(s => s.closeNotifications);
+  const markNotificationRead = useMeetingStore(s => s.markNotificationRead);
+  const markAllRead = useMeetingStore(s => s.markAllRead);
+  const unreadCount = notifications.filter(n => !n.read).length;
+  const dropdownRef = useRef(null);
 
   const unresolvedBlockers = blockerReports.filter(r => r.status === 'PAUSE_STATE').length;
 
@@ -30,6 +42,19 @@ function TopBar({ sidebarCollapsed }) {
     }, 1000);
     return () => clearInterval(interval);
   }, []);
+
+  // Close dropdown on outside click
+  useEffect(() => {
+    function handleClickOutside(e) {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+        closeNotifications();
+      }
+    }
+    if (showNotifications) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [showNotifications, closeNotifications]);
 
   const formatTime = (seconds) => {
     const m = Math.floor(seconds / 60);
@@ -42,6 +67,16 @@ function TopBar({ sidebarCollapsed }) {
     logout();
   };
 
+  const handleNotificationAction = (notif) => {
+    markNotificationRead(notif.id);
+    closeNotifications();
+    if (notif.meetingId) {
+      navigate(`/meeting-room/${notif.meetingId}`);
+    } else if (notif.type === 'marketplace') {
+      navigate('/marketplace');
+    }
+  };
+
   // Build breadcrumb from path
   const pathSegments = location.pathname.split('/').filter(Boolean);
   const breadcrumbLabels = {
@@ -51,6 +86,10 @@ function TopBar({ sidebarCollapsed }) {
     governance: 'Governance',
     audit: 'Audit & Security',
     onboarding: 'Trust Level',
+    marketplace: 'Marketplace',
+    meetings: 'Meetings',
+    'meeting-room': 'Meeting Room',
+    interview: 'Interview Room',
   };
 
   return (
@@ -93,6 +132,52 @@ function TopBar({ sidebarCollapsed }) {
             ENCRYPTION: AES-256 | STATUS: OPTIMAL | NODES: ACTIVE
           </span>
         </div>
+
+        {/* Meeting Notifications Bell */}
+        <div className="notification-bell-wrapper" ref={dropdownRef}>
+          <button className="notification-bell" onClick={toggleNotifications}>
+            <Bell size={18} />
+            {unreadCount > 0 && (
+              <span className="notification-badge">{unreadCount}</span>
+            )}
+          </button>
+
+          {showNotifications && (
+            <div className="notification-dropdown">
+              <div className="notification-dropdown-header">
+                <h4>Notifications</h4>
+                {unreadCount > 0 && (
+                  <button onClick={markAllRead}>Mark all read</button>
+                )}
+              </div>
+              <div className="notification-list">
+                {notifications.map(notif => (
+                  <div
+                    key={notif.id}
+                    className={`notification-item ${!notif.read ? 'unread' : ''}`}
+                    onClick={() => handleNotificationAction(notif)}
+                  >
+                    <div className={`notification-icon ${notif.type.includes('meeting') ? 'meeting' : 'marketplace'}`}>
+                      {notif.type.includes('meeting') ? <Video size={16} /> : <Store size={16} />}
+                    </div>
+                    <div className="notification-content">
+                      <h5>{notif.title}</h5>
+                      <p>{notif.subtitle}</p>
+                      <span className="time">{notif.time}</span>
+                    </div>
+                    <button
+                      className="notification-action"
+                      onClick={(e) => { e.stopPropagation(); handleNotificationAction(notif); }}
+                    >
+                      {notif.actionLabel}
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+
         {/* Session Timer */}
         <div className={`topbar-session ${isSessionWarning ? 'animate-glow-rose' : ''}`}
           style={isSessionWarning ? { borderColor: 'var(--color-accent-rose)', border: '1px solid' } : {}}>

@@ -18,6 +18,7 @@ import java.util.UUID;
 public class CompanyNodeEntity {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
     @Column(name = "build_id", nullable = false)
@@ -75,6 +76,7 @@ public class CompanyNodeEntity {
 
     @PrePersist
     protected void onCreate() {
+        if (id == null) id = UUID.randomUUID();
         if (createdAt == null) createdAt = LocalDateTime.now();
         if (updatedAt == null) updatedAt = LocalDateTime.now();
         if (groupCount == null) groupCount = 1;

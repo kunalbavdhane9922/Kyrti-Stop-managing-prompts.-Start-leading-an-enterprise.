@@ -2,6 +2,9 @@ $ScriptDir = $PSScriptRoot
 if (-not $ScriptDir) {
     $ScriptDir = Split-Path -Parent $MyInvocation.MyCommand.Definition
 }
+if ((Split-Path -Leaf $ScriptDir) -eq "scripts" -and (Test-Path (Join-Path $ScriptDir "..\backend"))) {
+    $ScriptDir = (Resolve-Path (Join-Path $ScriptDir "..")).Path
+}
 Set-Location $ScriptDir
 
 Write-Host "=======================================================" -ForegroundColor Cyan
@@ -33,7 +36,7 @@ if ($nodeProcs) {
 }
 
 Write-Host "`nStopping Docker infrastructure..." -ForegroundColor Yellow
-docker compose down
+docker compose -f infrastructure\docker\docker-compose.yml down
 
 Write-Host "`n=======================================================" -ForegroundColor Cyan
 Write-Host " Shutdown Complete. $killed background processes killed. " -ForegroundColor Green

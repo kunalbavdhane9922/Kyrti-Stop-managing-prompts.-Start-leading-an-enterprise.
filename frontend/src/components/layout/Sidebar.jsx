@@ -2,7 +2,7 @@ import { NavLink, useLocation } from 'react-router-dom';
 import {
   Shield, Landmark, Users, BarChart3, Lock,
   Fingerprint, ChevronLeft, ChevronRight, Layers,
-  Bot, Store, DollarSign, Box, GitPullRequestDraft, Search, Building2, PieChart
+  Bot, Store, DollarSign, Box, GitPullRequestDraft, Search, Building2, PieChart, Calendar
 } from 'lucide-react';
 import { useAuthStore } from '../../store/authStore.js';
 import { Badge } from '../common/Badge.jsx';
@@ -24,6 +24,7 @@ function Sidebar({ collapsed, onToggle }) {
     { path: '/reports', label: 'Intelligence Reports', icon: PieChart },
     { path: '/agents', label: 'Agent OS', icon: Bot },
     { path: '/marketplace', label: 'Marketplace', icon: Store },
+    { path: '/meetings', label: 'Meetings', icon: Calendar },
     { path: '/service-fees', label: 'Service Fees', icon: DollarSign },
     { path: '/virtual-office', label: 'Virtual Office', icon: Building2 },
   ];

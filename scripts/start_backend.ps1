@@ -1,6 +1,11 @@
+param([switch]$KeepAlive)
+
 $ScriptDir = $PSScriptRoot
 if (-not $ScriptDir) {
     $ScriptDir = Split-Path -Parent $MyInvocation.MyCommand.Definition
+}
+if ((Split-Path -Leaf $ScriptDir) -eq "scripts" -and (Test-Path (Join-Path $ScriptDir "..\backend"))) {
+    $ScriptDir = (Resolve-Path (Join-Path $ScriptDir "..")).Path
 }
 Set-Location $ScriptDir
 
@@ -17,6 +22,7 @@ if (-not $JavaCmd) {
     exit 1
 }
 $JavaExe = $JavaCmd.Source
+$env:JAVA_HOME = Split-Path -Parent (Split-Path -Parent $JavaExe)
 
 $NpmCmd = Get-Command npm -ErrorAction SilentlyContinue
 if (-not $NpmCmd) {
@@ -67,14 +73,29 @@ if ($LASTEXITCODE -eq 0) {
 if (-not $dockerReady) {
     Write-Host "Proceeding without Docker. Note: Services may crash if they cannot connect to databases or Kafka." -ForegroundColor Yellow
 } else {
-    Write-Host "Starting infrastructure with infrastructure\docker\docker-compose..."
-    docker compose up -d
+    Write-Host "Starting infrastructure with infrastructure\docker\docker-compose.yml..."
+    docker compose -f infrastructure\docker\docker-compose.yml up -d
     if ($LASTEXITCODE -ne 0) {
         Write-Host "Docker compose failed." -ForegroundColor Red
         exit 1
     }
     Write-Host "Waiting for infrastructure to initialize..."
     Start-Sleep -Seconds 15
+    Write-Host "Waiting for PostgreSQL container to become ready..."
+    for ($i = 0; $i -lt 15; $i++) {
+        docker exec saep-postgres pg_isready -U postgres 2>$null
+        if ($LASTEXITCODE -eq 0) { break }
+        Start-Sleep -Seconds 2
+    }
+    Write-Host "Verifying required PostgreSQL databases exist..."
+    $dbs = @("saep_identity", "saep_company", "saep_organization", "saep_workforce", "saep_marketplace", "saep_governance", "saep_workflow", "saep_communication", "saep_memory")
+    foreach ($db in $dbs) {
+        $exists = docker exec saep-postgres psql -U postgres -tAc "SELECT 1 FROM pg_database WHERE datname = '$db'" 2>$null
+        if ($exists -ne "1") {
+            Write-Host "Creating missing database: $db..." -ForegroundColor Yellow
+            docker exec saep-postgres psql -U postgres -c "CREATE DATABASE $db;" 2>$null
+        }
+    }
 }
 
 # 3. Environment Variables
@@ -209,8 +230,8 @@ function Start-Microservice {
 }
 
 $svcs = @()
-$svcs += Start-Microservice -Name "Gateway" -JarPath "backend\services\saep-gateway\target\backend\services\saep-gateway-1.0.0-SNAPSHOT-exec.jar" -LogName "gateway.log"
-$svcs += Start-Microservice -Name "Identity" -JarPath "backend\services\saep-identity\target\backend\services\saep-identity-1.0.0-SNAPSHOT-exec.jar" -LogName "identity.log"
+$svcs += Start-Microservice -Name "Gateway" -JarPath "backend\services\saep-gateway\target\saep-gateway-1.0.0-SNAPSHOT-exec.jar" -LogName "gateway.log"
+$svcs += Start-Microservice -Name "Identity" -JarPath "backend\services\saep-identity\target\saep-identity-1.0.0-SNAPSHOT-exec.jar" -LogName "identity.log"
 $svcs += Start-Microservice -Name "Company" -JarPath "backend\services\saep-company\target\saep-company-1.0.0-SNAPSHOT-exec.jar" -LogName "company.log"
 $svcs += Start-Microservice -Name "Organization" -JarPath "backend\services\saep-organization\target\saep-organization-1.0.0-SNAPSHOT-exec.jar" -LogName "organization.log"
 $svcs += Start-Microservice -Name "Workforce" -JarPath "backend\services\saep-workforce\target\saep-workforce-1.0.0-SNAPSHOT-exec.jar" -LogName "workforce.log"
@@ -303,4 +324,11 @@ if ($backendSuccess -and $feStarted) {
     Write-Host " STARTUP COMPLETED WITH ERRORS! " -ForegroundColor Red
     Write-Host "=======================================================" -ForegroundColor Cyan
     Write-Host "Not all services started successfully. Check the console and logs for details." -ForegroundColor Yellow
+}
+
+if ($KeepAlive) {
+    Write-Host "KeepAlive flag detected. Holding process open to keep background jobs alive..." -ForegroundColor Cyan
+    while ($true) {
+        Start-Sleep -Seconds 60
+    }
 }

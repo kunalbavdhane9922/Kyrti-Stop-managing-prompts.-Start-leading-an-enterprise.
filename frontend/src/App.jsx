@@ -16,6 +16,9 @@ import { ServiceFeePage } from './pages/ServiceFeePage.jsx';
 import { IntroductionPage } from './pages/IntroductionPage.jsx';
 import { MembersPage } from './pages/MembersPage.jsx';
 import InvitePage from './pages/InvitePage.jsx';
+import { InterviewRoomPage } from './pages/InterviewRoomPage.jsx';
+import { MeetingSchedulePage } from './pages/MeetingSchedulePage.jsx';
+const MeetingRoomPage = lazy(() => import('./pages/MeetingRoomPage.jsx'));
 const SpatialWorkspacePage = lazy(() => import('./pages/SpatialWorkspacePage.jsx').then(m => ({ default: m.SpatialWorkspacePage })));
 const VirtualOfficePage = lazy(() => import('./pages/VirtualOfficePage.jsx'));
 import { DPEPipelinePage } from './pages/DPEPipelinePage.jsx';
@@ -119,6 +122,10 @@ function App() {
           <Route path="/introduction" element={<PrivateRoute isInitializing={isInitializing}><IntroductionPage /></PrivateRoute>} />
           <Route path="/members" element={<PrivateRoute isInitializing={isInitializing}><MembersPage /></PrivateRoute>} />
 
+          {/* Private: Fullscreen Meeting Rooms (outside AppShell for immersive experience) */}
+          <Route path="/interview/:professionalId" element={<PrivateRoute isInitializing={isInitializing}><InterviewRoomPage /></PrivateRoute>} />
+          <Route path="/meeting-room/:meetingId" element={<PrivateRoute isInitializing={isInitializing}><Suspense fallback={<div style={{display:'flex',alignItems:'center',justifyContent:'center',height:'100vh',background:'#1a1a2e',color:'#e8eaed'}}>Loading meeting room...</div>}><MeetingRoomPage /></Suspense></PrivateRoute>} />
+
           {/* Private: App Shell with nested routes */}
           <Route
             element={
@@ -138,6 +145,7 @@ function App() {
             <Route path="/marketplace" element={<MarketplacePage />} />
             <Route path="/service-fees" element={<ServiceFeePage />} />
             <Route path="/reports" element={<ReportsPage />} />
+            <Route path="/meetings" element={<MeetingSchedulePage />} />
             {/* Module 3: Spatial Workspace (lazy-loaded for performance) */}
             <Route path="/spatial" element={<Suspense fallback={<div style={{display:'flex',alignItems:'center',justifyContent:'center',height:'80vh',color:'#64748b'}}>Loading 3D workspace...</div>}><SpatialWorkspacePage /></Suspense>} />
             <Route path="/virtual-office" element={<Suspense fallback={<div style={{display:'flex',alignItems:'center',justifyContent:'center',height:'80vh',color:'#64748b'}}>Loading Virtual Office...</div>}><VirtualOfficePage /></Suspense>} />

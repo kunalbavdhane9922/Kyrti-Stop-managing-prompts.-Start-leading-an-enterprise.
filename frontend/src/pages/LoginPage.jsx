@@ -64,6 +64,10 @@ function LoginPage() {
           tenantId
         });
         useIdentityStore.getState().completeLayerA('email');
+        if (tenantId) {
+          sessionStorage.setItem('sovereign_active_tenant', tenantId);
+          sessionStorage.setItem('sovereign_last_tenant', tenantId);
+        }
         
         if (!tenantId) {
           navigate('/create-workspace');

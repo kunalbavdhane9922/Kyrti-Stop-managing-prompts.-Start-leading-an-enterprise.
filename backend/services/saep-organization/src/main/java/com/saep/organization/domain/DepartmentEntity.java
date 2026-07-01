@@ -39,6 +39,7 @@ public class DepartmentEntity {
 
     @PrePersist
     protected void onCreate() {
+        if (id == null) id = UUID.randomUUID();
         if (isCustom == null) isCustom = false;
         if (sortOrder == null) sortOrder = 0;
     }
