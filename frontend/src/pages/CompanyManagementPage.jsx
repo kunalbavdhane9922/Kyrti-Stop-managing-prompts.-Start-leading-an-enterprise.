@@ -634,27 +634,27 @@ export function CompanyManagementPage() {
             nodeTypes={nodeTypes}
             fitView
             fitViewOptions={{ padding: 0.2 }}
-            connectionLineStyle={{ stroke: '#F13223', strokeWidth: 2 }}
+            connectionLineStyle={{ stroke: '#FF5C00', strokeWidth: 2 }}
             defaultEdgeOptions={{
               type: 'smoothstep',
-              markerEnd: { type: MarkerType.ArrowClosed, width: 12, height: 12, color: 'rgba(255,255,255,0.2)' },
-              style: { stroke: 'rgba(255,255,255,0.15)', strokeWidth: 1.5 },
+              markerEnd: { type: MarkerType.ArrowClosed, width: 12, height: 12, color: '#94A3B8' },
+              style: { stroke: '#94A3B8', strokeWidth: 1.5 },
             }}
           >
-            <Background color="#222" gap={20} size={1} />
+            <Background color="#CBD5E1" gap={20} size={1} />
             <Controls
               showInteractive={false}
-              style={{ background: 'rgba(0,0,0,0.6)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8 }}
+              style={{ background: '#FFFFFF', border: '1px solid rgba(0,0,0,0.1)', borderRadius: 8, boxShadow: '0 2px 6px rgba(0,0,0,0.05)' }}
             />
             <MiniMap
-              style={{ background: '#111', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 8 }}
+              style={{ background: '#FFFFFF', border: '1px solid rgba(0,0,0,0.1)', borderRadius: 8, boxShadow: '0 2px 6px rgba(0,0,0,0.05)' }}
               nodeColor={(n) => {
                 const ot = n.data?.occupantType;
-                if (ot === 'HUMAN') return '#22c55e';
-                if (ot === 'AI' || ot === 'AI_VACANT') return '#3b82f6';
-                return '#555';
+                if (ot === 'HUMAN') return '#16A34A';
+                if (ot === 'AI' || ot === 'AI_VACANT') return '#FF5C00';
+                return '#94A3B8';
               }}
-              maskColor="rgba(0,0,0,0.7)"
+              maskColor="rgba(241, 245, 249, 0.7)"
             />
           </ReactFlow>
         )}
