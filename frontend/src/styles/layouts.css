@@ -42,13 +42,14 @@
   left: 0;
   width: var(--sidebar-width);
   height: 100vh;
-  background: var(--color-bg-secondary);
-  border-right: 1px solid var(--color-border-primary);
+  background: #FFFFFF;
+  border-right: 1px solid rgba(0, 0, 0, 0.06);
   display: flex;
   flex-direction: column;
   z-index: var(--z-sticky);
   transition: width var(--transition-fast);
   overflow: hidden;
+  box-shadow: 4px 0 16px rgba(0, 0, 0, 0.03);
 }
 
 .sidebar.collapsed {
@@ -65,15 +66,16 @@
 }
 
 .sidebar-logo-icon {
-  width: 24px;
-  height: 24px;
+  width: 32px;
+  height: 32px;
   flex-shrink: 0;
-  background: var(--color-accent-blue);
-  border-radius: var(--radius-sm);
+  background: linear-gradient(135deg, #FF5C00, #FF8A00);
+  border-radius: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
   color: white;
+  box-shadow: 0 3px 8px rgba(255, 92, 0, 0.25);
 }
 
 .sidebar-logo-text {
@@ -122,14 +124,16 @@
 }
 
 .sidebar-link:hover {
-  background: var(--color-bg-hover);
-  color: var(--color-text-primary);
+  background: rgba(255, 92, 0, 0.06);
+  color: #FF5C00;
 }
 
 .sidebar-link.active {
-  background: var(--color-bg-hover);
-  color: var(--color-accent-blue);
+  background: rgba(255, 92, 0, 0.08);
+  color: #FF5C00;
   font-weight: var(--font-semibold);
+  border-left: 3px solid #FF5C00;
+  padding-left: calc(var(--space-3) - 3px);
 }
 
 .sidebar-link-icon {
@@ -150,8 +154,8 @@
 
 .sidebar-footer {
   padding: var(--space-4) var(--space-3);
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-  background: rgba(255, 255, 255, 0.02);
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+  background: #F8FAFC;
 }
 
 .sidebar-tier-indicator {
@@ -200,14 +204,17 @@
   right: 0;
   left: var(--sidebar-width);
   height: var(--topbar-height);
-  background: var(--color-bg-secondary);
-  border-bottom: 1px solid var(--color-border-primary);
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 var(--space-8);
   z-index: var(--z-sticky);
   transition: left var(--transition-fast);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.03);
 }
 
 .topbar.sidebar-collapsed {

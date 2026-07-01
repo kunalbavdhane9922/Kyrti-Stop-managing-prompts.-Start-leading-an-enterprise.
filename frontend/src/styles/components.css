@@ -30,29 +30,32 @@
 }
 
 .btn-primary {
-  background: #121212;
+  background: #FF5C00;
   color: #FFFFFF;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 14px rgba(255, 92, 0, 0.25);
+  border-radius: var(--radius-full);
 }
 
 .btn-primary:hover:not(:disabled) {
-  background: #2a2a2a;
+  background: #FF7A00;
   transform: translateY(-1px);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 6px 20px rgba(255, 92, 0, 0.35);
 }
 
 /* Button shimmer removed for performance */
 
 .btn-secondary {
-  background: var(--color-bg-secondary);
-  color: var(--color-text-primary);
-  border-color: var(--color-border-primary);
+  background: #FFFFFF;
+  color: #0F172A;
+  border: 1px solid rgba(0, 0, 0, 0.1);
   box-shadow: var(--shadow-sm);
+  border-radius: var(--radius-full);
 }
 
 .btn-secondary:hover:not(:disabled) {
-  background: var(--color-bg-hover);
-  border-color: var(--color-border-secondary);
+  background: #F8FAFC;
+  border-color: rgba(255, 92, 0, 0.3);
+  color: #FF5C00;
 }
 
 .btn-ghost {
