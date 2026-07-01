@@ -21,8 +21,8 @@ export default function MeetingRoomPage() {
   const navigate = useNavigate();
   const meeting = getMeetingById(meetingId);
 
-  const [isMicOn, setIsMicOn] = useState(true);
-  const [isCameraOn, setIsCameraOn] = useState(true);
+  const [isMicOn, setIsMicOn] = useState(false);
+  const [isCameraOn, setIsCameraOn] = useState(false);
   const [showTranscript, setShowTranscript] = useState(true);
   const [transcript, setTranscript] = useState([]);
   const [userInput, setUserInput] = useState('');
@@ -85,70 +85,25 @@ export default function MeetingRoomPage() {
     return () => clearInterval(timer);
   }, [hasJoined]);
 
-  // Auto-play conversation script
-  useEffect(() => {
-    if (!hasJoined) return;
-    if (!meeting?.scriptKey || !MEETING_SCRIPTS[meeting.scriptKey]) return;
-    const script = MEETING_SCRIPTS[meeting.scriptKey];
-    
-    const timers = [];
-
-    script.forEach((line, idx) => {
-      const timer = setTimeout(() => {
-        const speaker = getProfessionalById(line.speaker);
-        if (!speaker) return;
-
-        // Add to transcript
-        setTranscript(prev => [...prev, {
-          sender: speaker.name,
-          senderId: speaker.id,
-          profession: speaker.profession,
-          text: line.text,
-          time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-          isUser: false,
-        }]);
-
-        // Add to meeting notes
-        setMeetingNotes(prev => [...prev, `${speaker.name}: ${line.text.substring(0, 80)}...`]);
-
-        // Speak with voice synthesis
-        speakAsAgent(speaker, line.text);
-
-        setScriptIndex(idx + 1);
-      }, line.delay);
-
-      timers.push(timer);
-    });
-
-    return () => {
-      timers.forEach(t => clearTimeout(t));
-      window.speechSynthesis?.cancel();
-    };
-  }, [meeting, hasJoined]);
-
-  // Scroll transcript
-  useEffect(() => {
-    transcriptEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [transcript]);
-
-  const formatTime = (seconds) => {
-    const m = Math.floor(seconds / 60);
-    const s = seconds % 60;
-    return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
-  };
-
-  const speakAsAgent = useCallback((agent, text) => {
-    if (!('speechSynthesis' in window)) return;
+  const speakAsAgent = useCallback((agent, text, onFinish) => {
+    if (!('speechSynthesis' in window)) {
+      if (onFinish) onFinish();
+      return;
+    }
     window.speechSynthesis.cancel();
 
     const utterance = new SpeechSynthesisUtterance(text);
-    window._lastUtterance = utterance; // Prevent garbage collection bug in Chrome
+    window._activeUtterances = window._activeUtterances || [];
+    window._activeUtterances.push(utterance);
 
     const voices = voicesRef.current.length > 0 ? voicesRef.current : window.speechSynthesis.getVoices();
     if (voices.length > 0) {
-      const englishVoice = voices.find(v => v.lang.startsWith('en') && v.name.includes('Google')) ||
-                          voices.find(v => v.lang.startsWith('en')) || voices[0];
-      utterance.voice = englishVoice;
+      const enVoices = voices.filter(v => v.lang.toLowerCase().startsWith('en') || v.lang.toLowerCase().includes('en'));
+      const pool = enVoices.length > 0 ? enVoices : voices;
+      let hash = 0;
+      const str = agent?.id || agent?.name || 'default';
+      for (let i = 0; i < str.length; i++) hash += str.charCodeAt(i);
+      utterance.voice = pool[hash % pool.length];
     }
 
     const domainVoiceMap = {
@@ -162,16 +117,92 @@ export default function MeetingRoomPage() {
       data: { pitch: 1.0, rate: 0.95 },
       legal: { pitch: 0.85, rate: 0.9 },
     };
-    const voiceConfig = domainVoiceMap[agent.domain] || { pitch: 1.0, rate: 1.0 };
+    const voiceConfig = domainVoiceMap[agent?.domain] || { pitch: 1.0, rate: 1.0 };
     utterance.pitch = voiceConfig.pitch;
     utterance.rate = voiceConfig.rate;
     utterance.volume = 1;
 
-    utterance.onstart = () => setSpeakingId(agent.id);
-    utterance.onend = () => setSpeakingId(null);
+    let finished = false;
+    const cleanupAndFinish = () => {
+      if (finished) return;
+      finished = true;
+      clearTimeout(safetyTimer);
+      setSpeakingId(null);
+      const idx = window._activeUtterances?.indexOf(utterance);
+      if (idx !== -1 && idx !== undefined) window._activeUtterances.splice(idx, 1);
+      if (onFinish) onFinish();
+    };
+
+    // Calculate dynamic fallback timeout based on speaking speed (~12 chars/second) plus buffer
+    const safetyTimer = setTimeout(cleanupAndFinish, Math.max(3500, (text.length / 12) * 1000 + 2500));
+    utterance.onstart = () => setSpeakingId(agent?.id);
+    utterance.onend = cleanupAndFinish;
+    utterance.onerror = cleanupAndFinish;
 
     window.speechSynthesis.speak(utterance);
   }, []);
+
+  // Auto-play conversation script sequentially without audio collisions
+  useEffect(() => {
+    if (!hasJoined) return;
+    if (!meeting?.scriptKey || !MEETING_SCRIPTS[meeting.scriptKey]) return;
+    const script = MEETING_SCRIPTS[meeting.scriptKey];
+    
+    let isCancelled = false;
+    let currentIdx = 0;
+
+    const playNextLine = () => {
+      if (isCancelled || currentIdx >= script.length) return;
+      const line = script[currentIdx];
+      const speaker = getProfessionalById(line.speaker);
+      currentIdx++;
+      setScriptIndex(currentIdx);
+
+      if (!speaker) {
+        setTimeout(playNextLine, 1000);
+        return;
+      }
+
+      // Add to transcript
+      setTranscript(prev => [...prev, {
+        sender: speaker.name,
+        senderId: speaker.id,
+        profession: speaker.profession,
+        text: line.text,
+        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        isUser: false,
+      }]);
+
+      // Add to meeting notes
+      setMeetingNotes(prev => [...prev, `${speaker.name}: ${line.text.substring(0, 80)}...`]);
+
+      // Speak line and wait for audio completion before speaking next line
+      speakAsAgent(speaker, line.text, () => {
+        if (!isCancelled) {
+          setTimeout(playNextLine, 1500); // 1.5s pause between speakers
+        }
+      });
+    };
+
+    const initialTimer = setTimeout(playNextLine, 1200);
+
+    return () => {
+      isCancelled = true;
+      clearTimeout(initialTimer);
+      window.speechSynthesis?.cancel();
+    };
+  }, [meeting, hasJoined, speakAsAgent]);
+
+  // Scroll transcript
+  useEffect(() => {
+    transcriptEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [transcript]);
+
+  const formatTime = (seconds) => {
+    const m = Math.floor(seconds / 60);
+    const s = seconds % 60;
+    return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+  };
 
   const handleSendMessage = useCallback(() => {
     if (!userInput.trim()) return;
@@ -224,10 +255,10 @@ export default function MeetingRoomPage() {
 
   if (!meeting) {
     return (
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh', background: '#1a1a2e', color: '#e8eaed' }}>
-        <div style={{ textAlign: 'center' }}>
-          <h2>Meeting not found</h2>
-          <button onClick={() => navigate('/meetings')} style={{ marginTop: 16, padding: '10px 24px', background: '#1a73e8', border: 'none', borderRadius: 8, color: '#fff', cursor: 'pointer' }}>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh', background: '#F8FAFC', color: '#0F172A' }}>
+        <div style={{ textAlign: 'center', background: '#FFFFFF', padding: '40px', borderRadius: '20px', border: '1px solid #E2E8F0', boxShadow: '0 10px 30px rgba(0,0,0,0.05)' }}>
+          <h2 style={{ marginBottom: 12 }}>Meeting not found</h2>
+          <button onClick={() => navigate('/meetings')} style={{ marginTop: 16, padding: '10px 24px', background: '#FF5C00', border: 'none', borderRadius: 8, color: '#fff', cursor: 'pointer', fontWeight: 600 }}>
             Back to Meetings
           </button>
         </div>
@@ -237,22 +268,25 @@ export default function MeetingRoomPage() {
 
   if (!hasJoined) {
     return (
-      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100vh', background: '#1a1a2e', color: '#e8eaed' }}>
-        <h2 style={{ marginBottom: 24, fontSize: '28px' }}>Ready to join?</h2>
-        <p style={{ marginBottom: 32, color: '#a0aabf' }}>You are joining: {meeting.title}</p>
-        <button 
-          onClick={() => {
-            // Unlock audio context synchronously
-            if ('speechSynthesis' in window) {
-              window.speechSynthesis.speak(new SpeechSynthesisUtterance(''));
-            }
-            setHasJoined(true);
-          }} 
-          style={{ padding: '12px 32px', fontSize: '16px', background: '#1a73e8', border: 'none', borderRadius: 8, color: '#fff', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 8 }}
-        >
-          <Video size={20} />
-          Join Meeting
-        </button>
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100vh', background: '#F8FAFC', color: '#0F172A' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', background: '#FFFFFF', padding: '48px 64px', borderRadius: '24px', border: '1px solid #E2E8F0', boxShadow: '0 12px 36px rgba(0,0,0,0.06)' }}>
+          <img src="/main_logo.png" alt="Kyrti" style={{ width: '56px', height: '56px', marginBottom: 20, objectFit: 'contain' }} />
+          <h2 style={{ marginBottom: 12, fontSize: '26px', fontWeight: 800, color: '#0F172A' }}>Ready to join?</h2>
+          <p style={{ marginBottom: 32, color: '#64748B', fontSize: '15px' }}>You are joining: <strong style={{color: '#0F172A'}}>{meeting.title}</strong></p>
+          <button 
+            onClick={() => {
+              // Unlock audio context synchronously
+              if ('speechSynthesis' in window) {
+                window.speechSynthesis.speak(new SpeechSynthesisUtterance(''));
+              }
+              setHasJoined(true);
+            }} 
+            style={{ padding: '14px 36px', fontSize: '15px', fontWeight: 700, background: 'linear-gradient(135deg, #FF5C00, #FF8A00)', border: 'none', borderRadius: '99px', color: '#fff', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 10, boxShadow: '0 4px 14px rgba(255, 92, 0, 0.3)' }}
+          >
+            <Video size={18} />
+            Join Meeting
+          </button>
+        </div>
       </div>
     );
   }

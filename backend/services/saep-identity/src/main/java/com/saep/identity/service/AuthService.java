@@ -84,10 +84,11 @@ public class AuthService {
             userRepository.save(user);
             auditEventService.emit(AuditEventService.EventType.LOGIN_SUCCESS, user.getId().toString(), Map.of("device", deviceId));
 
+            /* Temporarily disabled 2FA check per user request
             if (user.isTwoFactorEnabled()) {
                 String l1Token = jwtService.generatePartialToken(user.getId(), "2fa", 5);
                 return new AuthResult(user, null, null, l1Token, true, false);
-            }
+            } */
 
             // No 2FA, issue L2 token directly
             String l2Token = jwtService.generatePartialToken(user.getId(), "tenant-selection", 5);

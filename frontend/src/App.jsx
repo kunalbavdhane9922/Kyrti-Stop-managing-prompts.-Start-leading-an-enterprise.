@@ -49,9 +49,9 @@ function PrivateRoute({ children, isInitializing }) {
   
   if (isInitializing) {
     return (
-      <div style={{display:'flex',alignItems:'center',justifyContent:'center',height:'100vh',background:'#000000',color:'#E4E2DD'}}>
+      <div style={{display:'flex',alignItems:'center',justifyContent:'center',height:'100vh',background:'#F8FAFC',color:'#0F172A'}}>
         <div style={{display:'flex',flexDirection:'column',alignItems:'center',gap:'16px'}}>
-          <div style={{width:'32px',height:'32px',border:'3px solid #E4E2DD',borderTopColor:'#F13223',borderRadius:'50%',animation:'spin 1s linear infinite'}} />
+          <div style={{width:'32px',height:'32px',border:'3px solid #E2E8F0',borderTopColor:'#FF5C00',borderRadius:'50%',animation:'spin 1s linear infinite'}} />
           <div style={{fontWeight:'500'}}>Restoring session...</div>
           <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
         </div>
@@ -59,10 +59,10 @@ function PrivateRoute({ children, isInitializing }) {
     );
   }
 
-  if (!isAuthenticated) return <Navigate to="/login" replace />;
-  if (user && !user.twoFactorEnabled && location.pathname !== '/setup-2fa') {
+  // Temporarily disabled 2FA verification enforcement per user request
+  /* if (user && !user.twoFactorEnabled && location.pathname !== '/setup-2fa') {
     return <Navigate to="/setup-2fa" replace />;
-  }
+  } */
   return children;
 }
 
@@ -124,7 +124,7 @@ function App() {
 
           {/* Private: Fullscreen Meeting Rooms (outside AppShell for immersive experience) */}
           <Route path="/interview/:professionalId" element={<PrivateRoute isInitializing={isInitializing}><InterviewRoomPage /></PrivateRoute>} />
-          <Route path="/meeting-room/:meetingId" element={<PrivateRoute isInitializing={isInitializing}><Suspense fallback={<div style={{display:'flex',alignItems:'center',justifyContent:'center',height:'100vh',background:'#1a1a2e',color:'#e8eaed'}}>Loading meeting room...</div>}><MeetingRoomPage /></Suspense></PrivateRoute>} />
+          <Route path="/meeting-room/:meetingId" element={<PrivateRoute isInitializing={isInitializing}><Suspense fallback={<div style={{display:'flex',alignItems:'center',justifyContent:'center',height:'100vh',background:'#F8FAFC',color:'#0F172A'}}>Loading meeting room...</div>}><MeetingRoomPage /></Suspense></PrivateRoute>} />
 
           {/* Private: App Shell with nested routes */}
           <Route

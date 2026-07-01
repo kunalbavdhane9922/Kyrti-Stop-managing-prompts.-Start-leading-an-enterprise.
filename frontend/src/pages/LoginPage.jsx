@@ -1,6 +1,6 @@
 import { useState, useCallback, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Shield, Lock, Mail, KeyRound, ArrowRight, UserPlus, LogIn, Eye, EyeOff } from 'lucide-react';
+import { Shield, Lock, Mail, KeyRound, ArrowRight, UserPlus, LogIn, Eye, EyeOff, ArrowLeft } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '../components/common/Button.jsx';
 import { useAuthStore } from '../store/authStore.js';
@@ -69,9 +69,8 @@ function LoginPage() {
         
         if (!tenantId) {
           navigate('/create-workspace');
-        } else if (!selResult.data.user.twoFactorEnabled) {
-          navigate('/setup-2fa');
         } else {
+          // Temporarily disabled 2FA verification per user request
           navigate('/dashboard');
         }
       }
@@ -111,6 +110,33 @@ function LoginPage() {
 
   return (
     <div className="login-page">
+      <button
+        type="button"
+        onClick={() => navigate('/')}
+        style={{
+          position: 'absolute',
+          top: '24px',
+          left: '24px',
+          display: 'inline-flex',
+          alignItems: 'center',
+          gap: '8px',
+          padding: '10px 18px',
+          background: '#FFFFFF',
+          border: '1px solid var(--color-border-primary)',
+          borderRadius: '99px',
+          color: 'var(--color-text-primary)',
+          fontSize: '14px',
+          fontWeight: '600',
+          cursor: 'pointer',
+          boxShadow: '0 4px 12px rgba(0,0,0,0.05)',
+          transition: 'all 0.2s ease',
+          zIndex: 100
+        }}
+        onMouseOver={e => { e.currentTarget.style.borderColor = '#FF5C00'; e.currentTarget.style.color = '#FF5C00'; }}
+        onMouseOut={e => { e.currentTarget.style.borderColor = 'var(--color-border-primary)'; e.currentTarget.style.color = 'var(--color-text-primary)'; }}
+      >
+        <ArrowLeft size={16} /> Back to Intro
+      </button>
       <div className="login-container">
         <motion.div className="login-content" variants={containerVariants} initial="hidden" animate="visible">
           <motion.div variants={itemVariants} className="login-header">

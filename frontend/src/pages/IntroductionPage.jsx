@@ -87,8 +87,8 @@ export function IntroductionPage() {
 
   const faqData = [
     {
-      q: "What is the Sovereign AI Enterprise Protocol (SAEP)?",
-      a: "SAEP (Kyrti) is an advanced, microservices-based operating system designed to run human-governed companies using AI-native Digital Professionals. Instead of isolated chatbots, SAEP builds a structured digital workforce executing business tasks."
+      q: "What is the Kyrti AI Enterprise Protocol?",
+      a: "Kyrti is an advanced, microservices-based operating system designed to run human-governed companies using AI-native Digital Professionals. Instead of isolated chatbots, Kyrti builds a structured digital workforce executing business tasks."
     },
     {
       q: "How does the 'Humans Govern, AI Operates' model work?",
