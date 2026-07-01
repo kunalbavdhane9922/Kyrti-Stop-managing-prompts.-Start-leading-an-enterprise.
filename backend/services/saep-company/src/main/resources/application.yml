@@ -5,9 +5,10 @@ spring:
   application:
     name: saep-company
   datasource:
-    url: jdbc:postgresql://localhost:5432/saep_company
-    username: postgres
-    password: password
+    url: jdbc:postgresql://${POSTGRES_HOST:localhost}:${POSTGRES_PORT:5432}/${POSTGRES_DB:saep_company}
+    username: ${POSTGRES_USER:postgres}
+    password: ${POSTGRES_PASSWORD:password}
+    driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
       ddl-auto: update

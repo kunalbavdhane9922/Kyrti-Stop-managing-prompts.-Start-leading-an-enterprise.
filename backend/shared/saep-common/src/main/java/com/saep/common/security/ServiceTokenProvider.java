@@ -13,7 +13,7 @@ import java.util.UUID;
 @Component
 public class ServiceTokenProvider {
 
-    @Value("${jwt.secret}")
+    @Value("${jwt.secret:z+y9w1XfR/qj5H+c8V2P4mK7s9tL6bN3yQ1w8Z4c5vA=}")
     private String jwtSecret;
 
     private static final long EXPIRATION_MS = 60000; // 1 minute for internal tokens
