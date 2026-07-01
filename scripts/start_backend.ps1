@@ -238,6 +238,16 @@ $svcs += Start-Microservice -Name "Workforce" -JarPath "backend\services\saep-wo
 # $svcs += Start-Microservice -Name "Marketplace" -JarPath "backend\services\saep-marketplace\target\saep-marketplace-1.0.0-SNAPSHOT-exec.jar" -LogName "marketplace.log"
 $backendSuccess = ($svcs -notcontains $false) -and ($svcs -notcontains $null)
 
+# Launch Virtual Office Server (FastAPI on Port 8000)
+Write-Host "Starting Virtual Office Server (FastAPI on Port 8000)..."
+$voServerDir = Join-Path $ScriptDir "virtual office\virtual-office-server"
+if (Test-Path $voServerDir) {
+    $voServerLog = Join-Path $ScriptDir "virtual_office_server.log"
+    if (Test-Path $voServerLog) { Remove-Item $voServerLog -Force -ErrorAction SilentlyContinue }
+    $cmdArgs = "/c `" py -m uvicorn main:app --host 0.0.0.0 --port 8000 > `"..\..\virtual_office_server.log`" 2>&1 `""
+    Start-Process -FilePath "cmd.exe" -ArgumentList $cmdArgs -WorkingDirectory $voServerDir -WindowStyle Hidden
+}
+
 # Launch Frontend
 Write-Host "Starting Frontend (React)..."
 $feLog = Join-Path $ScriptDir "frontend.log"

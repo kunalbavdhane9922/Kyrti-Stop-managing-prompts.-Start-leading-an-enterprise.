@@ -1,0 +1,17 @@
+{
+  "name": "kyrti-fhenix-contracts",
+  "version": "1.0.0",
+  "description": "Confidential EVM Smart Contracts powered by Fhenix Fully Homomorphic Encryption (FHE) for Kyrti Enterprise Platform",
+  "scripts": {
+    "compile": "hardhat compile",
+    "test": "hardhat test",
+    "deploy:local": "hardhat run scripts/deploy.js --network fhenixLocal"
+  },
+  "dependencies": {
+    "@fhenixprotocol/contracts": "^0.3.0"
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^4.0.0",
+    "hardhat": "^2.19.0"
+  }
+}

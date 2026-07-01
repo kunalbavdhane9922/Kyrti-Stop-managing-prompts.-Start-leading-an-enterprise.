@@ -1,0 +1,185 @@
+# Virtual Office World — Complete Headquarters Generation
+
+Build a production-ready, pixel-art top-down virtual office headquarters using the existing Phaser + React (Vite) stack. The office must look like the headquarters of a successful tech company — inspired by Gather Town, WorkAdventure, and modern Silicon Valley startups.
+
+## User Review Required
+
+> [!IMPORTANT]
+> **CEO Character Sprite**: There is already an excellent pixel-art CEO spritesheet at [player_spritesheet.png](file:///d:/College/Projects/AI%20BUSSINESS/git_hub_branch/virtual%20office/virtual-office-web/public/assets/player_spritesheet.png) (dark suit, white shirt, executive look — 5 frames × 4 directions). The current code uses a simple colored circle instead. This plan replaces the circle with the animated spritesheet.
+
+> [!IMPORTANT]
+> **Map Strategy**: The current map (`perfect-office.json`) is 80×50 tiles. The new headquarters requires ~100×80 tiles to fit all rooms. This will replace the existing map JSON. The existing tilesets (tileset1, tileset5_export, tileset6_export, tileset1-repositioning, Special_Zones) will be reused — they contain desks, chairs, monitors, plants, bookshelves, sofas, glass walls, and floor tiles needed for the office.
+
+> [!WARNING]
+> **Phaser Version**: The project uses Phaser 4.1.0. The spritesheet loading API may differ from Phaser 3. I will verify API compatibility and adapt accordingly.
+
+## Open Questions
+
+> [!IMPORTANT]
+> **NPC Employee Count**: How many AI workers / employees should walk around the office? I'm planning ~12-15 NPCs across departments (Product, Engineering, Design, AI) with simple patrol/random-walk behavior. Is this sufficient, or do you want more/fewer?
+
+> [!IMPORTANT]  
+> **Meeting/Jitsi Zones**: The current map has Jitsi meeting zones using Special_Zones tileset. Should I preserve the Jitsi integration for the Boardroom and Meeting Rooms, or is that not needed right now?
+
+---
+
+## Proposed Changes
+
+### 1. Map Generator Script
+
+A Node.js script that programmatically generates the complete Tiled-format JSON map with all rooms, walls, floors, furniture, and collision layers.
+
+#### [NEW] [generate_hq_map.cjs](file:///d:/College/Projects/AI%20BUSSINESS/git_hub_branch/virtual%20office/virtual-office-web/generate_hq_map.cjs)
+
+A comprehensive map generator that creates a 100×80 tile map with the following layout:
+
+```
+┌──────────────────────────────────────────────────────────────────────────────────────────────────┐
+│  Row 0-1: Outer walls                                                                            │
+├────────────────┬──────────────┬──────────────┬───────────────────────────────┬───────────────────┤
+│  CEO OFFICE    │  CTO OFFICE  │  CFO OFFICE  │     RECEPTION AREA            │  SERVER ROOM      │
+│  (16×12)       │  (12×12)     │  (12×12)     │     (24×12)                   │  (10×12)          │
+│  Lg exec desk  │  Standing    │  Finance     │     Reception desk, plants,   │  Server racks,    │
+│  Computer      │  desk, dual  │  desk, calc  │     company logo, sofas       │  blinking lights  │
+│  Bookshelf     │  monitors    │  filing      │     Visitor seating           │                   │
+│  Meeting corner│  Whiteboard  │  Cabinet     │                               │                   │
+│  Awards wall   │  Tech books  │  Awards      │                               │                   │
+├────────────────┴──────────────┴──────────────┴───────────────────────────────┴───────────────────┤
+│  CORRIDOR (100×3) — Connects all sections                                                        │
+├──────────────────────────────────────────────────────────────────────────────────────────────────┤
+│                              BOARDROOM (24×12)                               │                   │
+│                              Long conference table (10 chairs)               │  MEETING ROOM A   │
+│                              Presentation screen                             │  (12×10)          │
+│                              Glass walls (transparent tiles)                 │                   │
+│                              Video meeting setup                             │                   │
+├──────────────────────────────────────────────────────────────────────────────┤                   │
+│  MEETING ROOM B  │                                                           │                   │
+│  (12×10)         │                                                           ├───────────────────┤
+│                  │                                                           │                   │
+├──────────────────┤           OPERATIONS FLOOR (60×20)                        │  BREAK ROOM       │
+│  TRAINING ROOM   │                                                           │  (14×14)          │
+│  (14×10)         │  ┌─────────┬─────────┬─────────┬─────────┐               │  Coffee station   │
+│  Projector       │  │PRODUCT  │ENGINEER │ DESIGN  │   AI    │               │  Tables           │
+│  Chairs in rows  │  │ TEAM    │  TEAM   │  TEAM   │WORKFORCE│               │  Sofas            │
+│                  │  │ 4 desks │ 6 desks │ 4 desks │ 4 desks │               │  Plants           │
+│                  │  │clusters │clusters │clusters │clusters │               │                   │
+├──────────────────┤  └─────────┴─────────┴─────────┴─────────┘               ├───────────────────┤
+│  PODCAST STUDIO  │                                                           │  OPS CENTER       │
+│  (10×8)          │                                                           │  (12×8)           │
+│  Mic setup       │           CORRIDOR (walkway between desks)               │  Dashboard screens│
+│  Soundproofing   │                                                           │                   │
+├──────────────────┤───────────────────────────────────────────────────────────┤───────────────────┤
+│  AI COMMAND CTR  │        MARKETPLACE ROOM (20×10)                           │                   │
+│  (14×10)         │        Display stands, product showcases                  │                   │
+│  Multiple screens│        Interactive zones                                  │                   │
+│  Data displays   │                                                           │                   │
+└──────────────────┴───────────────────────────────────────────────────────────┴───────────────────┘
+```
+
+**Layers generated:**
+1. `start` — CEO spawn point in executive office
+2. `floor` — Light grey office flooring (tile 201), darker carpet areas (tile 223), wood accents (tile 141)
+3. `walls` — Outer walls and room dividers using tileset1 wall tiles (45, 58, 63, 73)
+4. `furniture` — Desks, chairs, monitors, bookshelves from tileset1, tileset5_export, tileset6_export
+5. `furniture_above` — Items that render above the player (top of bookshelves, overhead lights)
+6. `collision` — Invisible collision layer for walls and solid furniture
+7. `jitsiMeetingRoom` — Jitsi zones in Boardroom and Meeting Rooms (tile 454 from Special_Zones)
+8. `decorations` — Plants, awards, posters, corporate branding elements
+9. `glass_walls` — Semi-transparent glass partitions for boardroom and modern rooms
+
+---
+
+### 2. GameComponent — CEO Character & NPC System
+
+#### [MODIFY] [GameComponent.jsx](file:///d:/College/Projects/AI%20BUSSINESS/git_hub_branch/virtual%20office/virtual-office-web/src/GameComponent.jsx)
+
+**CEO Character (replaces circle avatar):**
+- Load `player_spritesheet.png` as a spritesheet (5 frames per row, 4 rows: DOWN/LEFT/RIGHT/UP)
+- Create walk animations for all 4 directions
+- CEO spawns in executive office (from `start` layer)
+- Smooth 8-directional movement with proper facing
+- Name label "CEO" with premium styling
+- Subtle shadow beneath character
+
+**NPC Employee System:**
+- Spawn 12-15 NPC employees across department areas
+- Each NPC has a colored circle avatar with department label (will upgrade to sprites later)
+- Simple AI patrol: NPCs walk between waypoints within their department area
+- Random idle pauses (simulates working at desk)
+- NPC types: Employee (blue), AI Worker (green pulse), Executive (gold)
+
+**Dynamic Office Life:**
+- NPCs periodically move between their desk and common areas
+- Subtle "typing" animation at desks (small particle effect)
+- Meeting room NPCs occasionally gather (2-3 at conference table)
+- AI workers have pulsing green glow
+
+**Technical Changes:**
+- `preload()`: Add spritesheet loading for CEO character
+- `create()`: Replace circle-based player with animated sprite + physics
+- `create()`: Add NPC spawning system with department assignment
+- `update()`: Add NPC movement AI (simple state machine: IDLE → WALK → IDLE)
+- New method: `createNPCs()` — spawns employees at designated desk positions
+- New method: `updateNPCs()` — handles NPC patrol logic
+
+---
+
+### 3. Map Asset Update
+
+#### [MODIFY] Map loading in GameComponent
+
+The `preload()` method will reference the new `hq-office.json` map file. The existing tilesets remain the same — no new tileset images needed since tileset1, tileset5_export, tileset6_export contain all necessary furniture/wall/floor tiles.
+
+#### [NEW] [hq-office.json](file:///d:/College/Projects/AI%20BUSSINESS/git_hub_branch/virtual%20office/virtual-office-web/public/assets/hq-office.json)
+
+Generated by `generate_hq_map.cjs` — a Tiled-compatible JSON tilemap (100×80 tiles, 32×32px per tile).
+
+---
+
+### 4. Room Label Overlay System
+
+#### [MODIFY] [GameComponent.jsx](file:///d:/College/Projects/AI%20BUSSINESS/git_hub_branch/virtual%20office/virtual-office-web/src/GameComponent.jsx)
+
+Add floating room name labels rendered as Phaser text objects positioned at the top-center of each room. These provide wayfinding and make the office feel professional:
+- "CEO Office", "CTO Office", "CFO Office"
+- "Boardroom", "Operations Floor"  
+- "Break Room", "Server Room", etc.
+- Labels use semi-transparent dark backgrounds with white text
+- Depth-sorted to always appear above furniture but below UI
+
+---
+
+### 5. Minimap Enhancement
+
+#### [MODIFY] [GameComponent.jsx](file:///d:/College/Projects/AI%20BUSSINESS/git_hub_branch/virtual%20office/virtual-office-web/src/GameComponent.jsx)
+
+Update minimap dimensions to accommodate the larger 100×80 map. Add a subtle border and room color coding to the minimap for better navigation.
+
+---
+
+## Implementation Order
+
+1. **Phase 1 — Map Generator**: Write `generate_hq_map.cjs`, run it to produce `hq-office.json`
+2. **Phase 2 — CEO Sprite**: Modify `GameComponent.jsx` to load and animate the CEO spritesheet
+3. **Phase 3 — NPC System**: Add employee/AI worker NPCs with patrol behavior
+4. **Phase 4 — Room Labels**: Add floating room name labels
+5. **Phase 5 — Polish**: Minimap update, depth sorting, ambient effects
+
+---
+
+## Verification Plan
+
+### Automated Tests
+- Run `node generate_hq_map.cjs` to verify map JSON is valid
+- `npm run dev` to launch and visually verify the office loads
+- Walk CEO character through all rooms to verify collision boundaries
+- Confirm NPCs move naturally between waypoints
+- Verify Jitsi zones trigger in Boardroom/Meeting Rooms
+
+### Manual Verification
+- Visual inspection: Office should look like a real tech company HQ
+- CEO character animates smoothly in all 4 directions
+- NPCs visible across departments, walking and idling
+- No dead zones or inaccessible areas
+- Room labels readable and properly positioned
+- Minimap shows full office layout

@@ -35,6 +35,16 @@ if ($nodeProcs) {
     }
 }
 
+# Kill Python/Uvicorn Virtual Office server processes
+$pyProcs = Get-CimInstance Win32_Process -Filter "CommandLine LIKE '%uvicorn%'" -ErrorAction SilentlyContinue
+if ($pyProcs) {
+    foreach ($proc in $pyProcs) {
+        Write-Host "Killing Uvicorn process (PID: $($proc.ProcessId))" -ForegroundColor Gray
+        Stop-Process -Id $proc.ProcessId -Force -ErrorAction SilentlyContinue
+        $killed++
+    }
+}
+
 Write-Host "`nStopping Docker infrastructure..." -ForegroundColor Yellow
 docker compose -f infrastructure\docker\docker-compose.yml down
 

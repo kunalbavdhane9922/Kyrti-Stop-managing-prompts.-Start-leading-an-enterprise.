@@ -1,0 +1,24 @@
+{
+  "name": "sovereign-protocol",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "lint": "turbo run lint",
+    "clean": "turbo run clean",
+    "db:generate": "turbo run db:generate --filter=@sovereign/database",
+    "db:push": "turbo run db:push --filter=@sovereign/database"
+  },
+  "devDependencies": {
+    "turbo": "latest"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "packageManager": "npm@9.5.1"
+}
