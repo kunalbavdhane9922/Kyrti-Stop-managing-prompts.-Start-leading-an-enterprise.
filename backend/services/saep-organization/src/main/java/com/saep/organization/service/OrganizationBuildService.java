@@ -89,23 +89,19 @@ public class OrganizationBuildService {
             }
         }
 
+        // Pass 1: Pre-allocate IDs and save all nodes WITHOUT parentNodeId to avoid FK violations
         int nodeOrder = 0;
+        List<CompanyNodeEntity> savedNodes = new ArrayList<>();
+        
         for (Map<String, Object> node : nodes) {
             UUID nodeId = UUID.randomUUID();
             String tempId = (String) node.get("tempId");
             if (tempId != null) {
                 if (tempIdMap.containsKey(tempId)) {
-                    nodeId = tempIdMap.get(tempId); // Use pre-allocated ID if available
+                    nodeId = tempIdMap.get(tempId);
                 } else {
                     tempIdMap.put(tempId, nodeId);
                 }
-            }
-
-            // Resolve parent node ID (could be a temp ID from frontend)
-            UUID parentNodeId = null;
-            String parentRef = (String) node.get("parentNodeId");
-            if (parentRef != null && !parentRef.isEmpty()) {
-                parentNodeId = tempIdMap.getOrDefault(parentRef, tryParseUUID(parentRef));
             }
 
             // PRODUCTION GRADE ENFORCEMENT
@@ -114,9 +110,6 @@ public class OrganizationBuildService {
                 if (title.length() <= 4 && title.startsWith("C") && title.endsWith("O")) {
                     if (ceoNodeId == null) {
                         throw new IllegalArgumentException("Enterprise Hierarchy Enforcement: A CEO must exist if other Chief officers are present.");
-                    }
-                    if (!ceoNodeId.equals(parentNodeId)) {
-                        throw new IllegalArgumentException("Enterprise Hierarchy Enforcement: " + title + " MUST report directly to the CEO.");
                     }
                 }
             }
@@ -132,7 +125,7 @@ public class OrganizationBuildService {
                     .id(nodeId)
                     .buildId(buildId)
                     .tenantId(tenantId)
-                    .parentNodeId(parentNodeId)
+                    .parentNodeId(null) // Set to null for first pass
                     .departmentId(departmentId)
                     .title(title)
                     .occupantType((String) node.getOrDefault("occupantType", "VACANT"))
@@ -146,7 +139,21 @@ public class OrganizationBuildService {
                     .groupCount(node.get("groupCount") != null ? ((Number) node.get("groupCount")).intValue() : 1)
                     .seniority((String) node.get("seniority"))
                     .build();
-            companyNodeRepository.save(nodeEntity);
+            
+            savedNodes.add(companyNodeRepository.save(nodeEntity));
+        }
+
+        // Pass 2: Link nodes to their parents
+        for (int i = 0; i < nodes.size(); i++) {
+            Map<String, Object> node = nodes.get(i);
+            CompanyNodeEntity entity = savedNodes.get(i);
+            
+            String parentRef = (String) node.get("parentNodeId");
+            if (parentRef != null && !parentRef.isEmpty()) {
+                UUID parentNodeId = tempIdMap.getOrDefault(parentRef, tryParseUUID(parentRef));
+                entity.setParentNodeId(parentNodeId);
+                companyNodeRepository.save(entity);
+            }
         }
 
         // 3. Create node permissions

@@ -128,14 +128,15 @@ const authApi = {
    * Verifies a 2FA code after login.
    * @param {{ partialToken: string, code: string }} params
    */
-  async verify2FA({ partialToken, code }) {
+  async verify2FA({ partialToken, code, trustDevice, fingerprint }) {
     const result = await request(`${AUTH_BASE}/verify-2fa`, {
       method: 'POST',
-      body: JSON.stringify({ partialToken, code }),
+      body: JSON.stringify({ partialToken, code, trustDevice, fingerprint }),
       skipAuth: true,
     });
 
-    if (result.data) {
+    // Only parse through AuthDto when we have a final token (not tenant-selection step)
+    if (result.data && !result.data.requiresTenantSelection && !result.data.requires2FA) {
       result.data = AuthDto.fromApi(result.data);
       window.__sovereignAccessToken = result.data.token;
     }

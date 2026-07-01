@@ -40,6 +40,7 @@ const useAuthStore = create(
         ? userData.name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2)
         : '??',
       twoFactorEnabled: userData.twoFactorEnabled || false,
+      tenantId: userData.tenantId || null,
     }),
     role: userData.role || ROLES.FOUNDER,
     sessionFingerprint: userData.sessionFingerprint || null,

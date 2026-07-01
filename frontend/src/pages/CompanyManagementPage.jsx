@@ -331,6 +331,9 @@ export function CompanyManagementPage() {
     const stored = sessionStorage.getItem('sovereign_active_tenant');
     if (stored) {
       setTenantId(stored);
+    } else if (user?.tenantId) {
+      setTenantId(user.tenantId);
+      sessionStorage.setItem('sovereign_active_tenant', user.tenantId);
     } else {
       // Derive from URL or use a default
       const path = window.location.pathname;
@@ -343,7 +346,7 @@ export function CompanyManagementPage() {
         setTenantId(lastTenant || 'default-tenant');
       }
     }
-  }, []);
+  }, [user]);
 
   // ─── Fetch Hierarchy from DB ─────────────────────────────────────────
   const fetchHierarchy = useCallback(async () => {
