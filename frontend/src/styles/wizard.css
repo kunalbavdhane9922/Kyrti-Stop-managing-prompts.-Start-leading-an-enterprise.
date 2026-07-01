@@ -1285,8 +1285,8 @@
   flex: 1;
   border-radius: 12px;
   overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  background: #0a0a0a;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  background: #F8FAFC;
   min-height: 400px;
 }
 
@@ -1298,15 +1298,15 @@
   justify-content: center;
   height: 100%;
   gap: 12px;
-  color: rgba(228, 226, 221, 0.4);
+  color: #64748B;
   font-size: 14px;
 }
 
 .mgmt-loading-spinner {
   width: 28px;
   height: 28px;
-  border: 3px solid rgba(255, 255, 255, 0.1);
-  border-top-color: #F13223;
+  border: 3px solid rgba(255, 92, 0, 0.15);
+  border-top-color: #FF5C00;
   border-radius: 50%;
   animation: spin 0.8s linear infinite;
 }
@@ -1317,11 +1317,11 @@
   align-items: center;
   justify-content: center;
   height: 100%;
-  color: rgba(228, 226, 221, 0.4);
+  color: #64748B;
   text-align: center;
   padding: 40px;
 }
-.mgmt-empty h3 { color: rgba(228, 226, 221, 0.6); font-size: 18px; margin: 0 0 8px; }
+.mgmt-empty h3 { color: #0F172A; font-size: 18px; margin: 0 0 8px; }
 .mgmt-empty p { font-size: 13px; margin: 0 0 20px; max-width: 400px; }
 
 /* ─── Org Node Card (inside ReactFlow) ────────────────────────────────────── */
@@ -1329,16 +1329,17 @@
   position: relative;
   padding: 12px 14px;
   border-radius: 10px;
-  background: #111;
-  border: 2px solid rgba(255, 255, 255, 0.15);
-  color: #E4E2DD;
+  background: #FFFFFF;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  color: #0F172A;
   width: 220px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
   transition: box-shadow 0.2s, border-color 0.2s;
   font-family: 'Inter', system-ui, sans-serif;
 }
 .mgmt-org-node:hover {
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+  border-color: rgba(255, 92, 0, 0.4);
 }
 
 .mgmt-org-node-header {
@@ -1351,7 +1352,7 @@
 .mgmt-org-node-title {
   font-size: 13px;
   font-weight: 700;
-  color: #E4E2DD;
+  color: #0F172A;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -1361,14 +1362,14 @@
 .mgmt-org-node-count {
   font-size: 11px;
   font-weight: 700;
-  color: #F13223;
+  color: #FF5C00;
   margin-left: 6px;
 }
 
 .mgmt-org-node-dept {
   display: block;
   font-size: 11px;
-  color: rgba(228, 226, 221, 0.4);
+  color: #64748B;
   margin-bottom: 8px;
 }
 
@@ -1381,7 +1382,7 @@
 .mgmt-org-node-name {
   font-size: 12px;
   font-weight: 500;
-  color: rgba(228, 226, 221, 0.7);
+  color: #475569;
 }
 
 .mgmt-org-node-actions {
@@ -1395,17 +1396,17 @@
   border-radius: 4px;
   padding: 3px 5px;
   cursor: pointer;
-  color: #22c55e;
+  color: #16A34A;
   transition: all 0.15s;
 }
 .mgmt-node-action-btn:hover { background: rgba(34, 197, 94, 0.2); }
 
 .mgmt-node-action-btn--ai {
-  background: rgba(59, 130, 246, 0.1);
-  border-color: rgba(59, 130, 246, 0.2);
-  color: #3b82f6;
+  background: rgba(255, 92, 0, 0.1);
+  border-color: rgba(255, 92, 0, 0.2);
+  color: #FF5C00;
 }
-.mgmt-node-action-btn--ai:hover { background: rgba(59, 130, 246, 0.2); }
+.mgmt-node-action-btn--ai:hover { background: rgba(255, 92, 0, 0.2); }
 
 /* Node controls (Edit/Delete) — shown on hover */
 .mgmt-org-node-controls {
@@ -1420,15 +1421,15 @@
 .mgmt-org-node:hover .mgmt-org-node-controls { opacity: 1; }
 
 .mgmt-node-ctrl-btn {
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: #F1F5F9;
+  border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 4px;
   padding: 3px 4px;
   cursor: pointer;
-  color: rgba(228, 226, 221, 0.5);
+  color: #64748B;
   transition: all 0.15s;
 }
-.mgmt-node-ctrl-btn:hover { background: rgba(255, 255, 255, 0.12); color: #E4E2DD; }
+.mgmt-node-ctrl-btn:hover { background: #E2E8F0; color: #0F172A; }
 .mgmt-node-ctrl-btn--danger:hover { color: #ef4444; background: rgba(239, 68, 68, 0.15); border-color: rgba(239, 68, 68, 0.3); }
 
 /* ─── Badges ──────────────────────────────────────────────────────────────── */
@@ -1438,16 +1439,16 @@
   padding: 2px 8px;
   border-radius: 10px;
 }
-.mgmt-badge--human { background: rgba(34, 197, 94, 0.15); color: #22c55e; }
-.mgmt-badge--ai { background: rgba(59, 130, 246, 0.15); color: #3b82f6; }
-.mgmt-badge--vacant { background: rgba(228, 226, 221, 0.1); color: rgba(228, 226, 221, 0.5); }
+.mgmt-badge--human { background: rgba(34, 197, 94, 0.15); color: #16A34A; }
+.mgmt-badge--ai { background: rgba(255, 92, 0, 0.15); color: #FF5C00; }
+.mgmt-badge--vacant { background: #F1F5F9; color: #64748B; }
 
 /* ─── Modal ───────────────────────────────────────────────────────────────── */
 .mgmt-modal-overlay {
   position: fixed;
   inset: 0;
   z-index: 1000;
-  background: rgba(0, 0, 0, 0.7);
+  background: rgba(15, 23, 42, 0.5);
   backdrop-filter: blur(4px);
   display: flex;
   align-items: center;
@@ -1456,12 +1457,12 @@
 }
 
 .mgmt-modal {
-  background: #111;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: #FFFFFF;
+  border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 14px;
   width: 100%;
   max-width: 420px;
-  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.15);
 }
 
 .mgmt-modal--wide { max-width: 560px; }
@@ -1471,27 +1472,27 @@
   align-items: center;
   gap: 10px;
   padding: 16px 20px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
 }
 
 .mgmt-modal-header h3 {
   flex: 1;
   font-size: 16px;
   font-weight: 700;
-  color: #E4E2DD;
+  color: #0F172A;
   margin: 0;
 }
 
-.mgmt-modal-icon { color: #F13223; }
+.mgmt-modal-icon { color: #FF5C00; }
 
 .mgmt-modal-close {
   background: transparent;
   border: none;
-  color: rgba(228, 226, 221, 0.4);
+  color: #64748B;
   cursor: pointer;
   padding: 4px;
 }
-.mgmt-modal-close:hover { color: #E4E2DD; }
+.mgmt-modal-close:hover { color: #0F172A; }
 
 .mgmt-modal-body { padding: 20px; }
 
@@ -1509,7 +1510,7 @@
   display: block;
   font-size: 12px;
   font-weight: 600;
-  color: rgba(228, 226, 221, 0.6);
+  color: #475569;
   margin-bottom: 4px;
 }
 
@@ -1517,25 +1518,25 @@
 .mgmt-modal-field select {
   width: 100%;
   padding: 8px 12px;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: #F8FAFC;
+  border: 1px solid rgba(0, 0, 0, 0.15);
   border-radius: 8px;
-  color: #E4E2DD;
+  color: #0F172A;
   font-size: 13px;
   outline: none;
   box-sizing: border-box;
 }
 .mgmt-modal-field input:focus,
-.mgmt-modal-field select:focus { border-color: rgba(241, 50, 35, 0.5); }
-.mgmt-modal-field input::placeholder { color: rgba(228, 226, 221, 0.25); }
-.mgmt-modal-field select option { background: #1a1a1a; color: #E4E2DD; }
+.mgmt-modal-field select:focus { border-color: #FF5C00; }
+.mgmt-modal-field input::placeholder { color: #94A3B8; }
+.mgmt-modal-field select option { background: #FFFFFF; color: #0F172A; }
 
 .mgmt-modal-footer {
   display: flex;
   justify-content: flex-end;
   gap: 8px;
   padding: 14px 20px;
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
 }
 
 .mgmt-modal-btn {
@@ -1552,18 +1553,18 @@
 }
 
 .mgmt-modal-btn--primary {
-  background: #F13223;
+  background: #FF5C00;
   color: #fff;
 }
-.mgmt-modal-btn--primary:hover { background: #E02B1D; }
+.mgmt-modal-btn--primary:hover { background: #FF7A00; }
 .mgmt-modal-btn--primary:disabled { opacity: 0.5; cursor: not-allowed; }
 
 .mgmt-modal-btn--secondary {
-  background: rgba(255, 255, 255, 0.06);
-  color: rgba(228, 226, 221, 0.6);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: #F1F5F9;
+  color: #475569;
+  border: 1px solid rgba(0, 0, 0, 0.1);
 }
-.mgmt-modal-btn--secondary:hover { background: rgba(255, 255, 255, 0.1); color: #E4E2DD; }
+.mgmt-modal-btn--secondary:hover { background: #E2E8F0; color: #0F172A; }
 
 /* ─── ReactFlow Overrides ─────────────────────────────────────────────────── */
 .mgmt-canvas .react-flow__node {
@@ -1576,12 +1577,12 @@
   display: none;
 }
 .mgmt-canvas .react-flow__controls button {
-  background: rgba(0, 0, 0, 0.6) !important;
-  border-color: rgba(255, 255, 255, 0.1) !important;
-  color: rgba(228, 226, 221, 0.6) !important;
+  background: #FFFFFF !important;
+  border-color: rgba(0, 0, 0, 0.1) !important;
+  color: #475569 !important;
 }
 .mgmt-canvas .react-flow__controls button:hover {
-  background: rgba(0, 0, 0, 0.8) !important;
-  color: #E4E2DD !important;
+  background: #F8FAFC !important;
+  color: #0F172A !important;
 }
 

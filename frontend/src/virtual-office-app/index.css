@@ -2,19 +2,19 @@
 
 :root {
   /* ── Backgrounds ── */
-  --color-bg-primary: #0B0F19;
-  --color-bg-secondary: #111827;
-  --color-bg-tertiary: #1F2937;
+  --color-bg-primary: #FAFAFC;
+  --color-bg-secondary: #FFFFFF;
+  --color-bg-tertiary: #F8FAFC;
 
   /* ── Text ── */
-  --color-text-primary: #F1F5F9;
-  --color-text-secondary: #94A3B8;
+  --color-text-primary: #0F172A;
+  --color-text-secondary: #475569;
   --color-text-tertiary: #64748B;
 
   /* ── Borders ── */
-  --color-border-primary: rgba(148, 163, 184, 0.4);
-  --color-border-secondary: rgba(148, 163, 184, 0.2);
-  --color-border-tertiary: rgba(148, 163, 184, 0.1);
+  --color-border-primary: rgba(0, 0, 0, 0.1);
+  --color-border-secondary: rgba(0, 0, 0, 0.06);
+  --color-border-tertiary: rgba(0, 0, 0, 0.03);
 
   /* ── Radii ── */
   --border-radius-md: 8px;

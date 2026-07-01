@@ -9,7 +9,7 @@
   width: 100%;
   height: calc(100vh - 56px);
   overflow: hidden;
-  background: #0a0f1a;
+  background: #FAFAFC;
 }
 
 .spatial-canvas {

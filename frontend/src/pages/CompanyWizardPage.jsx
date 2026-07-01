@@ -142,6 +142,10 @@ function CompanyWizardPage() {
         // Non-blocking — the company is created, org build can be retried later
       }
 
+      // Save active tenant to sessionStorage immediately so Company Management & Dashboard fetch right away
+      sessionStorage.setItem('sovereign_active_tenant', tenantId);
+      sessionStorage.setItem('sovereign_last_tenant', tenantId);
+
       // After successful build, switch the frontend state to the new tenant.
       // This assumes the backend has auto-joined the user to the created company.
       // Force a session refresh to get a token WITH the new tenantId.
@@ -153,9 +157,12 @@ function CompanyWizardPage() {
             ...refreshRes.data.user,
             tenantId,
           });
+        } else if (activeToken) {
+          loginAction({ tenantId });
         }
       } catch (e) {
         console.warn('Post-creation session refresh failed:', e.message);
+        loginAction({ tenantId });
       }
 
       navigate('/dashboard');

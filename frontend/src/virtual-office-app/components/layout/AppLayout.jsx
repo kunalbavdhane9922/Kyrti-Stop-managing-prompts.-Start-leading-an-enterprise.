@@ -5,7 +5,7 @@ import { RightSidebar } from './RightSidebar';
 
 export const AppLayout = ({ children }) => {
   return (
-    <div className="relative w-full h-[calc(100vh-64px)] overflow-hidden bg-[#0A0A0A] text-[#EEEEEE] font-sans selection:bg-[#5E6AD2]/30">
+    <div className="relative w-full h-[calc(100vh-64px)] overflow-hidden bg-[#FAFAFC] text-[#0F172A] font-sans selection:bg-[#FF5C00]/20">
       
       {/* Z-0: The Hero Element (Virtual Office Canvas) */}
       <div className="absolute inset-0 z-0 w-full h-full">

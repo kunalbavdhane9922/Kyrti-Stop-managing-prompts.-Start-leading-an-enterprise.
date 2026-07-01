@@ -10,7 +10,7 @@ import { WebSocketProvider } from '../virtual-office-app/network/WebSocketProvid
 
 export function VirtualOfficePage() {
   return (
-    <div className="w-full h-[calc(100vh-64px)] overflow-hidden relative bg-[#0A0A0A]">
+    <div className="w-full h-[calc(100vh-64px)] overflow-hidden relative bg-[#FAFAFC]">
       <WebSocketProvider>
         <VirtualOfficeApp />
       </WebSocketProvider>

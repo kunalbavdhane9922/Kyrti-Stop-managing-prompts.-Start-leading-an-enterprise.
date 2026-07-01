@@ -24,10 +24,10 @@ import { organizationApi } from '../services/organizationApi.js';
 function OrgNodeCard({ data }) {
   const borderColor =
     data.occupantType === 'AI' || data.occupantType === 'AI_VACANT'
-      ? '#3b82f6'
+      ? '#FF5C00'
       : data.occupantType === 'HUMAN'
-        ? '#22c55e'
-        : 'rgba(255,255,255,0.15)';
+        ? '#16A34A'
+        : 'rgba(0,0,0,0.12)';
 
   const badgeClass =
     data.occupantType === 'HUMAN'
@@ -399,8 +399,8 @@ export function CompanyManagementPage() {
             source: n.parentNodeId,
             target: n.id,
             type: 'smoothstep',
-            markerEnd: { type: MarkerType.ArrowClosed, width: 12, height: 12, color: 'rgba(255,255,255,0.2)' },
-            style: { stroke: 'rgba(255,255,255,0.15)', strokeWidth: 1.5 },
+            markerEnd: { type: MarkerType.ArrowClosed, width: 12, height: 12, color: '#94A3B8' },
+            style: { stroke: '#94A3B8', strokeWidth: 1.5 },
           });
         }
       });

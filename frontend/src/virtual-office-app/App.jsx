@@ -51,12 +51,12 @@ function App() {
       {/* Jitsi Meeting Overlay (slides in from right) */}
       <div
         className={`fixed right-0 top-0 h-full z-50 pointer-events-auto flex flex-col
-          bg-[#020617] border-l border-[#1e293b] shadow-2xl
+          bg-[#FFFFFF] border-l border-slate-200 shadow-2xl
           transition-all duration-500 ease-in-out
           ${jitsiRoom ? 'w-[450px] opacity-100 translate-x-0' : 'w-[450px] opacity-0 translate-x-full'}`}
       >
-        <div className="bg-[#0f172a] text-white p-5 flex items-center justify-between border-b border-[#1e293b]">
-          <div className="flex items-center gap-3 font-semibold text-sm tracking-widest uppercase text-slate-300">
+        <div className="bg-[#F8FAFC] text-[#0F172A] p-5 flex items-center justify-between border-b border-slate-200">
+          <div className="flex items-center gap-3 font-semibold text-sm tracking-widest uppercase text-slate-600">
             <Video size={18} className="text-blue-400" />
             Session: {jitsiRoom}
           </div>
