@@ -1,6 +1,7 @@
 import { useAuthStore } from '../store/authStore.js';
 
-const GATEWAY_URL = 'http://localhost:3000/api/v1';
+const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+const GATEWAY_URL = `${API_BASE}/api/v1`;
 
 export async function fetchWithAuth(endpoint, options = {}) {
   const state = useAuthStore.getState();

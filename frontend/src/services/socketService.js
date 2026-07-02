@@ -8,7 +8,7 @@
 import { io } from 'socket.io-client';
 import { EventBus } from '../game/EventBus.js';
 
-const BACKEND_URL = 'http://localhost:3001';
+const BACKEND_URL = import.meta.env.VITE_WS_URL || import.meta.env.VITE_API_URL || 'http://localhost:3001';
 
 class SocketServiceClass {
   constructor() {
