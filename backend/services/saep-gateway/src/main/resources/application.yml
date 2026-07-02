@@ -24,23 +24,23 @@ spring:
             allow-credentials: true
       routes:
         - id: saep-identity
-          uri: http://localhost:${IDENTITY_PORT:3002}
+          uri: ${IDENTITY_SERVICE_URL:http://localhost:${IDENTITY_PORT:3002}}
           predicates:
             - Path=/api/v1/auth/**
         - id: saep-company
-          uri: http://localhost:${COMPANY_PORT:8081}
+          uri: ${COMPANY_SERVICE_URL:http://localhost:${COMPANY_PORT:8081}}
           predicates:
             - Path=/api/v1/companies/**
         - id: saep-organization
-          uri: http://localhost:${ORGANIZATION_PORT:8084}
+          uri: ${ORGANIZATION_SERVICE_URL:http://localhost:${ORGANIZATION_PORT:8084}}
           predicates:
             - Path=/api/v1/organizations/**
         - id: saep-workforce
-          uri: http://localhost:${WORKFORCE_PORT:8082}
+          uri: ${WORKFORCE_SERVICE_URL:http://localhost:${WORKFORCE_PORT:8082}}
           predicates:
             - Path=/api/v1/workers/**
         - id: saep-marketplace
-          uri: http://localhost:${MARKETPLACE_PORT:8085}
+          uri: ${MARKETPLACE_SERVICE_URL:http://localhost:${MARKETPLACE_PORT:8085}}
           predicates:
             - Path=/api/v1/marketplace/**
   data:

@@ -29,6 +29,10 @@ services:
           property: password
       - key: POSTGRES_DB
         value: saep_db
+      - key: IDENTITY_SERVICE_URL
+        value: http://saep-identity:10000
+      - key: COMPANY_SERVICE_URL
+        value: http://saep-company:10000
 
   # 2. Core Identity Microservice
   - type: web
