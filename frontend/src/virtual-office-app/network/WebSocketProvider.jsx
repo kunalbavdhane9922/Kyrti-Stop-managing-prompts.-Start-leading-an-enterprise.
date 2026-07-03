@@ -15,7 +15,8 @@ export const WebSocketProvider = ({ children }) => {
   useEffect(() => {
     // Generate a simple client ID
     const clientId = 'client_' + Math.floor(Math.random() * 10000);
-    const ws = new WebSocket(`ws://localhost:8000/ws/${clientId}`);
+    const wsBase = import.meta.env.VITE_WS_URL || (import.meta.env.PROD ? 'wss://saep-gateway.onrender.com' : 'ws://localhost:8000');
+    const ws = new WebSocket(`${wsBase}/ws/${clientId}`);
     wsRef.current = ws;
 
     ws.onopen = () => {

@@ -88,8 +88,10 @@ export const HASH_ALGORITHM = 'SHA-256';
 export const SIGNING_ALGORITHM = 'ECDSA';
 export const KEY_LENGTH = 256;
 
-/** API endpoints (to be replaced with actual backend) */
-export const API_BASE_URL = import.meta.env.VITE_API_URL || '/api';
+/** API endpoints */
+export const API_BASE_URL = (import.meta.env.VITE_API_URL !== undefined && import.meta.env.VITE_API_URL !== '')
+  ? import.meta.env.VITE_API_URL
+  : (import.meta.env.PROD ? '' : 'http://localhost:3000');
 
 /** Audit log action types */
 export const AUDIT_ACTIONS = Object.freeze({

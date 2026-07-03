@@ -13,6 +13,8 @@
  * STATUS: Will be replaced module-by-module as backend develops.
  */
 
+import { API_BASE_URL } from '../config/constants.js';
+
 /** Simulates network latency for UI consistency */
 const delay = (ms = 800) => new Promise(resolve => setTimeout(resolve, ms));
 
@@ -214,7 +216,7 @@ const platformApi = {
 
   async getMarketplaceAgents() {
     const token = window.__sovereignAccessToken;
-    const res = await fetch('http://localhost:3000/api/v1/marketplace/agents', {
+    const res = await fetch(`${API_BASE_URL}/api/v1/marketplace/agents`, {
       headers: { ...(token ? { 'Authorization': `Bearer ${token}` } : {}) }
     });
     if (!res.ok) throw new Error('Failed to fetch marketplace agents');
@@ -223,7 +225,7 @@ const platformApi = {
 
   async getMarketplaceFilters() {
     const token = window.__sovereignAccessToken;
-    const res = await fetch('http://localhost:3000/api/v1/marketplace/filters', {
+    const res = await fetch(`${API_BASE_URL}/api/v1/marketplace/filters`, {
       headers: { ...(token ? { 'Authorization': `Bearer ${token}` } : {}) }
     });
     if (!res.ok) throw new Error('Failed to fetch marketplace filters');
@@ -233,7 +235,7 @@ const platformApi = {
   async hireAgentToSandbox(agentId, trialDays) {
     const token = window.__sovereignAccessToken;
     const tenantId = sessionStorage.getItem('sovereign_active_tenant') || 'default-tenant';
-    const res = await fetch(`http://localhost:3000/api/v1/marketplace/agents/${agentId}/hire`, {
+    const res = await fetch(`${API_BASE_URL}/api/v1/marketplace/agents/${agentId}/hire`, {
       method: 'POST',
       headers: { 
         'Content-Type': 'application/json',

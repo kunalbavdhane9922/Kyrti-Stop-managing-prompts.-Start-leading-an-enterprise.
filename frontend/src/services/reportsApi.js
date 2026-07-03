@@ -3,8 +3,9 @@
  * Abstraction layer for operational and intelligence reports.
  */
 
-const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:8080';
-const REPORTS_BASE = `${API_BASE}/api/v1/reports`;
+import { API_BASE_URL } from '../config/constants.js';
+
+const REPORTS_BASE = `${API_BASE_URL}/api/v1/reports`;
 
 async function request(url, options = {}) {
   const headers = {

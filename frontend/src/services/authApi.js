@@ -8,9 +8,9 @@
  */
 
 import { AuthDto } from '../dto/AuthDto.js';
+import { API_BASE_URL } from '../config/constants.js';
 
-const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:8080';
-const AUTH_BASE = `${API_BASE}/api/v1/auth`;
+const AUTH_BASE = `${API_BASE_URL}/api/v1/auth`;
 
 /**
  * Makes an authenticated or unauthenticated request to the backend.

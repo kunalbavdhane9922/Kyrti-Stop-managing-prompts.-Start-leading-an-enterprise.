@@ -4,9 +4,9 @@
  */
 
 import { CompanyDto } from '../dto/CompanyDto.js';
+import { API_BASE_URL } from '../config/constants.js';
 
-const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:8080';
-const COMPANY_BASE = `${API_BASE}/api/v1/companies`;
+const COMPANY_BASE = `${API_BASE_URL}/api/v1/companies`;
 
 async function request(url, options = {}) {
   const headers = {
@@ -42,7 +42,7 @@ async function request(url, options = {}) {
   if (response.status === 401 && !options._retry) {
     try {
       options._retry = true;
-      const refreshResponse = await fetch(`${API_BASE}/api/v1/auth/refresh`, {
+      const refreshResponse = await fetch(`${API_BASE_URL}/api/v1/auth/refresh`, {
         method: 'POST',
         credentials: 'include',
       });
