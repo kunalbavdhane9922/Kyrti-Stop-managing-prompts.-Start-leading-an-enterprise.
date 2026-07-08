@@ -97,7 +97,7 @@ export function HeroOrb() {
           position: 'absolute',
           width: '500px',
           height: '500px',
-          background: 'radial-gradient(circle, rgba(255, 92, 0, 0.15) 0%, transparent 60%)',
+          background: 'radial-gradient(circle, rgba(18, 152, 176, 0.1) 0%, transparent 60%)',
           filter: 'blur(50px)',
           zIndex: 0
         }}
@@ -121,7 +121,7 @@ export function HeroOrb() {
               key={`line-${startup.id}`}
               x1={prev.x} y1={prev.y}
               x2={startup.x} y2={startup.y}
-              stroke="rgba(232, 148, 58, 0.4)"
+              stroke="rgba(18, 152, 176, 0.4)"
               strokeWidth="3"
               strokeDasharray="5 10"
               initial={{ pathLength: 0 }}

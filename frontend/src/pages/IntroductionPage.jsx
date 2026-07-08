@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../store/authStore.js';
-import { HeroOrb } from '../components/ui/HeroOrb.jsx';
 import { 
   ArrowRight, 
   Bot, 
@@ -89,7 +88,7 @@ export function IntroductionPage() {
   const faqData = [
     {
       q: "What is the Kyrti AI Enterprise Protocol?",
-      a: "Kyrti is an advanced, microservices-based operating system designed to run human-governed companies using AI-native Digital Professionals. Instead of isolated chatbots, Kyrti builds a structured digital workforce executing business tasks under human authority."
+      a: "Kyrti is an advanced, microservices-based operating system designed to run human-governed companies using AI-native Digital Professionals. Instead of isolated chatbots, Kyrti builds a structured digital workforce executing business tasks."
     },
     {
       q: "How does the 'Humans Govern, AI Operates' model work?",
@@ -113,28 +112,23 @@ export function IntroductionPage() {
 
   return (
     <div style={{ 
-      backgroundColor: '#141413', 
-      color: '#FBF9F5', 
+      backgroundColor: '#FAFAFC', 
+      color: '#0F172A', 
       fontFamily: '"Inter", sans-serif', 
       minHeight: '100vh',
       overflowX: 'hidden',
       position: 'relative'
     }}>
-      {/* Background Radial Brand Glows */}
+      {/* Background Radial Glows */}
       <div style={{
-        position: 'absolute', top: '5%', left: '10%', width: '700px', height: '700px',
-        background: 'radial-gradient(circle, rgba(255, 92, 0, 0.15) 0%, rgba(255,255,255,0) 70%)',
+        position: 'absolute', top: '5%', left: '10%', width: '600px', height: '600px',
+        background: 'radial-gradient(circle, rgba(255, 92, 0, 0.04) 0%, rgba(255,255,255,0) 70%)',
         filter: 'blur(100px)', pointerEvents: 'none', zIndex: 0
       }} />
       <div style={{
-        position: 'absolute', top: '45%', right: '5%', width: '800px', height: '800px',
-        background: 'radial-gradient(circle, rgba(232, 148, 58, 0.12) 0%, rgba(255,255,255,0) 70%)',
+        position: 'absolute', top: '45%', right: '5%', width: '700px', height: '700px',
+        background: 'radial-gradient(circle, rgba(255, 92, 0, 0.03) 0%, rgba(255,255,255,0) 70%)',
         filter: 'blur(120px)', pointerEvents: 'none', zIndex: 0
-      }} />
-      <div style={{
-        position: 'absolute', top: '80%', left: '20%', width: '600px', height: '600px',
-        background: 'radial-gradient(circle, rgba(212, 132, 46, 0.1) 0%, rgba(255,255,255,0) 70%)',
-        filter: 'blur(110px)', pointerEvents: 'none', zIndex: 0
       }} />
 
       {/* HEADER / HORIZONTAL NAVBAR */}
@@ -142,11 +136,11 @@ export function IntroductionPage() {
         position: 'sticky',
         top: 0,
         zIndex: 100,
-        backdropFilter: 'blur(20px)',
-        WebkitBackdropFilter: 'blur(20px)',
-        backgroundColor: 'rgba(20, 20, 19, 0.85)',
-        borderBottom: '1px solid rgba(255, 92, 0, 0.15)',
-        boxShadow: '0 4px 20px rgba(0, 0, 0, 0.4)'
+        backdropFilter: 'blur(16px)',
+        WebkitBackdropFilter: 'blur(16px)',
+        backgroundColor: 'rgba(255, 255, 255, 0.8)',
+        borderBottom: '1px solid rgba(0, 0, 0, 0.05)',
+        boxShadow: '0 1px 2px 0 rgba(0, 0, 0, 0.01)'
       }}>
         <div style={{
           maxWidth: '1200px',
@@ -161,7 +155,7 @@ export function IntroductionPage() {
             onClick={() => scrollToSection('hero')}
             style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer' }}
           >
-            <img src="/main_logo.png" alt="Kyrti" style={{ width: '130px', height: 'auto', objectFit: 'contain' }} />
+            <img src="/main_logo.png" alt="Kyrti" style={{ width: '120px', height: 'auto', objectFit: 'contain' }} />
           </div>
 
           {/* Navigation Links */}
@@ -173,14 +167,14 @@ export function IntroductionPage() {
                 style={{ 
                   background: 'none', 
                   border: 'none', 
-                  color: '#C4C0B8', 
-                  fontSize: '0.92rem', 
+                  color: '#475569', 
+                  fontSize: '0.9rem', 
                   fontWeight: '600', 
                   cursor: 'pointer', 
                   transition: 'color 0.2s' 
                 }}
                 onMouseOver={e => e.currentTarget.style.color = '#FF5C00'}
-                onMouseOut={e => e.currentTarget.style.color = '#C4C0B8'}
+                onMouseOut={e => e.currentTarget.style.color = '#475569'}
               >
                 {tab}
               </button>
@@ -192,26 +186,24 @@ export function IntroductionPage() {
             <button 
               onClick={handleCTAClick}
               style={{
-                backgroundColor: '#FF5C00',
-                border: '1px solid #FF5C00',
-                padding: '0.6rem 1.4rem',
+                backgroundColor: '#0F172A',
+                border: '1px solid #0F172A',
+                padding: '0.55rem 1.25rem',
                 borderRadius: '99px',
                 color: '#FFFFFF',
-                fontSize: '0.88rem',
-                fontWeight: '700',
+                fontSize: '0.85rem',
+                fontWeight: '600',
                 cursor: 'pointer',
                 transition: 'all 0.3s ease',
-                boxShadow: '0 4px 16px rgba(255, 92, 0, 0.35)'
+                boxShadow: '0 2px 4px rgba(0, 0, 0, 0.05)'
               }}
               onMouseOver={e => {
-                e.currentTarget.style.backgroundColor = '#E8943A';
-                e.currentTarget.style.borderColor = '#E8943A';
-                e.currentTarget.style.boxShadow = '0 6px 20px rgba(255, 92, 0, 0.5)';
-              }}
-              onMouseOut={e => {
                 e.currentTarget.style.backgroundColor = '#FF5C00';
                 e.currentTarget.style.borderColor = '#FF5C00';
-                e.currentTarget.style.boxShadow = '0 4px 16px rgba(255, 92, 0, 0.35)';
+              }}
+              onMouseOut={e => {
+                e.currentTarget.style.backgroundColor = '#0F172A';
+                e.currentTarget.style.borderColor = '#0F172A';
               }}
             >
               {isAuthenticated ? 'Enter Portal' : 'Access Portal'}
@@ -225,7 +217,7 @@ export function IntroductionPage() {
         
         {/* HERO SECTION */}
         <section id="hero" style={{ 
-          padding: '5.5rem 0 3rem 0', 
+          padding: '6rem 0 3rem 0', 
           display: 'flex', 
           flexDirection: 'column', 
           alignItems: 'center', 
@@ -240,18 +232,16 @@ export function IntroductionPage() {
               display: 'inline-flex',
               alignItems: 'center',
               gap: '8px',
-              backgroundColor: 'rgba(255, 92, 0, 0.12)',
-              border: '1px solid rgba(255, 92, 0, 0.35)',
-              padding: '6px 16px',
+              backgroundColor: 'rgba(255, 92, 0, 0.06)',
+              border: '1px solid rgba(255, 92, 0, 0.15)',
+              padding: '6px 14px',
               borderRadius: '99px',
-              fontSize: '0.8rem',
+              fontSize: '0.75rem',
               fontWeight: '700',
               color: '#FF5C00',
-              marginBottom: '2rem',
-              boxShadow: '0 0 20px rgba(255, 92, 0, 0.2)'
+              marginBottom: '2rem'
             }}
           >
-            <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#FF5C00', display: 'inline-block' }} />
             Kyrti AI Enterprise Platform
           </motion.div>
 
@@ -261,24 +251,16 @@ export function IntroductionPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
             style={{
-              fontSize: 'clamp(2.6rem, 5.5vw, 4.2rem)',
+              fontSize: 'clamp(2.5rem, 5.5vw, 4rem)',
               fontWeight: '900',
               lineHeight: '1.1',
               letterSpacing: '-1.5px',
-              maxWidth: '880px',
+              maxWidth: '850px',
               margin: '0 auto 1.5rem auto',
-              color: '#FBF9F5'
+              color: '#0F172A'
             }}
           >
-            Stop managing prompts.<br/>
-            <span style={{
-              background: 'linear-gradient(135deg, #FF5C00, #E8943A, #D4842E)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              display: 'inline-block'
-            }}>
-              Start leading an enterprise.
-            </span>
+            Stop managing prompts.<br/>Start leading an enterprise.
           </motion.h1>
 
           {/* Subheading */}
@@ -287,10 +269,10 @@ export function IntroductionPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
             style={{
-              fontSize: 'clamp(1.05rem, 1.8vw, 1.2rem)',
-              color: '#C4C0B8',
-              lineHeight: '1.65',
-              maxWidth: '720px',
+              fontSize: 'clamp(1rem, 1.8vw, 1.15rem)',
+              color: '#475569',
+              lineHeight: '1.6',
+              maxWidth: '680px',
               margin: '0 auto 2.5rem auto'
             }}
           >
@@ -302,7 +284,6 @@ export function IntroductionPage() {
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.3 }}
-            style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', justifyContent: 'center' }}
           >
             <button
               onClick={handleCTAClick}
@@ -310,124 +291,73 @@ export function IntroductionPage() {
                 backgroundColor: '#FF5C00',
                 color: '#FFFFFF',
                 border: 'none',
-                padding: '1rem 2.2rem',
+                padding: '0.9rem 2rem',
                 borderRadius: '99px',
-                fontSize: '1rem',
+                fontSize: '0.95rem',
                 fontWeight: '700',
                 cursor: 'pointer',
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '10px',
-                boxShadow: '0 8px 25px rgba(255, 92, 0, 0.4)',
+                boxShadow: '0 6px 20px rgba(255, 92, 0, 0.25)',
                 transition: 'all 0.3s ease'
               }}
               onMouseOver={e => {
-                e.currentTarget.style.backgroundColor = '#E8943A';
-                e.currentTarget.style.transform = 'translateY(-2px)';
-                e.currentTarget.style.boxShadow = '0 10px 30px rgba(255, 92, 0, 0.55)';
+                e.currentTarget.style.backgroundColor = '#FF7A00';
+                e.currentTarget.style.transform = 'translateY(-1px)';
+                e.currentTarget.style.boxShadow = '0 8px 24px rgba(255, 92, 0, 0.35)';
               }}
               onMouseOut={e => {
                 e.currentTarget.style.backgroundColor = '#FF5C00';
                 e.currentTarget.style.transform = 'translateY(0)';
-                e.currentTarget.style.boxShadow = '0 8px 25px rgba(255, 92, 0, 0.4)';
+                e.currentTarget.style.boxShadow = '0 6px 20px rgba(255, 92, 0, 0.25)';
               }}
             >
               Launch Portal
-              <ArrowRight size={18} strokeWidth={2.5} />
-            </button>
-
-            <button
-              onClick={() => scrollToSection('architecture')}
-              style={{
-                backgroundColor: 'rgba(255, 92, 0, 0.1)',
-                color: '#E8943A',
-                border: '1px solid rgba(232, 148, 58, 0.35)',
-                padding: '1rem 2rem',
-                borderRadius: '99px',
-                fontSize: '1rem',
-                fontWeight: '700',
-                cursor: 'pointer',
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '10px',
-                transition: 'all 0.3s ease'
-              }}
-              onMouseOver={e => {
-                e.currentTarget.style.backgroundColor = 'rgba(255, 92, 0, 0.2)';
-                e.currentTarget.style.borderColor = '#FF5C00';
-              }}
-              onMouseOut={e => {
-                e.currentTarget.style.backgroundColor = 'rgba(255, 92, 0, 0.1)';
-                e.currentTarget.style.borderColor = 'rgba(232, 148, 58, 0.35)';
-              }}
-            >
-              Explore Architecture
+              <ArrowRight size={16} strokeWidth={2.5} />
             </button>
           </motion.div>
         </section>
 
-        {/* HERO ORB INTERACTIVE VISUALIZATION */}
-        <section style={{ padding: '2rem 0 4rem 0' }}>
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, delay: 0.35 }}
-            style={{
-              background: 'linear-gradient(135deg, rgba(34, 32, 30, 0.8), rgba(26, 26, 26, 0.95))',
-              border: '1px solid rgba(255, 92, 0, 0.25)',
-              borderRadius: '24px',
-              padding: '1.5rem',
-              boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.6), 0 0 40px rgba(255, 92, 0, 0.15)'
-            }}
-          >
-            <div style={{ textAlign: 'center', marginBottom: '1.5rem' }}>
-              <span style={{ fontSize: '0.75rem', fontWeight: '800', color: '#E8943A', letterSpacing: '1.5px', textTransform: 'uppercase' }}>
-                Interactive Swarm Simulation
-              </span>
-            </div>
-            <HeroOrb />
-          </motion.div>
-        </section>
-
-        {/* MOCKUP PORTAL PREVIEW (WARM BRAND THEME) */}
-        <section style={{ padding: '2rem 0 5rem 0' }}>
+        {/* LIGHT MOCKUP PORTAL PREVIEW */}
+        <section style={{ padding: '1rem 0 5rem 0' }}>
           <motion.div 
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.4 }}
             style={{
-              background: 'linear-gradient(135deg, rgba(255, 92, 0, 0.25), rgba(232, 148, 58, 0.1))',
-              border: '1px solid rgba(255, 92, 0, 0.3)',
-              borderRadius: '22px',
-              padding: '10px',
-              boxShadow: '0 30px 60px rgba(0,0,0,0.6), 0 0 35px rgba(255, 92, 0, 0.2)',
-              maxWidth: '980px',
+              background: 'linear-gradient(to bottom, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.4))',
+              border: '1px solid rgba(0, 0, 0, 0.06)',
+              borderRadius: '20px',
+              padding: '8px',
+              boxShadow: '0 20px 40px rgba(0,0,0,0.06), 0 1px 3px rgba(0,0,0,0.02)',
+              maxWidth: '960px',
               margin: '0 auto'
             }}
           >
-            {/* Inner Dashboard Frame */}
+            {/* Inner Dashboard Frame (Light Theme) */}
             <div style={{
-              background: '#1A1A1A',
-              borderRadius: '16px',
-              height: '460px',
+              background: '#FFFFFF',
+              borderRadius: '14px',
+              height: '440px',
               overflow: 'hidden',
               display: 'flex',
-              border: '1px solid rgba(255, 92, 0, 0.2)'
+              border: '1px solid rgba(0,0,0,0.06)'
             }}>
               
               {/* Sidebar */}
               <div style={{
-                width: '180px',
-                borderRight: '1px solid rgba(255, 92, 0, 0.15)',
+                width: '170px',
+                borderRight: '1px solid rgba(0, 0, 0, 0.05)',
                 padding: '1.25rem 1rem',
                 display: 'flex',
                 flexDirection: 'column',
                 gap: '1.25rem',
-                background: '#141413'
+                background: '#F8FAFC'
               }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                  <div style={{ width: '18px', height: '18px', borderRadius: '4px', background: '#FF5C00', boxShadow: '0 0 10px #FF5C00' }} />
-                  <span style={{ fontSize: '0.85rem', fontWeight: '800', letterSpacing: '-0.3px', color: '#FBF9F5' }}>Kyrti Portal</span>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <div style={{ width: '16px', height: '16px', borderRadius: '4px', background: '#FF5C00' }} />
+                  <span style={{ fontSize: '0.8rem', fontWeight: '800', letterSpacing: '-0.3px', color: '#0F172A' }}>Kyrti Portal</span>
                 </div>
 
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
@@ -442,13 +372,13 @@ export function IntroductionPage() {
                     <div 
                       key={idx}
                       style={{
-                        padding: '8px 12px',
-                        borderRadius: '8px',
-                        fontSize: '0.78rem',
+                        padding: '6px 10px',
+                        borderRadius: '6px',
+                        fontSize: '0.75rem',
                         fontWeight: '600',
-                        color: item.active ? '#FF5C00' : '#C4C0B8',
-                        backgroundColor: item.active ? 'rgba(255, 92, 0, 0.15)' : 'transparent',
-                        borderLeft: item.active ? '3px solid #FF5C00' : 'none'
+                        color: item.active ? '#FF5C00' : '#475569',
+                        backgroundColor: item.active ? 'rgba(255, 92, 0, 0.06)' : 'transparent',
+                        borderLeft: item.active ? '2px solid #FF5C00' : 'none'
                       }}
                     >
                       {item.label}
@@ -462,87 +392,86 @@ export function IntroductionPage() {
                 flex: 1,
                 display: 'flex',
                 flexDirection: 'column',
-                background: '#1A1A1A'
+                background: '#FFFFFF'
               }}>
                 
                 {/* Top Bar */}
                 <div style={{
-                  padding: '0.9rem 1.4rem',
-                  borderBottom: '1px solid rgba(255, 92, 0, 0.15)',
+                  padding: '0.85rem 1.25rem',
+                  borderBottom: '1px solid rgba(0, 0, 0, 0.05)',
                   display: 'flex',
                   justifyContent: 'space-between',
                   alignItems: 'center',
-                  background: '#141413'
+                  background: '#FCFDFE'
                 }}>
-                  <span style={{ fontSize: '0.78rem', color: '#C4C0B8', fontWeight: '600' }}>
-                    Kyrti Core: <span style={{ color: '#FF5C00', fontWeight: '700' }}>Active Swarm Ready</span>
+                  <span style={{ fontSize: '0.75rem', color: '#64748B', fontWeight: '600' }}>
+                    Kyrti Core: <span style={{ color: '#10B981', fontWeight: '700' }}>Active Swarm Ready</span>
                   </span>
                   
                   {/* Operator Label */}
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', background: 'rgba(255, 92, 0, 0.1)', padding: '4px 10px', borderRadius: '99px', border: '1px solid rgba(255, 92, 0, 0.25)' }}>
-                    <div style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#FF5C00', boxShadow: '0 0 6px #FF5C00' }} />
-                    <span style={{ fontSize: '0.75rem', color: '#E8943A', fontWeight: '700' }}>Operator Portal</span>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <div style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#10B981' }} />
+                    <span style={{ fontSize: '0.75rem', color: '#1E293B', fontWeight: '600' }}>Operator Portal</span>
                   </div>
                 </div>
 
                 {/* Simulated Content Area */}
-                <div style={{ padding: '1.4rem', display: 'flex', flexDirection: 'column', gap: '1.2rem', flex: 1, overflow: 'hidden', backgroundColor: '#1F1D1A' }}>
+                <div style={{ padding: '1.25rem', display: 'flex', flexDirection: 'column', gap: '1rem', flex: 1, overflow: 'hidden', backgroundColor: '#F8FAFC' }}>
                   
                   {/* Mini Cards Row */}
-                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1.2rem' }}>
-                    <div style={{ background: '#1A1A1A', border: '1px solid rgba(255, 92, 0, 0.2)', borderRadius: '10px', padding: '12px 14px', boxShadow: '0 4px 12px rgba(0,0,0,0.3)' }}>
-                      <div style={{ fontSize: '0.65rem', color: '#C4C0B8', fontWeight: '700', letterSpacing: '0.5px' }}>ACTIVE AGENTS</div>
-                      <div style={{ fontSize: '1.25rem', fontWeight: '800', color: '#FBF9F5', marginTop: '4px' }}>14 / 16</div>
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1rem' }}>
+                    <div style={{ background: '#FFFFFF', border: '1px solid rgba(0, 0, 0, 0.05)', borderRadius: '8px', padding: '10px 12px', boxShadow: '0 1px 2px rgba(0,0,0,0.02)' }}>
+                      <div style={{ fontSize: '0.6rem', color: '#64748B', fontWeight: '600' }}>ACTIVE AGENTS</div>
+                      <div style={{ fontSize: '1.15rem', fontWeight: 'bold', color: '#0F172A', marginTop: '2px' }}>14 / 16</div>
                     </div>
-                    <div style={{ background: '#1A1A1A', border: '1px solid rgba(255, 92, 0, 0.35)', borderRadius: '10px', padding: '12px 14px', boxShadow: '0 4px 12px rgba(255, 92, 0, 0.15)' }}>
-                      <div style={{ fontSize: '0.65rem', color: '#E8943A', fontWeight: '700', letterSpacing: '0.5px' }}>TREASURY BALANCE</div>
-                      <div style={{ fontSize: '1.25rem', fontWeight: '800', color: '#FF5C00', marginTop: '4px' }}>$142,500.00</div>
+                    <div style={{ background: '#FFFFFF', border: '1px solid rgba(0, 0, 0, 0.05)', borderRadius: '8px', padding: '10px 12px', boxShadow: '0 1px 2px rgba(0,0,0,0.02)' }}>
+                      <div style={{ fontSize: '0.6rem', color: '#64748B', fontWeight: '600' }}>TREASURY BALANCE</div>
+                      <div style={{ fontSize: '1.15rem', fontWeight: 'bold', color: '#FF5C00', marginTop: '2px' }}>$142,500.00</div>
                     </div>
-                    <div style={{ background: '#1A1A1A', border: '1px solid rgba(255, 92, 0, 0.2)', borderRadius: '10px', padding: '12px 14px', boxShadow: '0 4px 12px rgba(0,0,0,0.3)' }}>
-                      <div style={{ fontSize: '0.65rem', color: '#C4C0B8', fontWeight: '700', letterSpacing: '0.5px' }}>COMPLIANCE SCORE</div>
-                      <div style={{ fontSize: '1.25rem', fontWeight: '800', color: '#E8943A', marginTop: '4px' }}>100% SECURE</div>
+                    <div style={{ background: '#FFFFFF', border: '1px solid rgba(0, 0, 0, 0.05)', borderRadius: '8px', padding: '10px 12px', boxShadow: '0 1px 2px rgba(0,0,0,0.02)' }}>
+                      <div style={{ fontSize: '0.6rem', color: '#64748B', fontWeight: '600' }}>COMPLIANCE SCORE</div>
+                      <div style={{ fontSize: '1.15rem', fontWeight: 'bold', color: '#10B981', marginTop: '2px' }}>100% SECURE</div>
                     </div>
                   </div>
 
                   {/* Chart and Activity Grid */}
-                  <div style={{ display: 'grid', gridTemplateColumns: '1.5fr 1fr', gap: '1.2rem', flex: 1, minHeight: 0 }}>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1.5fr 1fr', gap: '1rem', flex: 1, minHeight: 0 }}>
                     
                     {/* Simulated Graph */}
-                    <div style={{ background: '#1A1A1A', border: '1px solid rgba(255, 92, 0, 0.2)', borderRadius: '12px', padding: '12px 16px', display: 'flex', flexDirection: 'column', boxShadow: '0 4px 12px rgba(0,0,0,0.3)' }}>
-                      <div style={{ fontSize: '0.78rem', fontWeight: '700', color: '#FBF9F5', marginBottom: '0.85rem' }}>Task Processing Efficiency</div>
+                    <div style={{ background: '#FFFFFF', border: '1px solid rgba(0, 0, 0, 0.05)', borderRadius: '10px', padding: '10px 14px', display: 'flex', flexDirection: 'column', boxShadow: '0 1px 2px rgba(0,0,0,0.02)' }}>
+                      <div style={{ fontSize: '0.7rem', fontWeight: '700', color: '#0F172A', marginBottom: '0.75rem' }}>Task Processing Efficiency</div>
                       
                       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flex: 1, paddingBottom: '2px' }}>
                         {[60, 45, 80, 55, 90, 70, 85, 40, 95, 75].map((val, idx) => (
-                          <div key={idx} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '6px', width: '8%' }}>
+                          <div key={idx} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px', width: '8%' }}>
                             <div style={{
                               width: '100%',
-                              height: `${val * 1.1}px`,
-                              background: idx === 8 ? 'linear-gradient(to top, #FF5C00, #E8943A)' : 'rgba(255, 92, 0, 0.2)',
-                              borderRadius: '4px',
-                              boxShadow: idx === 8 ? '0 0 12px #FF5C00' : 'none'
+                              height: `${val * 1.0}px`,
+                              background: idx === 8 ? 'linear-gradient(to top, #FF5C00, #E8943A)' : '#E2E8F0',
+                              borderRadius: '3px'
                             }} />
-                            <span style={{ fontSize: '0.55rem', color: '#C4C0B8' }}>M{idx+1}</span>
+                            <span style={{ fontSize: '0.5rem', color: '#64748B' }}>M{idx+1}</span>
                           </div>
                         ))}
                       </div>
                     </div>
 
                     {/* Simulated Live Ledger */}
-                    <div style={{ background: '#1A1A1A', border: '1px solid rgba(255, 92, 0, 0.2)', borderRadius: '12px', padding: '12px 16px', display: 'flex', flexDirection: 'column', overflow: 'hidden', boxShadow: '0 4px 12px rgba(0,0,0,0.3)' }}>
-                      <div style={{ fontSize: '0.78rem', fontWeight: '700', color: '#FBF9F5', marginBottom: '0.7rem' }}>Live Compliance Log</div>
+                    <div style={{ background: '#FFFFFF', border: '1px solid rgba(0, 0, 0, 0.05)', borderRadius: '10px', padding: '10px 14px', display: 'flex', flexDirection: 'column', overflow: 'hidden', boxShadow: '0 1px 2px rgba(0,0,0,0.02)' }}>
+                      <div style={{ fontSize: '0.7rem', fontWeight: '700', color: '#0F172A', marginBottom: '0.5rem' }}>Live Compliance Log</div>
                       
-                      <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', fontSize: '0.65rem', fontFamily: 'monospace' }}>
-                        <div style={{ borderBottom: '1px solid rgba(255, 92, 0, 0.1)', paddingBottom: '4px' }}>
-                          <span style={{ color: '#FF5C00', fontWeight: '800' }}>[OK]</span> Agent_Legal reviewed SAEP contract.
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', fontSize: '0.6rem', fontFamily: 'monospace' }}>
+                        <div style={{ borderBottom: '1px solid rgba(0,0,0,0.03)', paddingBottom: '3px' }}>
+                          <span style={{ color: '#10B981', fontWeight: '750' }}>[OK]</span> Agent_LegalDraft reviewed SAEP contract.
                         </div>
-                        <div style={{ borderBottom: '1px solid rgba(255, 92, 0, 0.1)', paddingBottom: '4px' }}>
-                          <span style={{ color: '#E8943A', fontWeight: '800' }}>[WARN]</span> Agent_Devops threshold set to 95%.
+                        <div style={{ borderBottom: '1px solid rgba(0,0,0,0.03)', paddingBottom: '3px' }}>
+                          <span style={{ color: '#FF5C00', fontWeight: '750' }}>[WARN]</span> Agent_Devops threshold set to 95%.
                         </div>
-                        <div style={{ borderBottom: '1px solid rgba(255, 92, 0, 0.1)', paddingBottom: '4px' }}>
-                          <span style={{ color: '#FF5C00', fontWeight: '800' }}>[OK]</span> Identity 2FA verified: admin@kyrti.
+                        <div style={{ borderBottom: '1px solid rgba(0,0,0,0.03)', paddingBottom: '3px' }}>
+                          <span style={{ color: '#10B981', fontWeight: '750' }}>[OK]</span> Identity 2FA verified: admin@kyrti.
                         </div>
                         <div>
-                          <span style={{ color: '#D4842E', fontWeight: '800' }}>[INFO]</span> Payout via Treasury gateway.
+                          <span style={{ color: '#E8943A', fontWeight: '750' }}>[INFO]</span> Payout via Treasury gateway.
                         </div>
                       </div>
                     </div>
@@ -562,50 +491,45 @@ export function IntroductionPage() {
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
           variants={revealVariants}
-          style={{ padding: '5rem 0', borderTop: '1px solid rgba(255, 92, 0, 0.15)' }}
+          style={{ padding: '4.5rem 0', borderTop: '1px solid rgba(0, 0, 0, 0.04)' }}
         >
           <div style={{
-            background: 'linear-gradient(135deg, rgba(34, 32, 30, 0.85), rgba(26, 26, 26, 0.95))',
-            border: '1px solid rgba(255, 92, 0, 0.25)',
-            borderRadius: '20px',
-            padding: '3.5rem 3rem',
+            background: '#FFFFFF',
+            border: '1px solid rgba(0, 0, 0, 0.05)',
+            borderRadius: '16px',
+            padding: '3rem 2.5rem',
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-            gap: '3.5rem',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+            gap: '3rem',
             alignItems: 'center',
-            boxShadow: '0 20px 40px rgba(0, 0, 0, 0.4)'
+            boxShadow: '0 4px 20px -2px rgba(0, 0, 0, 0.02)'
           }}>
             <div>
-              <span style={{ fontSize: '0.82rem', fontWeight: '800', textTransform: 'uppercase', color: '#FF5C00', letterSpacing: '2px' }}>Core Philosophy</span>
-              <h2 style={{ fontSize: '2.4rem', fontWeight: '900', marginTop: '0.6rem', letterSpacing: '-0.5px', color: '#FBF9F5', lineHeight: '1.2' }}>
-                Humans Govern.<br/>
-                <span style={{ color: '#E8943A' }}>AI Operates.</span>
-              </h2>
-              <p style={{ color: '#C4C0B8', fontSize: '1rem', lineHeight: '1.7', marginTop: '1.2rem' }}>
-                Kyrti aligns autonomous agent swarms with company directives by maintaining rigid operational guardrails between digital execution and human administrative authority.
+              <span style={{ fontSize: '0.8rem', fontWeight: '700', textTransform: 'uppercase', color: '#FF5C00', letterSpacing: '1px' }}>Core Philosophy</span>
+              <h2 style={{ fontSize: '2rem', fontWeight: '800', marginTop: '0.5rem', letterSpacing: '-0.5px', color: '#0F172A' }}>Humans Govern.<br/>AI Operates.</h2>
+              <p style={{ color: '#475569', fontSize: '0.95rem', lineHeight: '1.6', marginTop: '1rem' }}>
+                Kyrti aligns autonomous agent swarms with company directives by maintaining clear borders between execution and administrative authority.
               </p>
             </div>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '1.8rem' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
               {projectDetails.principles.map((pr, idx) => (
-                <div key={idx} style={{ display: 'flex', gap: '16px' }}>
+                <div key={idx} style={{ display: 'flex', gap: '12px' }}>
                   <div style={{
-                    width: '32px',
-                    height: '32px',
+                    width: '24px',
+                    height: '24px',
                     borderRadius: '50%',
-                    backgroundColor: 'rgba(255, 92, 0, 0.18)',
-                    border: '1px solid #FF5C00',
-                    color: '#FF5C00',
+                    backgroundColor: idx === 0 ? 'rgba(16, 185, 129, 0.1)' : 'rgba(255, 92, 0, 0.1)',
+                    color: idx === 0 ? '#10B981' : '#FF5C00',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    fontWeight: '800',
-                    fontSize: '0.9rem',
-                    flexShrink: 0,
-                    boxShadow: '0 0 12px rgba(255, 92, 0, 0.3)'
+                    fontWeight: '700',
+                    fontSize: '0.75rem',
+                    flexShrink: 0
                   }}>✓</div>
                   <div>
-                    <h4 style={{ margin: '0 0 6px 0', fontSize: '1.15rem', fontWeight: '750', color: '#FBF9F5' }}>{pr.title}</h4>
-                    <p style={{ margin: 0, fontSize: '0.92rem', color: '#C4C0B8', lineHeight: '1.6' }}>{pr.desc}</p>
+                    <h4 style={{ margin: '0 0 4px 0', fontSize: '1rem', fontWeight: '700', color: '#0F172A' }}>{pr.title}</h4>
+                    <p style={{ margin: 0, fontSize: '0.875rem', color: '#475569', lineHeight: '1.5' }}>{pr.desc}</p>
                   </div>
                 </div>
               ))}
@@ -620,46 +544,42 @@ export function IntroductionPage() {
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
           variants={revealVariants}
-          style={{ padding: '6rem 0', borderTop: '1px solid rgba(255, 92, 0, 0.15)' }}
+          style={{ padding: '5.5rem 0', borderTop: '1px solid rgba(0, 0, 0, 0.04)' }}
         >
-          <div style={{ textAlign: 'center', marginBottom: '4.5rem' }}>
-            <span style={{ fontSize: '0.82rem', fontWeight: '800', textTransform: 'uppercase', color: '#FF5C00', letterSpacing: '2px' }}>Structural Blueprint</span>
-            <h2 style={{ fontSize: '2.8rem', fontWeight: '900', marginTop: '0.5rem', letterSpacing: '-0.8px', color: '#FBF9F5' }}>The Ten Major Layers</h2>
-            <p style={{ color: '#C4C0B8', maxWidth: '650px', margin: '0.75rem auto 0 auto', fontSize: '1.05rem', lineHeight: '1.6' }}>
-              A full-featured operating environment providing complete multi-tenant isolation, execution coordination, and immutable audit logs.
-            </p>
+          <div style={{ textAlign: 'center', marginBottom: '4rem' }}>
+            <span style={{ fontSize: '0.8rem', fontWeight: '700', textTransform: 'uppercase', color: '#FF5C00', letterSpacing: '2px' }}>Structural Blueprint</span>
+            <h2 style={{ fontSize: '2.5rem', fontWeight: '800', marginTop: '0.5rem', letterSpacing: '-0.8px', color: '#0F172A' }}>The Ten Major Layers</h2>
+            <p style={{ color: '#475569', maxWidth: '600px', margin: '0.5rem auto 0 auto' }}>A full-featured operating environment providing complete isolation, execution, and audit logs.</p>
           </div>
 
           <div style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(290px, 1fr))',
-            gap: '1.6rem'
+            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+            gap: '1.5rem'
           }}>
             {projectDetails.architecture.map((layer, idx) => (
               <motion.div
                 key={idx}
-                whileHover={{ y: -6, borderColor: '#FF5C00', boxShadow: '0 15px 35px rgba(255, 92, 0, 0.2)' }}
+                whileHover={{ y: -5, borderColor: '#FF5C00', boxShadow: '0 10px 25px -5px rgba(255, 92, 0, 0.08)' }}
                 transition={{ duration: 0.25 }}
                 style={{
-                  background: 'linear-gradient(135deg, rgba(34, 32, 30, 0.7), rgba(26, 26, 26, 0.9))',
-                  border: '1px solid rgba(255, 92, 0, 0.18)',
-                  borderRadius: '16px',
-                  padding: '1.6rem',
+                  background: '#FFFFFF',
+                  border: '1px solid rgba(0, 0, 0, 0.05)',
+                  borderRadius: '12px',
+                  padding: '1.5rem',
                   display: 'flex',
                   flexDirection: 'column',
-                  gap: '0.85rem',
+                  gap: '0.75rem',
                   cursor: 'default',
-                  boxShadow: '0 4px 20px rgba(0, 0, 0, 0.3)'
+                  boxShadow: '0 2px 8px -1px rgba(0, 0, 0, 0.01)'
                 }}
               >
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <span style={{ fontSize: '0.78rem', fontFamily: 'monospace', color: '#FF5C00', fontWeight: '800', background: 'rgba(255, 92, 0, 0.12)', padding: '4px 10px', borderRadius: '6px' }}>
-                    LAYER {layer.num}
-                  </span>
-                  <div style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#FF5C00', boxShadow: '0 0 8px #FF5C00' }} />
+                  <span style={{ fontSize: '0.75rem', fontFamily: 'monospace', color: '#FF5C00', fontWeight: '700' }}>LAYER {layer.num}</span>
+                  <div style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: 'rgba(255, 92, 0, 0.2)' }} />
                 </div>
-                <h3 style={{ fontSize: '1.2rem', fontWeight: '800', color: '#FBF9F5', margin: 0 }}>{layer.title}</h3>
-                <p style={{ fontSize: '0.9rem', color: '#C4C0B8', lineHeight: '1.6', margin: 0 }}>{layer.desc}</p>
+                <h3 style={{ fontSize: '1.1rem', fontWeight: '700', color: '#0F172A', margin: 0 }}>{layer.title}</h3>
+                <p style={{ fontSize: '0.85rem', color: '#475569', lineHeight: '1.5', margin: 0 }}>{layer.desc}</p>
               </motion.div>
             ))}
           </div>
@@ -672,44 +592,42 @@ export function IntroductionPage() {
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
           variants={revealVariants}
-          style={{ padding: '6rem 0', borderTop: '1px solid rgba(255, 92, 0, 0.15)' }}
+          style={{ padding: '5.5rem 0', borderTop: '1px solid rgba(0, 0, 0, 0.04)' }}
         >
-          <div style={{ textAlign: 'center', marginBottom: '4.5rem' }}>
-            <span style={{ fontSize: '0.82rem', fontWeight: '800', textTransform: 'uppercase', color: '#FF5C00', letterSpacing: '2px' }}>Infrastructure Stack</span>
-            <h2 style={{ fontSize: '2.8rem', fontWeight: '900', marginTop: '0.5rem', letterSpacing: '-0.8px', color: '#FBF9F5' }}>Ecosystem Technologies</h2>
-            <p style={{ color: '#C4C0B8', maxWidth: '650px', margin: '0.75rem auto 0 auto', fontSize: '1.05rem', lineHeight: '1.6' }}>
-              Kyrti harnesses industry-standard databases, caches, and event streams inside secure, isolated local Docker containers.
-            </p>
+          <div style={{ textAlign: 'center', marginBottom: '4rem' }}>
+            <span style={{ fontSize: '0.8rem', fontWeight: '700', textTransform: 'uppercase', color: '#FF5C00', letterSpacing: '2px' }}>Infrastructure Stack</span>
+            <h2 style={{ fontSize: '2.5rem', fontWeight: '800', marginTop: '0.5rem', letterSpacing: '-0.8px', color: '#0F172A' }}>Ecosystem Technologies</h2>
+            <p style={{ color: '#475569', maxWidth: '600px', margin: '0.5rem auto 0 auto' }}>Kyrti harnesses industry-standard databases, caches, and event streams inside local Docker containers.</p>
           </div>
 
           <div style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(290px, 1fr))',
-            gap: '1.6rem'
+            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+            gap: '1.5rem'
           }}>
             {projectDetails.stack.map((service, idx) => (
               <motion.div
                 key={idx}
-                whileHover={{ y: -6, borderColor: '#FF5C00', boxShadow: '0 15px 35px rgba(255, 92, 0, 0.2)' }}
+                whileHover={{ y: -4, borderColor: '#FF5C00' }}
                 style={{
-                  background: 'linear-gradient(135deg, rgba(34, 32, 30, 0.7), rgba(26, 26, 26, 0.9))',
-                  border: '1px solid rgba(255, 92, 0, 0.18)',
-                  borderRadius: '16px',
-                  padding: '1.6rem',
+                  background: '#FFFFFF',
+                  border: '1px solid rgba(0, 0, 0, 0.05)',
+                  borderRadius: '12px',
+                  padding: '1.5rem',
                   display: 'flex',
                   flexDirection: 'column',
-                  gap: '0.85rem',
-                  boxShadow: '0 4px 20px rgba(0, 0, 0, 0.3)'
+                  gap: '0.75rem',
+                  boxShadow: '0 2px 8px -1px rgba(0, 0, 0, 0.01)'
                 }}
               >
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <span style={{ fontSize: '0.78rem', fontWeight: '800', color: '#E8943A', backgroundColor: 'rgba(232, 148, 58, 0.15)', padding: '4px 10px', borderRadius: '6px', border: '1px solid rgba(232, 148, 58, 0.3)' }}>
+                  <span style={{ fontSize: '0.75rem', fontWeight: '700', color: '#FF5C00', backgroundColor: 'rgba(255, 92, 0, 0.06)', padding: '2px 8px', borderRadius: '4px' }}>
                     {service.category}
                   </span>
-                  <Database size={18} color="#FF5C00" />
+                  <Database size={14} color="#64748B" />
                 </div>
-                <h3 style={{ fontSize: '1.25rem', fontWeight: '800', color: '#FBF9F5', margin: 0 }}>{service.name}</h3>
-                <p style={{ fontSize: '0.9rem', color: '#C4C0B8', lineHeight: '1.6', margin: 0 }}>{service.desc}</p>
+                <h3 style={{ fontSize: '1.15rem', fontWeight: '700', color: '#0F172A', margin: 0 }}>{service.name}</h3>
+                <p style={{ fontSize: '0.85rem', color: '#475569', lineHeight: '1.5', margin: 0 }}>{service.desc}</p>
               </motion.div>
             ))}
           </div>
@@ -722,33 +640,31 @@ export function IntroductionPage() {
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
           variants={revealVariants}
-          style={{ padding: '6rem 0', borderTop: '1px solid rgba(255, 92, 0, 0.15)' }}
+          style={{ padding: '5.5rem 0', borderTop: '1px solid rgba(0, 0, 0, 0.04)' }}
         >
-          <div style={{ textAlign: 'center', marginBottom: '4.5rem' }}>
-            <span style={{ fontSize: '0.82rem', fontWeight: '800', textTransform: 'uppercase', color: '#FF5C00', letterSpacing: '2px' }}>Operational Pipelines</span>
-            <h2 style={{ fontSize: '2.8rem', fontWeight: '900', marginTop: '0.5rem', letterSpacing: '-0.8px', color: '#FBF9F5' }}>Core Platform Workflows</h2>
-            <p style={{ color: '#C4C0B8', maxWidth: '650px', margin: '0.75rem auto 0 auto', fontSize: '1.05rem', lineHeight: '1.6' }}>
-              Inspect how interactions transition securely between human commands and AI swarm executions.
-            </p>
+          <div style={{ textAlign: 'center', marginBottom: '4rem' }}>
+            <span style={{ fontSize: '0.8rem', fontWeight: '700', textTransform: 'uppercase', color: '#FF5C00', letterSpacing: '2px' }}>Operational Pipelines</span>
+            <h2 style={{ fontSize: '2.5rem', fontWeight: '800', marginTop: '0.5rem', letterSpacing: '-0.8px', color: '#0F172A' }}>Core Platform Workflows</h2>
+            <p style={{ color: '#475569', maxWidth: '600px', margin: '0.5rem auto 0 auto' }}>Inspect how interactions transition between human commands and AI swarm executions.</p>
           </div>
 
           <div style={{
             display: 'flex',
             flexDirection: 'column',
             gap: '2.5rem',
-            maxWidth: '920px',
+            maxWidth: '900px',
             margin: '0 auto'
           }}>
             {/* Workflows Selector */}
             <div style={{
               display: 'grid',
               gridTemplateColumns: 'repeat(3, 1fr)',
-              gap: '14px',
-              background: 'rgba(34, 32, 30, 0.8)',
-              padding: '8px',
-              borderRadius: '16px',
-              border: '1px solid rgba(255, 92, 0, 0.25)',
-              boxShadow: '0 4px 20px rgba(0, 0, 0, 0.4)'
+              gap: '12px',
+              background: '#FFFFFF',
+              padding: '6px',
+              borderRadius: '12px',
+              border: '1px solid rgba(0, 0, 0, 0.05)',
+              boxShadow: '0 2px 8px -1px rgba(0, 0, 0, 0.01)'
             }}>
               {[
                 { id: 'creation', label: 'Company Creation', icon: Layers },
@@ -762,20 +678,20 @@ export function IntroductionPage() {
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    gap: '10px',
-                    padding: '12px 10px',
-                    borderRadius: '10px',
+                    gap: '8px',
+                    padding: '10px 8px',
+                    borderRadius: '8px',
                     border: 'none',
-                    fontSize: '0.92rem',
-                    fontWeight: '700',
+                    fontSize: '0.85rem',
+                    fontWeight: '600',
                     cursor: 'pointer',
-                    color: activeWorkflow === tab.id ? '#FFFFFF' : '#C4C0B8',
-                    background: activeWorkflow === tab.id ? 'linear-gradient(135deg, #FF5C00, #E8943A)' : 'transparent',
-                    boxShadow: activeWorkflow === tab.id ? '0 4px 15px rgba(255, 92, 0, 0.4)' : 'none',
+                    color: activeWorkflow === tab.id ? '#FFFFFF' : '#475569',
+                    background: activeWorkflow === tab.id ? '#FF5C00' : 'transparent',
+                    boxShadow: activeWorkflow === tab.id ? '0 3px 8px rgba(255, 92, 0, 0.2)' : 'none',
                     transition: 'all 0.3s ease'
                   }}
                 >
-                  <tab.icon size={16} />
+                  <tab.icon size={14} />
                   <span>{tab.label}</span>
                 </button>
               ))}
@@ -783,15 +699,15 @@ export function IntroductionPage() {
 
             {/* Workflow Window Content */}
             <div style={{
-              background: 'linear-gradient(135deg, rgba(34, 32, 30, 0.85), rgba(26, 26, 26, 0.95))',
-              border: '1px solid rgba(255, 92, 0, 0.25)',
-              borderRadius: '20px',
-              padding: '2.8rem',
-              minHeight: '240px',
+              background: '#FFFFFF',
+              border: '1px solid rgba(0, 0, 0, 0.05)',
+              borderRadius: '16px',
+              padding: '2.5rem',
+              minHeight: '220px',
               display: 'flex',
               flexDirection: 'column',
               justifyContent: 'center',
-              boxShadow: '0 20px 40px rgba(0, 0, 0, 0.4)'
+              boxShadow: '0 4px 20px -2px rgba(0, 0, 0, 0.02)'
             }}>
               <AnimatePresence mode="wait">
                 {activeWorkflow === 'creation' && (
@@ -801,20 +717,20 @@ export function IntroductionPage() {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -8 }}
                     transition={{ duration: 0.2 }}
-                    style={{ display: 'flex', flexDirection: 'column', gap: '1.2rem' }}
+                    style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}
                   >
-                    <h3 style={{ fontSize: '1.6rem', fontWeight: '800', color: '#FBF9F5', margin: 0 }}>Company Workspace Initialization</h3>
-                    <p style={{ color: '#C4C0B8', lineHeight: '1.7', margin: 0, fontSize: '1.02rem' }}>
+                    <h3 style={{ fontSize: '1.4rem', fontWeight: '700', color: '#0F172A', margin: 0 }}>Company Workspace Initialization</h3>
+                    <p style={{ color: '#475569', lineHeight: '1.6', margin: 0 }}>
                       The workflow starts when a Human Operator sets up a Company Profile. The portal deploys corporate governance rules, configures the Relational DB mapping, initializes department settings, and starts the workforce allocation routines.
                     </p>
-                    <div style={{ display: 'flex', gap: '14px', flexWrap: 'wrap', marginTop: '0.6rem', fontSize: '0.85rem', color: '#FF5C00', fontFamily: 'monospace', fontWeight: '700', alignItems: 'center' }}>
-                      <span style={{ background: 'rgba(255, 92, 0, 0.12)', padding: '6px 12px', borderRadius: '6px', border: '1px solid rgba(255, 92, 0, 0.3)' }}>Human Creates Company</span>
+                    <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', marginTop: '0.5rem', fontSize: '0.8rem', color: '#FF5C00', fontFamily: 'monospace', fontWeight: '600' }}>
+                      <span>Human Creates Company</span>
                       <span>→</span>
-                      <span style={{ background: 'rgba(255, 92, 0, 0.12)', padding: '6px 12px', borderRadius: '6px', border: '1px solid rgba(255, 92, 0, 0.3)' }}>Verification Check</span>
+                      <span>Verification Check</span>
                       <span>→</span>
-                      <span style={{ background: 'rgba(255, 92, 0, 0.12)', padding: '6px 12px', borderRadius: '6px', border: '1px solid rgba(255, 92, 0, 0.3)' }}>Namespace Created</span>
+                      <span>Namespace Created</span>
                       <span>→</span>
-                      <span style={{ background: 'rgba(255, 92, 0, 0.12)', padding: '6px 12px', borderRadius: '6px', border: '1px solid rgba(255, 92, 0, 0.3)' }}>Departments Setup</span>
+                      <span>Departments Setup</span>
                     </div>
                   </motion.div>
                 )}
@@ -826,20 +742,20 @@ export function IntroductionPage() {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -8 }}
                     transition={{ duration: 0.2 }}
-                    style={{ display: 'flex', flexDirection: 'column', gap: '1.2rem' }}
+                    style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}
                   >
-                    <h3 style={{ fontSize: '1.6rem', fontWeight: '800', color: '#FBF9F5', margin: 0 }}>Digital Professional Recruitment</h3>
-                    <p style={{ color: '#C4C0B8', lineHeight: '1.7', margin: 0, fontSize: '1.02rem' }}>
+                    <h3 style={{ fontSize: '1.4rem', fontWeight: '700', color: '#0F172A', margin: 0 }}>Digital Professional Recruitment</h3>
+                    <p style={{ color: '#475569', lineHeight: '1.6', margin: 0 }}>
                       Humans search the public Marketplace for specific AI professions (such as CEO, CTO, Backend, Frontend, and QA engineers). Operators can interview AI applicants in the visual Interview Room, negotiate credits, and approve structural employments.
                     </p>
-                    <div style={{ display: 'flex', gap: '14px', flexWrap: 'wrap', marginTop: '0.6rem', fontSize: '0.85rem', color: '#FF5C00', fontFamily: 'monospace', fontWeight: '700', alignItems: 'center' }}>
-                      <span style={{ background: 'rgba(255, 92, 0, 0.12)', padding: '6px 12px', borderRadius: '6px', border: '1px solid rgba(255, 92, 0, 0.3)' }}>Search Marketplace</span>
+                    <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', marginTop: '0.5rem', fontSize: '0.8rem', color: '#FF5C00', fontFamily: 'monospace', fontWeight: '600' }}>
+                      <span>Search Marketplace</span>
                       <span>→</span>
-                      <span style={{ background: 'rgba(255, 92, 0, 0.12)', padding: '6px 12px', borderRadius: '6px', border: '1px solid rgba(255, 92, 0, 0.3)' }}>Interview Room Check</span>
+                      <span>Interview Room Check</span>
                       <span>→</span>
-                      <span style={{ background: 'rgba(255, 92, 0, 0.12)', padding: '6px 12px', borderRadius: '6px', border: '1px solid rgba(255, 92, 0, 0.3)' }}>Human Approval Signature</span>
+                      <span>Human Approval Signature</span>
                       <span>→</span>
-                      <span style={{ background: 'rgba(255, 92, 0, 0.12)', padding: '6px 12px', borderRadius: '6px', border: '1px solid rgba(255, 92, 0, 0.3)' }}>Employment Initiated</span>
+                      <span>Employment Initiated</span>
                     </div>
                   </motion.div>
                 )}
@@ -851,22 +767,22 @@ export function IntroductionPage() {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -8 }}
                     transition={{ duration: 0.2 }}
-                    style={{ display: 'flex', flexDirection: 'column', gap: '1.2rem' }}
+                    style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}
                   >
-                    <h3 style={{ fontSize: '1.6rem', fontWeight: '800', color: '#FBF9F5', margin: 0 }}>Task Execution and Swarm Processing</h3>
-                    <p style={{ color: '#C4C0B8', lineHeight: '1.7', margin: 0, fontSize: '1.02rem' }}>
+                    <h3 style={{ fontSize: '1.4rem', fontWeight: '700', color: '#0F172A', margin: 0 }}>Task Execution and Swarm Processing</h3>
+                    <p style={{ color: '#475569', lineHeight: '1.6', margin: 0 }}>
                       Once a task is created, a Planning Node breaks it down. The task is assigned to an Execution Swarm of AI professionals. Agents complete tasks using memory lookup, verify outputs through a QA node, and request final human approval when complete.
                     </p>
-                    <div style={{ display: 'flex', gap: '14px', flexWrap: 'wrap', marginTop: '0.6rem', fontSize: '0.85rem', color: '#FF5C00', fontFamily: 'monospace', fontWeight: '700', alignItems: 'center' }}>
-                      <span style={{ background: 'rgba(255, 92, 0, 0.12)', padding: '6px 12px', borderRadius: '6px', border: '1px solid rgba(255, 92, 0, 0.3)' }}>Task Ingested</span>
+                    <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', marginTop: '0.5rem', fontSize: '0.8rem', color: '#FF5C00', fontFamily: 'monospace', fontWeight: '600' }}>
+                      <span>Task Ingested</span>
                       <span>→</span>
-                      <span style={{ background: 'rgba(255, 92, 0, 0.12)', padding: '6px 12px', borderRadius: '6px', border: '1px solid rgba(255, 92, 0, 0.3)' }}>Planning Node Breakdown</span>
+                      <span>Planning Node Breakdown</span>
                       <span>→</span>
-                      <span style={{ background: 'rgba(255, 92, 0, 0.12)', padding: '6px 12px', borderRadius: '6px', border: '1px solid rgba(255, 92, 0, 0.3)' }}>Swarm Execution</span>
+                      <span>Swarm Execution</span>
                       <span>→</span>
-                      <span style={{ background: 'rgba(255, 92, 0, 0.12)', padding: '6px 12px', borderRadius: '6px', border: '1px solid rgba(255, 92, 0, 0.3)' }}>QA Verification</span>
+                      <span>QA Verification</span>
                       <span>→</span>
-                      <span style={{ background: 'rgba(255, 92, 0, 0.12)', padding: '6px 12px', borderRadius: '6px', border: '1px solid rgba(255, 92, 0, 0.3)' }}>Human Signoff</span>
+                      <span>Human Complete Signoff</span>
                     </div>
                   </motion.div>
                 )}
@@ -882,54 +798,52 @@ export function IntroductionPage() {
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
           variants={revealVariants}
-          style={{ padding: '6rem 0', borderTop: '1px solid rgba(255, 92, 0, 0.15)' }}
+          style={{ padding: '5.5rem 0 6rem 0', borderTop: '1px solid rgba(0, 0, 0, 0.04)' }}
         >
-          <div style={{ textAlign: 'center', marginBottom: '4.5rem' }}>
-            <span style={{ fontSize: '0.82rem', fontWeight: '800', textTransform: 'uppercase', color: '#FF5C00', letterSpacing: '2px' }}>Support</span>
-            <h2 style={{ fontSize: '2.8rem', fontWeight: '900', marginTop: '0.5rem', letterSpacing: '-0.8px', color: '#FBF9F5' }}>Frequently Asked Questions</h2>
-            <p style={{ color: '#C4C0B8', maxWidth: '650px', margin: '0.75rem auto 0 auto', fontSize: '1.05rem', lineHeight: '1.6' }}>
-              Find quick answers to operations, safety controls, and registry details.
-            </p>
+          <div style={{ textAlign: 'center', marginBottom: '4rem' }}>
+            <span style={{ fontSize: '0.8rem', fontWeight: '700', textTransform: 'uppercase', color: '#FF5C00', letterSpacing: '2px' }}>Support</span>
+            <h2 style={{ fontSize: '2.5rem', fontWeight: '800', marginTop: '0.5rem', letterSpacing: '-0.8px', color: '#0F172A' }}>Frequently Asked Questions</h2>
+            <p style={{ color: '#475569', maxWidth: '600px', margin: '0.5rem auto 0 auto' }}>Find quick answers to operations, safety controls, and registry details.</p>
           </div>
 
           <div style={{
-            maxWidth: '780px',
+            maxWidth: '750px',
             margin: '0 auto',
             display: 'flex',
             flexDirection: 'column',
-            gap: '1.2rem'
+            gap: '1rem'
           }}>
             {faqData.map((faq, idx) => (
               <div
                 key={idx}
                 style={{
-                  border: '1px solid rgba(255, 92, 0, 0.2)',
-                  borderRadius: '14px',
-                  background: 'linear-gradient(135deg, rgba(34, 32, 30, 0.8), rgba(26, 26, 26, 0.9))',
+                  border: '1px solid rgba(0, 0, 0, 0.05)',
+                  borderRadius: '12px',
+                  background: '#FFFFFF',
                   overflow: 'hidden',
-                  boxShadow: '0 4px 16px rgba(0, 0, 0, 0.3)'
+                  boxShadow: '0 2px 6px rgba(0, 0, 0, 0.01)'
                 }}
               >
                 <button
                   onClick={() => toggleFaq(idx)}
                   style={{
                     width: '100%',
-                    padding: '1.4rem 1.8rem',
+                    padding: '1.25rem 1.5rem',
                     background: 'none',
                     border: 'none',
                     display: 'flex',
                     justifyContent: 'space-between',
                     alignItems: 'center',
                     cursor: 'pointer',
-                    color: '#FBF9F5',
+                    color: '#0F172A',
                     textAlign: 'left'
                   }}
                 >
-                  <span style={{ fontSize: '1.05rem', fontWeight: '750' }}>{faq.q}</span>
+                  <span style={{ fontSize: '1rem', fontWeight: '700' }}>{faq.q}</span>
                   {openFaq === idx ? (
-                    <ChevronUp size={20} color="#FF5C00" />
+                    <ChevronUp size={18} color="#FF5C00" />
                   ) : (
-                    <ChevronDown size={20} color="#C4C0B8" />
+                    <ChevronDown size={18} color="#64748B" />
                   )}
                 </button>
 
@@ -942,12 +856,12 @@ export function IntroductionPage() {
                       transition={{ duration: 0.25 }}
                     >
                       <div style={{
-                        padding: '0 1.8rem 1.6rem 1.8rem',
-                        fontSize: '0.95rem',
-                        color: '#C4C0B8',
-                        lineHeight: '1.7',
-                        borderTop: '1px solid rgba(255, 92, 0, 0.12)',
-                        paddingTop: '1.2rem'
+                        padding: '0 1.5rem 1.5rem 1.5rem',
+                        fontSize: '0.9rem',
+                        color: '#475569',
+                        lineHeight: '1.6',
+                        borderTop: '1px solid rgba(0, 0, 0, 0.04)',
+                        paddingTop: '1rem'
                       }}>
                         {faq.a}
                       </div>
@@ -968,51 +882,46 @@ export function IntroductionPage() {
           style={{ padding: '3rem 0 6rem 0' }}
         >
           <div style={{
-            background: 'linear-gradient(135deg, #FF5C00, #E8943A, #D4842E)',
-            borderRadius: '24px',
-            padding: '4.5rem 3.5rem',
+            background: 'linear-gradient(135deg, #FF5C00, #E8943A)',
+            borderRadius: '20px',
+            padding: '4rem 3rem',
             textAlign: 'center',
             position: 'relative',
             overflow: 'hidden',
-            boxShadow: '0 25px 60px rgba(255, 92, 0, 0.35)',
-            border: '1px solid rgba(255, 255, 255, 0.2)'
+            boxShadow: '0 15px 35px rgba(255, 92, 0, 0.2)'
           }}>
-            <div style={{ position: 'relative', zIndex: 1, maxWidth: '700px', margin: '0 auto' }}>
-              <h2 style={{ fontSize: '2.5rem', fontWeight: '900', color: '#FFFFFF', marginBottom: '1.2rem', letterSpacing: '-0.8px', lineHeight: '1.15' }}>
+            <div style={{ position: 'relative', zIndex: 1, maxWidth: '650px', margin: '0 auto' }}>
+              <h2 style={{ fontSize: '2.25rem', fontWeight: '800', color: '#FFFFFF', marginBottom: '1rem', letterSpacing: '-0.8px', lineHeight: '1.15' }}>
                 Let AI take the busy work off your team's plate.
               </h2>
-              <p style={{ color: '#FFFFFF', opacity: 0.95, fontSize: '1.1rem', marginBottom: '2.5rem', lineHeight: '1.6' }}>
-                Deploy your digital workforce swarm, define governance parameters, and start running a state-of-the-art AI-native enterprise.
+              <p style={{ color: '#FFFFFF', opacity: 0.9, fontSize: '1.05rem', marginBottom: '2rem', lineHeight: '1.5' }}>
+                Deploy your digital workforce swarm, define governance parameters, and start running an AI-native company.
               </p>
               
               <button
                 onClick={handleCTAClick}
                 style={{
-                  backgroundColor: '#1A1A1A',
+                  backgroundColor: '#FFFFFF',
                   color: '#FF5C00',
-                  border: '2px solid #1A1A1A',
-                  padding: '1rem 2.4rem',
+                  border: 'none',
+                  padding: '0.9rem 2rem',
                   borderRadius: '99px',
-                  fontSize: '1rem',
-                  fontWeight: '800',
+                  fontSize: '0.95rem',
+                  fontWeight: '700',
                   cursor: 'pointer',
-                  boxShadow: '0 8px 25px rgba(0,0,0,0.4)',
+                  boxShadow: '0 4px 12px rgba(0,0,0,0.08)',
                   transition: 'all 0.3s ease'
                 }}
                 onMouseOver={e => {
-                  e.currentTarget.style.transform = 'translateY(-2px)';
-                  e.currentTarget.style.backgroundColor = '#FFFFFF';
-                  e.currentTarget.style.borderColor = '#FFFFFF';
-                  e.currentTarget.style.boxShadow = '0 12px 30px rgba(0,0,0,0.5)';
+                  e.currentTarget.style.transform = 'translateY(-1px)';
+                  e.currentTarget.style.boxShadow = '0 6px 16px rgba(0,0,0,0.12)';
                 }}
                 onMouseOut={e => {
                   e.currentTarget.style.transform = 'translateY(0)';
-                  e.currentTarget.style.backgroundColor = '#1A1A1A';
-                  e.currentTarget.style.borderColor = '#1A1A1A';
-                  e.currentTarget.style.boxShadow = '0 8px 25px rgba(0,0,0,0.4)';
+                  e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.08)';
                 }}
               >
-                Launch Portal Now
+                Launch Portal
               </button>
             </div>
           </div>
@@ -1022,9 +931,9 @@ export function IntroductionPage() {
 
       {/* FOOTER */}
       <footer style={{ 
-        backgroundColor: '#141413', 
-        borderTop: '1px solid rgba(255, 92, 0, 0.18)',
-        padding: '4.5rem 0 3.5rem 0',
+        backgroundColor: '#FFFFFF', 
+        borderTop: '1px solid rgba(0, 0, 0, 0.05)',
+        padding: '4rem 0 3rem 0',
         position: 'relative',
         zIndex: 1
       }}>
@@ -1035,15 +944,15 @@ export function IntroductionPage() {
             flexWrap: 'wrap',
             justifyContent: 'space-between',
             gap: '3rem',
-            marginBottom: '4.5rem'
+            marginBottom: '4rem'
           }}>
             
             {/* Branding column */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '1.2rem', maxWidth: '340px' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', maxWidth: '320px' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                <img src="/main_logo.png" alt="Kyrti" style={{ width: '120px', height: 'auto', objectFit: 'contain' }} />
+                <img src="/main_logo.png" alt="Kyrti" style={{ width: '100px', height: 'auto', objectFit: 'contain' }} />
               </div>
-              <p style={{ fontSize: '0.9rem', color: '#C4C0B8', lineHeight: '1.65', margin: 0 }}>
+              <p style={{ fontSize: '0.85rem', color: '#475569', lineHeight: '1.6', margin: 0 }}>
                 Foundational operating system for autonomous digital enterprises. Deploy custom AI workforce agents under immutable ledger monitoring and corporate governance.
               </p>
             </div>
@@ -1051,20 +960,20 @@ export function IntroductionPage() {
             {/* Links columns */}
             <div style={{ display: 'flex', gap: '6rem', flexWrap: 'wrap' }}>
               
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-                <h4 style={{ fontSize: '0.88rem', fontWeight: '800', color: '#FF5C00', textTransform: 'uppercase', letterSpacing: '1px', margin: 0 }}>Platform</h4>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem', fontSize: '0.9rem' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
+                <h4 style={{ fontSize: '0.85rem', fontWeight: '700', color: '#0F172A', textTransform: 'uppercase', letterSpacing: '1px', margin: 0 }}>Platform</h4>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', fontSize: '0.85rem' }}>
                   {["Governance", "Workforce Swarms", "Treasury", "Spatial Office", "Compliance Ledger"].map((item, idx) => (
-                    <a key={idx} href="#" style={{ color: '#C4C0B8', textDecoration: 'none', transition: 'color 0.2s' }} onMouseOver={e => e.currentTarget.style.color = '#FF5C00'} onMouseOut={e => e.currentTarget.style.color = '#C4C0B8'}>{item}</a>
+                    <a key={idx} href="#" style={{ color: '#475569', textDecoration: 'none', transition: 'color 0.2s' }} onMouseOver={e => e.currentTarget.style.color = '#FF5C00'} onMouseOut={e => e.currentTarget.style.color = '#475569'}>{item}</a>
                   ))}
                 </div>
               </div>
 
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-                <h4 style={{ fontSize: '0.88rem', fontWeight: '800', color: '#FF5C00', textTransform: 'uppercase', letterSpacing: '1px', margin: 0 }}>Company</h4>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem', fontSize: '0.9rem' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
+                <h4 style={{ fontSize: '0.85rem', fontWeight: '700', color: '#0F172A', textTransform: 'uppercase', letterSpacing: '1px', margin: 0 }}>Company</h4>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', fontSize: '0.85rem' }}>
                   {["About Us", "Ecosystem Blog", "Developer SDK", "Careers", "Contact"].map((item, idx) => (
-                    <a key={idx} href="#" style={{ color: '#C4C0B8', textDecoration: 'none', transition: 'color 0.2s' }} onMouseOver={e => e.currentTarget.style.color = '#FF5C00'} onMouseOut={e => e.currentTarget.style.color = '#C4C0B8'}>{item}</a>
+                    <a key={idx} href="#" style={{ color: '#475569', textDecoration: 'none', transition: 'color 0.2s' }} onMouseOver={e => e.currentTarget.style.color = '#FF5C00'} onMouseOut={e => e.currentTarget.style.color = '#475569'}>{item}</a>
                   ))}
                 </div>
               </div>
@@ -1074,20 +983,20 @@ export function IntroductionPage() {
           </div>
 
           <div style={{
-            borderTop: '1px solid rgba(255, 92, 0, 0.15)',
-            paddingTop: '2.2rem',
+            borderTop: '1px solid rgba(0, 0, 0, 0.05)',
+            paddingTop: '2rem',
             display: 'flex',
             flexWrap: 'wrap',
             justifyContent: 'space-between',
             alignItems: 'center',
             gap: '1rem',
-            fontSize: '0.85rem',
-            color: '#8B5E3C'
+            fontSize: '0.8rem',
+            color: '#64748B'
           }}>
             <span>&copy; {new Date().getFullYear()} Kyrti Platform. All rights reserved.</span>
-            <div style={{ display: 'flex', gap: '1.8rem' }}>
-              <a href="#" style={{ color: 'inherit', textDecoration: 'none' }} onMouseOver={e => e.currentTarget.style.color = '#FF5C00'} onMouseOut={e => e.currentTarget.style.color = '#8B5E3C'}>Privacy Policy</a>
-              <a href="#" style={{ color: 'inherit', textDecoration: 'none' }} onMouseOver={e => e.currentTarget.style.color = '#FF5C00'} onMouseOut={e => e.currentTarget.style.color = '#8B5E3C'}>Terms of Service</a>
+            <div style={{ display: 'flex', gap: '1.5rem' }}>
+              <a href="#" style={{ color: 'inherit', textDecoration: 'none' }} onMouseOver={e => e.currentTarget.style.color = '#FF5C00'} onMouseOut={e => e.currentTarget.style.color = '#64748B'}>Privacy Policy</a>
+              <a href="#" style={{ color: 'inherit', textDecoration: 'none' }} onMouseOver={e => e.currentTarget.style.color = '#FF5C00'} onMouseOut={e => e.currentTarget.style.color = '#64748B'}>Terms of Service</a>
             </div>
           </div>
 
