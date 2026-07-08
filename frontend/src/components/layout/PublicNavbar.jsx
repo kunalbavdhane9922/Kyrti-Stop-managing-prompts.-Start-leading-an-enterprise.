@@ -103,7 +103,7 @@ export function PublicNavbar() {
                       top: '10%',
                       bottom: '10%',
                       width: '3px',
-                      backgroundColor: '#E63946',
+                      backgroundColor: '#FF5C00',
                       borderTopRightRadius: '4px',
                       borderBottomRightRadius: '4px',
                     }}
@@ -118,10 +118,10 @@ export function PublicNavbar() {
                     background: 'none',
                     border: 'none',
                     cursor: 'pointer',
-                    color: isActive ? '#E63946' : (isHovered ? '#1298B0' : '#E4E2DD'), // Neon Teal hover, Cream default
+                    color: isActive ? '#FF5C00' : (isHovered ? '#1298B0' : '#E4E2DD'), // Neon Teal hover, Cream default
                     padding: '0.85rem',
                     borderRadius: '14px',
-                    backgroundColor: isActive ? 'rgba(230, 57, 70, 0.08)' : (isHovered ? 'rgba(18, 152, 176, 0.1)' : 'transparent'),
+                    backgroundColor: isActive ? 'rgba(255, 92, 0, 0.08)' : (isHovered ? 'rgba(18, 152, 176, 0.1)' : 'transparent'),
                     transition: 'background-color 0.3s ease, color 0.3s ease',
                     display: 'flex',
                     alignItems: 'center',
@@ -155,10 +155,10 @@ export function PublicNavbar() {
                       }}
                     >
                       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.4rem' }}>
-                        <h4 style={{ margin: 0, color: '#E63946', fontSize: '1rem', fontWeight: '600', letterSpacing: '0.3px' }}>
+                        <h4 style={{ margin: 0, color: '#FF5C00', fontSize: '1rem', fontWeight: '600', letterSpacing: '0.3px' }}>
                           {item.label}
                         </h4>
-                        <ChevronRight size={14} color="#E63946" strokeWidth={2} />
+                        <ChevronRight size={14} color="#FF5C00" strokeWidth={2} />
                       </div>
                       <p style={{ margin: 0, fontSize: '0.85rem', color: '#E4E2DD', opacity: 0.7, lineHeight: '1.5' }}>
                         {item.preview}

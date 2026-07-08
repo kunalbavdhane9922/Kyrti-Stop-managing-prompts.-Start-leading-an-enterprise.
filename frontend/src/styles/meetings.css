@@ -102,7 +102,7 @@
   position: relative;
 }
 
-.professional-avatar.executive { background: linear-gradient(135deg, #F13223, #ff6b4a); }
+.professional-avatar.executive { background: linear-gradient(135deg, #FF5C00, #E8943A); }
 .professional-avatar.engineering { background: linear-gradient(135deg, #1298B0, #0ea5e9); }
 .professional-avatar.product { background: linear-gradient(135deg, #f59e0b, #fbbf24); }
 .professional-avatar.marketing { background: linear-gradient(135deg, #a855f7, #c084fc); }
@@ -901,7 +901,7 @@
 }
 
 .meeting-type-badge.standup { background: rgba(16, 185, 129, 0.1); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.2); }
-.meeting-type-badge.executive { background: rgba(241, 50, 35, 0.1); color: #F13223; border: 1px solid rgba(241, 50, 35, 0.2); }
+.meeting-type-badge.executive { background: rgba(255, 92, 0, 0.1); color: #FF5C00; border: 1px solid rgba(255, 92, 0, 0.2); }
 .meeting-type-badge.interview { background: rgba(18, 152, 176, 0.1); color: #1298B0; border: 1px solid rgba(18, 152, 176, 0.2); }
 .meeting-type-badge.project_review { background: rgba(99, 102, 241, 0.1); color: #6366f1; border: 1px solid rgba(99, 102, 241, 0.2); }
 

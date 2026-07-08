@@ -46,7 +46,7 @@
 .wizard-logo {
   width: 40px;
   height: 40px;
-  background: linear-gradient(135deg, #F13223, #E02B1D);
+  background: linear-gradient(135deg, #FF5C00, #D4842E);
   border-radius: 10px;
   display: flex;
   align-items: center;
@@ -67,8 +67,8 @@
 }
 
 .wizard-phase-badge {
-  background: rgba(241, 50, 35, 0.15);
-  color: #F13223;
+  background: rgba(255, 92, 0, 0.15);
+  color: #FF5C00;
   padding: 4px 12px;
   border-radius: 20px;
   font-size: 13px;
@@ -83,7 +83,7 @@
 
 .wizard-progress-fill {
   height: 100%;
-  background: linear-gradient(90deg, #F13223, #FF6B3D);
+  background: linear-gradient(90deg, #FF5C00, #E8943A);
   border-radius: 0 2px 2px 0;
 }
 
@@ -113,7 +113,7 @@
 }
 
 .wizard-step--active {
-  background: rgba(241, 50, 35, 0.1);
+  background: rgba(255, 92, 0, 0.1);
 }
 
 .wizard-step--done {
@@ -141,8 +141,8 @@
 }
 
 .wizard-step--active .wizard-step-dot {
-  background: #F13223;
-  border-color: #F13223;
+  background: #FF5C00;
+  border-color: #FF5C00;
   color: #fff;
 }
 
@@ -216,10 +216,10 @@
 }
 
 .wizard-btn--primary {
-  background: #F13223;
+  background: #FF5C00;
   color: #fff;
 }
-.wizard-btn--primary:hover { background: #E02B1D; }
+.wizard-btn--primary:hover { background: #D4842E; }
 
 .wizard-btn--secondary {
   background: rgba(255, 255, 255, 0.06);
@@ -237,7 +237,7 @@
 .wizard-btn--ghost:hover { background: rgba(255, 255, 255, 0.05); color: #E4E2DD; }
 
 .wizard-btn--launch {
-  background: linear-gradient(135deg, #F13223, #FF6B3D);
+  background: linear-gradient(135deg, #FF5C00, #E8943A);
   color: #fff;
   padding: 10px 24px;
   font-size: 14px;
@@ -255,13 +255,13 @@
   transition: all 0.25s ease;
 }
 .wiz-btn--add:hover {
-  background: rgba(241, 50, 35, 0.06);
+  background: rgba(255, 92, 0, 0.06);
   color: #E4E2DD;
-  border-color: rgba(241, 50, 35, 0.35);
+  border-color: rgba(255, 92, 0, 0.35);
   border-style: dashed;
-  box-shadow: 0 0 12px rgba(241, 50, 35, 0.06);
+  box-shadow: 0 0 12px rgba(255, 92, 0, 0.06);
 }
-.wiz-btn--add:hover svg { color: #F13223; }
+.wiz-btn--add:hover svg { color: #FF5C00; }
 .wiz-btn--add:disabled { opacity: 0.3; cursor: not-allowed; }
 
 .wizard-btn-sm { composes: wizard-btn; font-size: 12px; padding: 6px 12px; }
@@ -307,7 +307,7 @@
   margin-bottom: 24px;
 }
 
-.wiz-phase-icon { color: #F13223; flex-shrink: 0; margin-top: 2px; }
+.wiz-phase-icon { color: #FF5C00; flex-shrink: 0; margin-top: 2px; }
 
 .wiz-phase-title {
   font-size: 20px;
@@ -375,7 +375,7 @@
   outline: none;
   box-sizing: border-box;
 }
-.wiz-input:focus, .wiz-select:focus { border-color: rgba(241, 50, 35, 0.5); }
+.wiz-input:focus, .wiz-select:focus { border-color: rgba(255, 92, 0, 0.5); }
 .wiz-input::placeholder { color: rgba(228,226,221,0.25); }
 
 .wiz-input-sm {
@@ -689,7 +689,7 @@
   color: #fff;
 }
 .wiz-dept-section-header:hover svg {
-  color: #F13223;
+  color: #FF5C00;
 }
 
 .wiz-dept-section-name { font-size: 14px; font-weight: 600; color: #E4E2DD; transition: color 0.2s; }
@@ -1030,13 +1030,13 @@
 .tree-node-content--human .tree-node-title { color: #22c55e; }
 .tree-node-content--ai_vacant .tree-node-title { color: #3b82f6; }
 .tree-node-content--dept .tree-node-title { color: #f59e0b; font-weight: 600; }
-.tree-node-content--team .tree-node-title { color: #8b5cf6; }
+.tree-node-content--team .tree-node-title { color: #8B5E3C; }
 .tree-node-content--group .tree-node-title { color: rgba(228,226,221,0.6); }
 .tree-node-content--group_position .tree-node-title { color: rgba(228,226,221,0.5); }
 
 .tree-node-title { color: #E4E2DD; }
 .tree-node-name { color: rgba(228,226,221,0.4); font-size: 12px; }
-.tree-node-count { color: #F13223; font-weight: 700; font-size: 12px; }
+.tree-node-count { color: #FF5C00; font-weight: 700; font-size: 12px; }
 
 .tree-node-badge {
   font-size: 9px;
@@ -1051,7 +1051,7 @@
 .tree-icon--human { color: #22c55e; }
 .tree-icon--ai { color: #3b82f6; }
 .tree-icon--dept { color: #f59e0b; }
-.tree-icon--team { color: #8b5cf6; }
+.tree-icon--team { color: #8B5E3C; }
 .tree-icon--group { color: rgba(228,226,221,0.4); }
 
 /* ─── Invite List (Phase 9) ───────────────────────────────────────────────── */

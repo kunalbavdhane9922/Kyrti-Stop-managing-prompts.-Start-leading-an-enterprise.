@@ -447,7 +447,7 @@ export function IntroductionPage() {
                             <div style={{
                               width: '100%',
                               height: `${val * 1.0}px`,
-                              background: idx === 8 ? 'linear-gradient(to top, #FF5C00, #FF8A00)' : '#E2E8F0',
+                              background: idx === 8 ? 'linear-gradient(to top, #FF5C00, #E8943A)' : '#E2E8F0',
                               borderRadius: '3px'
                             }} />
                             <span style={{ fontSize: '0.5rem', color: '#64748B' }}>M{idx+1}</span>

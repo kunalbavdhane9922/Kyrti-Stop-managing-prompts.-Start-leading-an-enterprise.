@@ -227,8 +227,8 @@
 }
 
 .login-card-bubble .login-input:focus {
-  border-color: rgba(99, 102, 241, 0.5);
-  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+  border-color: rgba(255, 92, 0, 0.5);
+  box-shadow: 0 0 0 3px rgba(255, 92, 0, 0.1);
 }
 
 .login-card-bubble .login-input-label {
@@ -343,8 +343,8 @@
 }
 
 .login-card-bubble .login-2fa-input:focus {
-  border-color: rgba(99, 102, 241, 0.5);
-  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+  border-color: rgba(255, 92, 0, 0.5);
+  box-shadow: 0 0 0 3px rgba(255, 92, 0, 0.1);
 }
 
 .login-card-bubble .btn-ghost {

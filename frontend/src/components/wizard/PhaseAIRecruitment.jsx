@@ -128,7 +128,7 @@ export function PhaseAIRecruitment() {
                   <div className="wiz-ai-position-info">
                     <span className="wiz-ai-position-title">
                       {node.position}
-                      {node.count > 1 && <span style={{ color: '#F13223', fontWeight: 700, marginLeft: 6 }}>×{node.count}</span>}
+                      {node.count > 1 && <span style={{ color: '#FF5C00', fontWeight: 700, marginLeft: 6 }}>×{node.count}</span>}
                     </span>
                     <span className="wiz-ai-position-cat">{node.category}</span>
                   </div>

@@ -272,7 +272,7 @@ export function InterviewRoomPage() {
               }
               setHasJoined(true);
             }} 
-            style={{ padding: '14px 36px', fontSize: '15px', fontWeight: 700, background: 'linear-gradient(135deg, #FF5C00, #FF8A00)', border: 'none', borderRadius: '99px', color: '#fff', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 10, boxShadow: '0 4px 14px rgba(255, 92, 0, 0.3)' }}
+            style={{ padding: '14px 36px', fontSize: '15px', fontWeight: 700, background: 'linear-gradient(135deg, #FF5C00, #E8943A)', border: 'none', borderRadius: '99px', color: '#fff', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 10, boxShadow: '0 4px 14px rgba(255, 92, 0, 0.3)' }}
           >
             <Video size={18} />
             Start Interview
@@ -342,7 +342,7 @@ export function InterviewRoomPage() {
             <div className={`meeting-ai-avatar ${agent.domain} ${speakingId === agent.id ? 'speaking' : ''}`}
               style={{
                 background: {
-                  executive: 'linear-gradient(135deg, #F13223, #ff6b4a)',
+                  executive: 'linear-gradient(135deg, #FF5C00, #E8943A)',
                   engineering: 'linear-gradient(135deg, #1298B0, #0ea5e9)',
                   product: 'linear-gradient(135deg, #f59e0b, #fbbf24)',
                   marketing: 'linear-gradient(135deg, #a855f7, #c084fc)',

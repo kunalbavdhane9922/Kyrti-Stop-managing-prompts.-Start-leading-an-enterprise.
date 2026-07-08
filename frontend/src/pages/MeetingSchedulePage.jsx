@@ -23,7 +23,7 @@ const anim = {
 };
 
 const DOMAIN_COLORS = {
-  executive: '#F13223', engineering: '#1298B0', product: '#f59e0b',
+  executive: '#FF5C00', engineering: '#1298B0', product: '#f59e0b',
   marketing: '#a855f7', operations: '#10b981', finance: '#06b6d4',
   design: '#ec4899', data: '#6366f1', legal: '#78716c',
 };

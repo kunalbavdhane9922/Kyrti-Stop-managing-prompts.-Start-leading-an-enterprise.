@@ -159,7 +159,7 @@ export function HeroOrb() {
           {/* Node Graphic */}
           <div style={{
              width: 80, height: 80,
-             background: hoveredStartup === startup.id ? 'linear-gradient(135deg, #1298B0, #E63946)' : 'linear-gradient(135deg, #092F63, #1298B0)',
+             background: hoveredStartup === startup.id ? 'linear-gradient(135deg, #1298B0, #FF5C00)' : 'linear-gradient(135deg, #092F63, #1298B0)',
              borderRadius: '16px', display: 'flex', justifyContent: 'center', alignItems: 'center',
              border: '2px solid #E4E2DD', boxShadow: '0 10px 30px rgba(0,0,0,0.5)'
           }}>
@@ -205,7 +205,7 @@ export function HeroOrb() {
                    x2={0} y2={0}
                    animate={{ x2: bx, y2: by, opacity: isBuilding ? 0.9 : 0 }}
                    transition={{ duration: 0.2 }}
-                   stroke="#E63946" strokeWidth="4" strokeDasharray="4 8"
+                   stroke="#FF5C00" strokeWidth="4" strokeDasharray="4 8"
                  />
                );
             })}
@@ -223,12 +223,12 @@ export function HeroOrb() {
                 style={{ 
                   position: 'absolute', marginLeft: -20, marginTop: -20, 
                   width: 40, height: 40, borderRadius: '50%', background: '#111319', 
-                  border: '2px solid #E63946', display: 'flex', justifyContent: 'center', alignItems: 'center',
-                  boxShadow: isBuilding ? '0 0 25px rgba(230,57,70,0.8)' : '0 0 10px rgba(230,57,70,0.3)'
+                  border: '2px solid #FF5C00', display: 'flex', justifyContent: 'center', alignItems: 'center',
+                  boxShadow: isBuilding ? '0 0 25px rgba(255,92,0,0.8)' : '0 0 10px rgba(255,92,0,0.3)'
                 }}
               >
                 <motion.div animate={{ rotate: -360 }} transition={{ duration: isBuilding ? 3 : 15, repeat: Infinity, ease: 'linear' }}>
-                  <Bot color="#E63946" size={20} />
+                  <Bot color="#FF5C00" size={20} />
                 </motion.div>
               </motion.div>
             );
@@ -258,7 +258,7 @@ export function HeroOrb() {
             animate={{ opacity: 1, y: 35 }}
             style={{ 
               position: 'absolute', left: '50%', transform: 'translateX(-50%)',
-              background: '#E63946', color: '#fff', padding: '2px 8px', borderRadius: '4px',
+              background: '#FF5C00', color: '#fff', padding: '2px 8px', borderRadius: '4px',
               fontSize: '0.7rem', fontWeight: 'bold', letterSpacing: '1px', whiteSpace: 'nowrap'
             }}
           >
