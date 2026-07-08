@@ -155,7 +155,7 @@ function DPEPipelinePage() {
           { label: 'Drafts', value: drafts.length, icon: FileText, color: '#334155' },
           { label: 'Proposed', value: proposed.length, icon: Send, color: '#d97706' },
           { label: 'Approved', value: approved.length, icon: CheckCircle, color: '#059669' },
-          { label: 'Executed', value: executed.length, icon: Zap, color: '#3b82f6' },
+          { label: 'Executed', value: executed.length, icon: Zap, color: '#FF5C00' },
         ].map((stat, i) => (
           <motion.div key={stat.label} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.06 }}>
             <Card className="security-stat-card" hover>

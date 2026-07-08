@@ -26,9 +26,9 @@ export const LuxuryFluidBackground = React.memo(function LuxuryFluidBackground()
         splatForce: 2000,
         shading: true,
         colorful: false,
-        colorPalette: ['#00E5FF', '#4169E1', '#FF00FF'],
+        colorPalette: ['#FF5C00', '#E8943A', '#8B5E3C'],
         colorUpdateSpeed: 10,
-        backgroundColor: '#000000',
+        backgroundColor: '#1A1A1A',
         transparent: false,
         bloom: false, // Disabled for performance
         bloomIterations: 8,

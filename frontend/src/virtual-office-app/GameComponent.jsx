@@ -688,12 +688,12 @@ class GameScene extends Phaser.Scene {
     this.ceoSprite.setScale(CHAR_SCALE);
     this.ceoSprite.play('idle-down');
 
-    const glow = this.add.circle(0, 0, 20, 0x3B82F6, 0);
-    glow.setStrokeStyle(1.5, 0x60A5FA, 0.5);
+    const glow = this.add.circle(0, 0, 20, 0xFF5C00, 0);
+    glow.setStrokeStyle(1.5, 0xE8943A, 0.5);
     this.tweens.add({ targets: glow, scaleX: { from: 1.0, to: 1.5 }, scaleY: { from: 1.0, to: 1.5 }, alpha: { from: 0.5, to: 0 }, duration: 2200, repeat: -1, ease: 'Sine.easeOut' });
 
     const label = this.add.text(0, 32, '  CEO  ', {
-      font: 'bold 9px Inter, sans-serif', fill: '#ffffff', backgroundColor: '#2563EB', padding: { x: 4, y: 2 }
+      font: 'bold 9px Inter, sans-serif', fill: '#ffffff', backgroundColor: '#FF5C00', padding: { x: 4, y: 2 }
     }).setOrigin(0.5);
 
     this.playerContainer.add([shadow, glow, this.ceoSprite, label]);
@@ -710,7 +710,7 @@ class GameScene extends Phaser.Scene {
   createNPCs() {
     this.npcs = [];
     // Colors matching domain groupings
-    const DEPT_COLORS = { 'Executive': '#F59E0B', 'Frontend': '#8B5CF6', 'Backend': '#EC4899', 'Design': '#06B6D4', 'AI': '#10B981', 'HR': '#F97316', 'IT': '#6366F1' };
+    const DEPT_COLORS = { 'Executive': '#FF5C00', 'Frontend': '#E8943A', 'Backend': '#D4842E', 'Design': '#8B5E3C', 'AI': '#FF5C00', 'HR': '#E8943A', 'IT': '#6B4226' };
 
     NPC_DEFS.forEach((def) => {
       // The chair props are already placed properly by the room builder, so we don't spawn duplicate chairs here.

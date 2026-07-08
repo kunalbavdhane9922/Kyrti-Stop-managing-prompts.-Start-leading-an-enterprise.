@@ -103,14 +103,14 @@
 }
 
 .professional-avatar.executive { background: linear-gradient(135deg, #FF5C00, #E8943A); }
-.professional-avatar.engineering { background: linear-gradient(135deg, #1298B0, #0ea5e9); }
-.professional-avatar.product { background: linear-gradient(135deg, #f59e0b, #fbbf24); }
-.professional-avatar.marketing { background: linear-gradient(135deg, #a855f7, #c084fc); }
-.professional-avatar.operations { background: linear-gradient(135deg, #10b981, #34d399); }
-.professional-avatar.finance { background: linear-gradient(135deg, #06b6d4, #22d3ee); }
-.professional-avatar.design { background: linear-gradient(135deg, #ec4899, #f472b6); }
-.professional-avatar.data { background: linear-gradient(135deg, #6366f1, #818cf8); }
-.professional-avatar.legal { background: linear-gradient(135deg, #78716c, #a8a29e); }
+.professional-avatar.engineering { background: linear-gradient(135deg, #E8943A, #D4842E); }
+.professional-avatar.product { background: linear-gradient(135deg, #D4842E, #8B5E3C); }
+.professional-avatar.marketing { background: linear-gradient(135deg, #8B5E3C, #6B4226); }
+.professional-avatar.operations { background: linear-gradient(135deg, #FF5C00, #D4842E); }
+.professional-avatar.finance { background: linear-gradient(135deg, #E8943A, #8B5E3C); }
+.professional-avatar.design { background: linear-gradient(135deg, #D4842E, #6B4226); }
+.professional-avatar.data { background: linear-gradient(135deg, #8B5E3C, #FF5C00); }
+.professional-avatar.legal { background: linear-gradient(135deg, #6B4226, #1A1A1A); }
 
 .professional-avatar-status {
   position: absolute;
@@ -900,10 +900,10 @@
   letter-spacing: 0.04em;
 }
 
-.meeting-type-badge.standup { background: rgba(16, 185, 129, 0.1); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.2); }
+.meeting-type-badge.standup { background: rgba(232, 148, 58, 0.1); color: #E8943A; border: 1px solid rgba(232, 148, 58, 0.2); }
 .meeting-type-badge.executive { background: rgba(255, 92, 0, 0.1); color: #FF5C00; border: 1px solid rgba(255, 92, 0, 0.2); }
-.meeting-type-badge.interview { background: rgba(18, 152, 176, 0.1); color: #1298B0; border: 1px solid rgba(18, 152, 176, 0.2); }
-.meeting-type-badge.project_review { background: rgba(99, 102, 241, 0.1); color: #6366f1; border: 1px solid rgba(99, 102, 241, 0.2); }
+.meeting-type-badge.interview { background: rgba(212, 132, 46, 0.1); color: #D4842E; border: 1px solid rgba(212, 132, 46, 0.2); }
+.meeting-type-badge.project_review { background: rgba(139, 94, 60, 0.1); color: #8B5E3C; border: 1px solid rgba(139, 94, 60, 0.2); }
 
 /* Status badges */
 .meeting-status-badge {
@@ -927,9 +927,9 @@
 }
 
 .meeting-status-badge.scheduled {
-  background: rgba(99, 102, 241, 0.1);
-  color: #818cf8;
-  border: 1px solid rgba(99, 102, 241, 0.2);
+  background: rgba(232, 148, 58, 0.1);
+  color: #E8943A;
+  border: 1px solid rgba(232, 148, 58, 0.2);
 }
 
 /* ═══ NOTIFICATION DROPDOWN ═══ */
@@ -1057,8 +1057,8 @@
   flex-shrink: 0;
 }
 
-.notification-icon.meeting { background: rgba(16, 185, 129, 0.1); color: #10b981; }
-.notification-icon.marketplace { background: rgba(18, 152, 176, 0.1); color: #1298B0; }
+.notification-icon.meeting { background: rgba(232, 148, 58, 0.1); color: #E8943A; }
+.notification-icon.marketplace { background: rgba(255, 92, 0, 0.1); color: #FF5C00; }
 
 .notification-content {
   flex: 1;

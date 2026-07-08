@@ -165,8 +165,8 @@
 }
 
 .vo-toolbar-btn.active {
-  background: rgba(59, 130, 246, 0.08);
-  color: #3b82f6;
+  background: rgba(255, 92, 0, 0.08);
+  color: #FF5C00;
 }
 
 .vo-toolbar-btn.active-danger {
@@ -405,13 +405,13 @@
   height: 34px;
   border: none;
   border-radius: 8px;
-  background: rgba(59, 130, 246, 0.08);
-  color: #3b82f6;
+  background: rgba(255, 92, 0, 0.08);
+  color: #FF5C00;
   cursor: pointer;
   transition: all 0.2s;
 }
 
-.vo-chat-send:hover { background: rgba(59, 130, 246, 0.15); }
+.vo-chat-send:hover { background: rgba(255, 92, 0, 0.15); }
 .vo-chat-send:disabled { opacity: 0.25; cursor: default; }
 
 /* ===== PARTICIPANT PANEL ===== */
@@ -503,7 +503,7 @@
   letter-spacing: 0.03em;
 }
 
-.vo-participant-state.planning { color: #3b82f6; background: rgba(59,130,246,0.06); }
+.vo-participant-state.planning { color: #FF5C00; background: rgba(255,92,0,0.06); }
 .vo-participant-state.executing { color: #22c55e; background: rgba(34,197,94,0.06); }
 .vo-participant-state.blocked { color: #ef4444; background: rgba(239,68,68,0.06); }
 .vo-participant-state.idle { color: #9ca3af; background: rgba(0,0,0,0.02); }

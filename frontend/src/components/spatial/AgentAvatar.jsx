@@ -14,10 +14,10 @@ function AgentAvatar({ agentId, name, state, position, burnIntensity, onClick })
 
   const stateConfig = useMemo(() => {
     const configs = {
-      executing: { color: '#3b82f6', emissive: '#1d4ed8', intensity: 0.6, pulseSpeed: 2, yOffset: 0 },
+      executing: { color: '#FF5C00', emissive: '#D4842E', intensity: 0.6, pulseSpeed: 2, yOffset: 0 },
       planning: { color: '#334155', emissive: '#1e293b', intensity: 0.2, pulseSpeed: 0.8, yOffset: 0 },
       idle: { color: '#94a3b8', emissive: '#475569', intensity: 0.05, pulseSpeed: 0, yOffset: 0 },
-      blocked: { color: '#f59e0b', emissive: '#d97706', intensity: 0.8, pulseSpeed: 4, yOffset: 0.15 },
+      blocked: { color: '#E8943A', emissive: '#8B5E3C', intensity: 0.8, pulseSpeed: 4, yOffset: 0.15 },
       terminated: { color: '#374151', emissive: '#1f2937', intensity: 0, pulseSpeed: 0, yOffset: -0.1 },
     };
     return configs[state] || configs.idle;

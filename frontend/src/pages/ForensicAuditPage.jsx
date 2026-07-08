@@ -110,7 +110,7 @@ function ForensicAuditPage() {
       <motion.div className="security-stats-grid" style={{ marginBottom: 'var(--space-5)' }} variants={itemVariants}>
         {[
           { label: 'Total Records', value: stats.total, icon: Hash, color: '#334155' },
-          { label: 'Info', value: stats.info, icon: FileText, color: '#3b82f6' },
+          { label: 'Info', value: stats.info, icon: FileText, color: '#FF5C00' },
           { label: 'Warnings', value: stats.warning, icon: Clock, color: '#d97706' },
           { label: 'Critical', value: stats.critical, icon: ShieldCheck, color: '#dc2626' },
         ].map((stat, i) => (

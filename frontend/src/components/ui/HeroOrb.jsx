@@ -159,7 +159,7 @@ export function HeroOrb() {
           {/* Node Graphic */}
           <div style={{
              width: 80, height: 80,
-             background: hoveredStartup === startup.id ? 'linear-gradient(135deg, #1298B0, #FF5C00)' : 'linear-gradient(135deg, #092F63, #1298B0)',
+             background: hoveredStartup === startup.id ? 'linear-gradient(135deg, #FF5C00, #E8943A)' : 'linear-gradient(135deg, #6B4226, #8B5E3C)',
              borderRadius: '16px', display: 'flex', justifyContent: 'center', alignItems: 'center',
              border: '2px solid #E4E2DD', boxShadow: '0 10px 30px rgba(0,0,0,0.5)'
           }}>
@@ -173,7 +173,7 @@ export function HeroOrb() {
               animate={{ opacity: 1, y: 0 }}
               style={{
                 position: 'absolute', top: -45, whiteSpace: 'nowrap',
-                background: '#151821', color: '#1298B0', border: '1px solid #1298B0',
+                background: '#151821', color: '#E8943A', border: '1px solid #E8943A',
                 padding: '4px 10px', borderRadius: '8px', fontSize: '0.75rem', fontFamily: 'monospace',
                 display: 'flex', alignItems: 'center', gap: '6px', pointerEvents: 'none'
               }}
@@ -246,10 +246,10 @@ export function HeroOrb() {
       >
         <div style={{ 
           width: 60, height: 60, borderRadius: '50%', background: '#0F1115', 
-          border: '2px solid #1298B0', display: 'flex', justifyContent: 'center', alignItems: 'center',
-          boxShadow: '0 0 20px rgba(18, 152, 176, 0.6)'
+          border: '2px solid #FF5C00', display: 'flex', justifyContent: 'center', alignItems: 'center',
+          boxShadow: '0 0 20px rgba(255, 92, 0, 0.6)'
         }}>
-          <User color="#1298B0" size={32} />
+          <User color="#FF5C00" size={32} />
         </div>
         
         {isBuilding && (

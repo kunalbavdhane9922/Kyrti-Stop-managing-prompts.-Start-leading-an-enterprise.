@@ -34,7 +34,7 @@ export const TIERS = Object.freeze({
     name: 'Individual',
     label: 'Verified Individual',
     description: 'Verified freelancer access with KYC completion. Low liability caps and restricted agent counts.',
-    color: '#3b82f6',
+    color: '#E8943A',
     requiredLayers: ['A', 'KYC'],
     capabilities: [
       'Deploy up to 3 AI agents',
@@ -59,7 +59,7 @@ export const TIERS = Object.freeze({
     name: 'Company',
     label: 'Verified Company',
     description: 'Full KYB verification with DNS and corporate email. Activates treasury and agent execution wallets.',
-    color: '#8b5cf6',
+    color: '#D4842E',
     requiredLayers: ['A', 'B', 'C_DNS', 'C_EMAIL'],
     capabilities: [
       'Deploy up to 50 AI agents',
@@ -83,7 +83,7 @@ export const TIERS = Object.freeze({
     name: 'Enterprise',
     label: 'Enterprise',
     description: 'Full multi-sig board approval with custom compliance modules. Unlimited agent deployment.',
-    color: '#f59e0b',
+    color: '#FF5C00',
     requiredLayers: ['A', 'B', 'C_DNS', 'C_EMAIL', 'C_MULTISIG', 'D'],
     capabilities: [
       'Unlimited AI agents',

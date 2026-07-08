@@ -90,8 +90,8 @@
 }
 
 .dot-executing {
-  background: #3b82f6;
-  box-shadow: 0 0 6px #3b82f6;
+  background: #FF5C00;
+  box-shadow: 0 0 6px #FF5C00;
   animation: spatial-pulse 1.5s ease-in-out infinite;
 }
 

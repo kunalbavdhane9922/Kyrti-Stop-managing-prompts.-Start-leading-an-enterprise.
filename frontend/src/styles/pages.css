@@ -576,7 +576,7 @@
 .verification-log-line .log-success { color: #10B981; font-weight: var(--font-bold); }
 .verification-log-line .log-fail { color: #EF4444; }
 .verification-log-line .log-info { color: #94A3B8; }
-.verification-log-line .log-hash { color: #6366F1; }
+.verification-log-line .log-hash { color: #E8943A; }
 
 /* Scan Overlay */
 .scan-overlay {

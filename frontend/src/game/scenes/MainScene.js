@@ -353,5 +353,5 @@ export class MainScene extends Phaser.Scene {
   }
 
   getAgentTexture(s) { return { planning: 'agent-planning', executing: 'agent-executing', blocked: 'agent-blocked', idle: 'agent-idle' }[s] || 'agent-idle'; }
-  getStateColor(s) { return { planning: '#3b82f6', executing: '#22c55e', blocked: '#ef4444', idle: '#9ca3af' }[s] || '#9ca3af'; }
+  getStateColor(s) { return { planning: '#FF5C00', executing: '#22c55e', blocked: '#E8943A', idle: '#9ca3af' }[s] || '#9ca3af'; }
 }

@@ -21,9 +21,9 @@ const METRIC_CARDS = [
 
 const WORKFORCE_DATA = [
   { name: 'Danis Smith', time: '3 months ago', tag: '#0F1704', price: '$30,350.00', entrance: '+18.71%' },
-  { name: 'John Amith', time: '2 months ago', tag: '#06B6D4', price: '$7,300.00', entrance: '+06.39%' },
+  { name: 'John Amith', time: '2 months ago', tag: '#E8943A', price: '$7,300.00', entrance: '+06.39%' },
   { name: 'Bariny Martan', time: '2 months ago', tag: '#0F1704', price: '$2,330.00', entrance: '+18.71%' },
-  { name: 'Danid Woeh', time: '4 months ago', tag: '#06B6D4', price: '$13,100.00', entrance: '+69.96%' },
+  { name: 'Danid Woeh', time: '4 months ago', tag: '#E8943A', price: '$13,100.00', entrance: '+69.96%' },
 ];
 
 const TREASURY_LIST = [

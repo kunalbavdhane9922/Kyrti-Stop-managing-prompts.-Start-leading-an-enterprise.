@@ -23,9 +23,9 @@ const anim = {
 };
 
 const DOMAIN_COLORS = {
-  executive: '#FF5C00', engineering: '#1298B0', product: '#f59e0b',
-  marketing: '#a855f7', operations: '#10b981', finance: '#06b6d4',
-  design: '#ec4899', data: '#6366f1', legal: '#78716c',
+  executive: '#FF5C00', engineering: '#E8943A', product: '#D4842E',
+  marketing: '#8B5E3C', operations: '#FF5C00', finance: '#E8943A',
+  design: '#D4842E', data: '#8B5E3C', legal: '#6B4226',
 };
 
 export function MeetingSchedulePage() {

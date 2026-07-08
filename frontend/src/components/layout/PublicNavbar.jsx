@@ -118,10 +118,10 @@ export function PublicNavbar() {
                     background: 'none',
                     border: 'none',
                     cursor: 'pointer',
-                    color: isActive ? '#FF5C00' : (isHovered ? '#1298B0' : '#E4E2DD'), // Neon Teal hover, Cream default
+                    color: isActive ? '#FF5C00' : (isHovered ? '#E8943A' : '#E4E2DD'), // Warm Amber hover, Cream default
                     padding: '0.85rem',
                     borderRadius: '14px',
-                    backgroundColor: isActive ? 'rgba(255, 92, 0, 0.08)' : (isHovered ? 'rgba(18, 152, 176, 0.1)' : 'transparent'),
+                    backgroundColor: isActive ? 'rgba(255, 92, 0, 0.08)' : (isHovered ? 'rgba(232, 148, 58, 0.1)' : 'transparent'),
                     transition: 'background-color 0.3s ease, color 0.3s ease',
                     display: 'flex',
                     alignItems: 'center',

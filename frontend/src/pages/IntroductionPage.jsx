@@ -471,7 +471,7 @@ export function IntroductionPage() {
                           <span style={{ color: '#10B981', fontWeight: '750' }}>[OK]</span> Identity 2FA verified: admin@kyrti.
                         </div>
                         <div>
-                          <span style={{ color: '#3B82F6', fontWeight: '750' }}>[INFO]</span> Payout via Treasury gateway.
+                          <span style={{ color: '#E8943A', fontWeight: '750' }}>[INFO]</span> Payout via Treasury gateway.
                         </div>
                       </div>
                     </div>
@@ -882,7 +882,7 @@ export function IntroductionPage() {
           style={{ padding: '3rem 0 6rem 0' }}
         >
           <div style={{
-            background: 'linear-gradient(135deg, #FF5C00, #FF7A00)',
+            background: 'linear-gradient(135deg, #FF5C00, #E8943A)',
             borderRadius: '20px',
             padding: '4rem 3rem',
             textAlign: 'center',

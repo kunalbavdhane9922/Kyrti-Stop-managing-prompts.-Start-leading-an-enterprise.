@@ -317,7 +317,7 @@
   border-radius: 2px;
 }
 
-.severity-info { color: #3b82f6; background: rgba(59, 130, 246, 0.08); }
+.severity-info { color: #FF5C00; background: rgba(255, 92, 0, 0.08); }
 .severity-warning { color: #d97706; background: rgba(217, 119, 6, 0.08); }
 .severity-critical { color: #dc2626; background: rgba(220, 38, 38, 0.08); }
 

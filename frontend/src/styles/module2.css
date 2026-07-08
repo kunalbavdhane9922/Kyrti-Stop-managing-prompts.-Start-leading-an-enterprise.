@@ -659,7 +659,7 @@
 
 .revenue-flow-bar-fill.treasury { background: #334155; }
 .revenue-flow-bar-fill.operations { background: #059669; }
-.revenue-flow-bar-fill.agent-fees { background: #4f46e5; }
+.revenue-flow-bar-fill.agent-fees { background: #FF5C00; }
 .revenue-flow-bar-fill.platform { background: #d97706; }
 
 .revenue-flow-amount {
@@ -720,7 +720,7 @@
 
 .provider-type.local { background: #f0fdf4; color: #15803d; border-color: #bbf7d0; }
 .provider-type.cloud { background: #f8fafc; color: #334155; border-color: #e2e8f0; }
-.provider-type.api { background: #eff6ff; color: #1d4ed8; border-color: #bfdbfe; }
+.provider-type.api { background: rgba(255,92,0,0.08); color: #FF5C00; border-color: rgba(255,92,0,0.2); }
 
 /* ROI Cards */
 .roi-grid {

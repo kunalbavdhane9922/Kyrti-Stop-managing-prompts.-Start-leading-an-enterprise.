@@ -343,15 +343,15 @@ export function InterviewRoomPage() {
               style={{
                 background: {
                   executive: 'linear-gradient(135deg, #FF5C00, #E8943A)',
-                  engineering: 'linear-gradient(135deg, #1298B0, #0ea5e9)',
-                  product: 'linear-gradient(135deg, #f59e0b, #fbbf24)',
-                  marketing: 'linear-gradient(135deg, #a855f7, #c084fc)',
-                  operations: 'linear-gradient(135deg, #10b981, #34d399)',
-                  finance: 'linear-gradient(135deg, #06b6d4, #22d3ee)',
-                  design: 'linear-gradient(135deg, #ec4899, #f472b6)',
-                  data: 'linear-gradient(135deg, #6366f1, #818cf8)',
-                  legal: 'linear-gradient(135deg, #78716c, #a8a29e)',
-                }[agent.domain] || 'linear-gradient(135deg, #1298B0, #0ea5e9)',
+                  engineering: 'linear-gradient(135deg, #E8943A, #D4842E)',
+                  product: 'linear-gradient(135deg, #D4842E, #8B5E3C)',
+                  marketing: 'linear-gradient(135deg, #8B5E3C, #6B4226)',
+                  operations: 'linear-gradient(135deg, #FF5C00, #D4842E)',
+                  finance: 'linear-gradient(135deg, #E8943A, #8B5E3C)',
+                  design: 'linear-gradient(135deg, #D4842E, #6B4226)',
+                  data: 'linear-gradient(135deg, #8B5E3C, #FF5C00)',
+                  legal: 'linear-gradient(135deg, #6B4226, #1A1A1A)',
+                }[agent.domain] || 'linear-gradient(135deg, #FF5C00, #E8943A)',
               }}
             >
               {agent.initials}
@@ -363,7 +363,7 @@ export function InterviewRoomPage() {
                   <div style={{ display: 'flex', gap: 2, alignItems: 'flex-end', height: 12 }}>
                     {[0,1,2].map(i => (
                       <div key={i} style={{
-                        width: 3, background: '#1a73e8', borderRadius: 1,
+                        width: 3, background: '#FF5C00', borderRadius: 1,
                         animation: `equalizer 0.5s ease-in-out ${i * 0.15}s infinite alternate`,
                         height: [8, 12, 6][i],
                       }} />

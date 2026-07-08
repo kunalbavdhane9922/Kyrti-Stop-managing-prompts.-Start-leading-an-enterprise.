@@ -597,7 +597,7 @@
   border-radius: 10px;
 }
 .wiz-occupant-badge--human { background: rgba(34,197,94,0.15); color: #22c55e; }
-.wiz-occupant-badge--ai { background: rgba(59,130,246,0.15); color: #3b82f6; }
+.wiz-occupant-badge--ai { background: rgba(255,92,0,0.15); color: #FF5C00; }
 .wiz-occupant-badge--vacant { background: rgba(228,226,221,0.1); color: rgba(228,226,221,0.5); }
 
 /* ─── AI Note ─────────────────────────────────────────────────────────────── */
@@ -639,7 +639,7 @@
   border: 1px solid rgba(59,130,246,0.2);
   margin-bottom: 20px;
 }
-.wiz-optional-banner-icon { color: #3b82f6; flex-shrink: 0; margin-top: 2px; }
+.wiz-optional-banner-icon { color: #E8943A; flex-shrink: 0; margin-top: 2px; }
 .wiz-optional-banner strong { color: #93c5fd; display: block; margin-bottom: 4px; font-size: 14px; }
 .wiz-optional-banner p { color: rgba(147,197,253,0.7); font-size: 13px; margin: 0; line-height: 1.5; }
 
@@ -801,7 +801,7 @@
 .wiz-role-count { font-weight: 600; color: rgba(228,226,221,0.4); }
 
 .wiz-role-icon--human { color: #22c55e; }
-.wiz-role-icon--ai { color: #3b82f6; }
+.wiz-role-icon--ai { color: #FF5C00; }
 .wiz-role-icon--vacant { color: rgba(228,226,221,0.3); }
 
 /* ─── Summary Bar ─────────────────────────────────────────────────────────── */
@@ -1028,7 +1028,7 @@
 .tree-node-content:hover { background: rgba(255,255,255,0.04); }
 .tree-node-content--root { font-weight: 700; font-size: 15px; color: #E4E2DD; }
 .tree-node-content--human .tree-node-title { color: #22c55e; }
-.tree-node-content--ai_vacant .tree-node-title { color: #3b82f6; }
+.tree-node-content--ai_vacant .tree-node-title { color: #FF5C00; }
 .tree-node-content--dept .tree-node-title { color: #f59e0b; font-weight: 600; }
 .tree-node-content--team .tree-node-title { color: #8B5E3C; }
 .tree-node-content--group .tree-node-title { color: rgba(228,226,221,0.6); }
@@ -1044,12 +1044,15 @@
   padding: 1px 6px;
   border-radius: 8px;
 }
-.tree-node-badge--ai { background: rgba(59,130,246,0.15); color: #3b82f6; }
-.tree-node-badge--vacant { background: rgba(228,226,221,0.1); color: rgba(228,226,221,0.4); }
+.tree-node-badge--ai { background: rgba(255,92,0,0.15); color: #FF5C00; }
+.tree-node-badge--vacant { background: rgba(239,68,68,0.15); color: #ef4444; }
+.tree-node-badge--locked { background: rgba(100,116,139,0.15); color: #64748b; }
+.tree-node-badge--verified { background: rgba(16,185,129,0.15); color: #10b981; }
+.tree-node-badge--pending { background: rgba(245,158,11,0.15); color: #f59e0b; }
 
 .tree-icon { flex-shrink: 0; }
 .tree-icon--human { color: #22c55e; }
-.tree-icon--ai { color: #3b82f6; }
+.tree-icon--ai { color: #FF5C00; }
 .tree-icon--dept { color: #f59e0b; }
 .tree-icon--team { color: #8B5E3C; }
 .tree-icon--group { color: rgba(228,226,221,0.4); }
@@ -1123,15 +1126,15 @@
   width: 36px;
   height: 36px;
   border-radius: 8px;
-  background: rgba(59,130,246,0.1);
+  background: rgba(255,92,0,0.1);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #3b82f6;
+  color: #FF5C00;
   transition: background 0.2s ease;
 }
 .wiz-ai-position-card:hover .wiz-ai-position-icon {
-  background: rgba(59,130,246,0.18);
+  background: rgba(255,92,0,0.18);
 }
 
 .wiz-ai-position-info { flex: 1; }
@@ -1557,7 +1560,7 @@
   background: #FF5C00;
   color: #fff;
 }
-.mgmt-modal-btn--primary:hover { background: #FF7A00; }
+.mgmt-modal-btn--primary:hover { background: #D4842E; }
 .mgmt-modal-btn--primary:disabled { opacity: 0.5; cursor: not-allowed; }
 
 .mgmt-modal-btn--secondary {

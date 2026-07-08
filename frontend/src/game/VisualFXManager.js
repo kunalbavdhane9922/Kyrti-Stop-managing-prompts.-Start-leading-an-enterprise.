@@ -222,7 +222,7 @@ export class VisualFXManager {
     if (!this.scene.textures.exists('particle-cyan')) {
       const c = this.scene.textures.createCanvas('particle-cyan', 2, 2);
       const cx = c.getContext();
-      cx.fillStyle = '#06b6d4';
+      cx.fillStyle = '#FF5C00';
       cx.fillRect(0, 0, 2, 2);
       c.refresh();
     }

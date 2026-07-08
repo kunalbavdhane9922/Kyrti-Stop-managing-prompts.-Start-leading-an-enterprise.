@@ -39,10 +39,10 @@ function AuditPage() {
   const remainingSec = Math.floor((remainingMs % 60000) / 1000);
 
   const stats = [
-    { label: 'Audit Events', value: totalEntries, icon: Activity, color: '#06b6d4' },
+    { label: 'Audit Events', value: totalEntries, icon: Activity, color: '#FF5C00' },
     { label: 'Policy Violations', value: violations.length, icon: AlertTriangle, color: violations.length > 0 ? '#f43f5e' : '#10b981' },
-    { label: 'Session Uptime', value: sessionStartedAt ? `${Math.floor((Date.now() - new Date(sessionStartedAt).getTime()) / 60000)}m` : '—', icon: Clock, color: '#3b82f6' },
-    { label: 'Session Remaining', value: `${remainingMin}:${remainingSec.toString().padStart(2, '0')}`, icon: Lock, color: '#f59e0b' },
+    { label: 'Session Uptime', value: sessionStartedAt ? `${Math.floor((Date.now() - new Date(sessionStartedAt).getTime()) / 60000)}m` : '—', icon: Clock, color: '#E8943A' },
+    { label: 'Session Remaining', value: `${remainingMin}:${remainingSec.toString().padStart(2, '0')}`, icon: Lock, color: '#D4842E' },
   ];
 
   const containerVariants = {
