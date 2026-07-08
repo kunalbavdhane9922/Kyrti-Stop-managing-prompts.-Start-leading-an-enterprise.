@@ -303,7 +303,7 @@ export function IntroductionPage() {
                 transition: 'all 0.3s ease'
               }}
               onMouseOver={e => {
-                e.currentTarget.style.backgroundColor = '#D4842E';
+                e.currentTarget.style.backgroundColor = '#FF7A00';
                 e.currentTarget.style.transform = 'translateY(-1px)';
                 e.currentTarget.style.boxShadow = '0 8px 24px rgba(255, 92, 0, 0.35)';
               }}
@@ -405,12 +405,12 @@ export function IntroductionPage() {
                   background: '#FCFDFE'
                 }}>
                   <span style={{ fontSize: '0.75rem', color: '#64748B', fontWeight: '600' }}>
-                    Kyrti Core: <span style={{ color: '#E8943A', fontWeight: '700' }}>Active Swarm Ready</span>
+                    Kyrti Core: <span style={{ color: '#10B981', fontWeight: '700' }}>Active Swarm Ready</span>
                   </span>
                   
                   {/* Operator Label */}
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <div style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#E8943A' }} />
+                    <div style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#10B981' }} />
                     <span style={{ fontSize: '0.75rem', color: '#1E293B', fontWeight: '600' }}>Operator Portal</span>
                   </div>
                 </div>
@@ -430,7 +430,7 @@ export function IntroductionPage() {
                     </div>
                     <div style={{ background: '#FFFFFF', border: '1px solid rgba(0, 0, 0, 0.05)', borderRadius: '8px', padding: '10px 12px', boxShadow: '0 1px 2px rgba(0,0,0,0.02)' }}>
                       <div style={{ fontSize: '0.6rem', color: '#64748B', fontWeight: '600' }}>COMPLIANCE SCORE</div>
-                      <div style={{ fontSize: '1.15rem', fontWeight: 'bold', color: '#E8943A', marginTop: '2px' }}>100% SECURE</div>
+                      <div style={{ fontSize: '1.15rem', fontWeight: 'bold', color: '#10B981', marginTop: '2px' }}>100% SECURE</div>
                     </div>
                   </div>
 
@@ -462,13 +462,13 @@ export function IntroductionPage() {
                       
                       <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', fontSize: '0.6rem', fontFamily: 'monospace' }}>
                         <div style={{ borderBottom: '1px solid rgba(0,0,0,0.03)', paddingBottom: '3px' }}>
-                          <span style={{ color: '#E8943A', fontWeight: '750' }}>[OK]</span> Agent_LegalDraft reviewed SAEP contract.
+                          <span style={{ color: '#10B981', fontWeight: '750' }}>[OK]</span> Agent_LegalDraft reviewed SAEP contract.
                         </div>
                         <div style={{ borderBottom: '1px solid rgba(0,0,0,0.03)', paddingBottom: '3px' }}>
                           <span style={{ color: '#FF5C00', fontWeight: '750' }}>[WARN]</span> Agent_Devops threshold set to 95%.
                         </div>
                         <div style={{ borderBottom: '1px solid rgba(0,0,0,0.03)', paddingBottom: '3px' }}>
-                          <span style={{ color: '#E8943A', fontWeight: '750' }}>[OK]</span> Identity 2FA verified: admin@kyrti.
+                          <span style={{ color: '#10B981', fontWeight: '750' }}>[OK]</span> Identity 2FA verified: admin@kyrti.
                         </div>
                         <div>
                           <span style={{ color: '#E8943A', fontWeight: '750' }}>[INFO]</span> Payout via Treasury gateway.
@@ -518,8 +518,8 @@ export function IntroductionPage() {
                     width: '24px',
                     height: '24px',
                     borderRadius: '50%',
-                    backgroundColor: idx === 0 ? 'rgba(232, 148, 58, 0.1)' : 'rgba(255, 92, 0, 0.1)',
-                    color: idx === 0 ? '#E8943A' : '#FF5C00',
+                    backgroundColor: idx === 0 ? 'rgba(16, 185, 129, 0.1)' : 'rgba(255, 92, 0, 0.1)',
+                    color: idx === 0 ? '#10B981' : '#FF5C00',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',

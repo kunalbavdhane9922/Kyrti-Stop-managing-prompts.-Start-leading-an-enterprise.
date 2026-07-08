@@ -26,7 +26,7 @@ function OrgNodeCard({ data }) {
     data.occupantType === 'AI' || data.occupantType === 'AI_VACANT'
       ? '#FF5C00'
       : data.occupantType === 'HUMAN'
-        ? '#E8943A'
+        ? '#16A34A'
         : 'rgba(0,0,0,0.12)';
 
   const badgeClass =
@@ -650,7 +650,7 @@ export function CompanyManagementPage() {
               style={{ background: '#FFFFFF', border: '1px solid rgba(0,0,0,0.1)', borderRadius: 8, boxShadow: '0 2px 6px rgba(0,0,0,0.05)' }}
               nodeColor={(n) => {
                 const ot = n.data?.occupantType;
-                if (ot === 'HUMAN') return '#E8943A';
+                if (ot === 'HUMAN') return '#16A34A';
                 if (ot === 'AI' || ot === 'AI_VACANT') return '#FF5C00';
                 return '#94A3B8';
               }}

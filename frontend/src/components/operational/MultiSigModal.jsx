@@ -50,8 +50,8 @@ function MultiSigModal({ isOpen, onClose, proposal, requiredSignatures = 2, onCo
       }
     >
       <div className="multisig-content">
-        <div className="m2-info-bar" style={{ borderColor: 'rgba(212, 132, 46, 0.2)', background: 'rgba(212, 132, 46, 0.08)' }}>
-          <Lock size={13} style={{ color: '#D4842E' }} />
+        <div className="m2-info-bar" style={{ borderColor: '#fde68a', background: '#fffbeb' }}>
+          <Lock size={13} style={{ color: '#d97706' }} />
           <span>This proposal exceeds the high-value threshold. {requiredSignatures} board member signatures are required.</span>
         </div>
 
@@ -72,7 +72,7 @@ function MultiSigModal({ isOpen, onClose, proposal, requiredSignatures = 2, onCo
 
           {signatures.map((sig, i) => (
             <div key={i} className="multisig-sig-entry">
-              <CheckCircle size={12} style={{ color: '#E8943A' }} />
+              <CheckCircle size={12} style={{ color: '#059669' }} />
               <span>{sig.signerId}</span>
               <span className="multisig-sig-time">
                 {new Date(sig.timestamp).toLocaleTimeString()}

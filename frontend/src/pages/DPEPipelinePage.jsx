@@ -144,8 +144,8 @@ function DPEPipelinePage() {
       </motion.div>
 
       {/* HITL Notice */}
-      <motion.div className="m2-info-bar" style={{ borderColor: 'rgba(212, 132, 46, 0.2)', background: 'rgba(212, 132, 46, 0.08)' }} variants={itemVariants}>
-        <Shield size={14} style={{ color: '#D4842E', flexShrink: 0 }} />
+      <motion.div className="m2-info-bar" style={{ borderColor: '#fde68a', background: '#fffbeb' }} variants={itemVariants}>
+        <Shield size={14} style={{ color: '#d97706', flexShrink: 0 }} />
         <span>No AI agent can execute proposals. Every action requires explicit human authorization through this pipeline.</span>
       </motion.div>
 
@@ -153,8 +153,8 @@ function DPEPipelinePage() {
       <div className="security-stats-grid" style={{ marginBottom: 'var(--space-5)' }}>
         {[
           { label: 'Drafts', value: drafts.length, icon: FileText, color: '#334155' },
-          { label: 'Proposed', value: proposed.length, icon: Send, color: '#D4842E' },
-          { label: 'Approved', value: approved.length, icon: CheckCircle, color: '#E8943A' },
+          { label: 'Proposed', value: proposed.length, icon: Send, color: '#d97706' },
+          { label: 'Approved', value: approved.length, icon: CheckCircle, color: '#059669' },
           { label: 'Executed', value: executed.length, icon: Zap, color: '#FF5C00' },
         ].map((stat, i) => (
           <motion.div key={stat.label} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.06 }}>
@@ -269,7 +269,7 @@ function DPEPipelinePage() {
                   <div className="dpe-card-title">{e.title}</div>
                   <Badge color="cyan">Executed</Badge>
                   <div className="dpe-card-time">
-                    <CheckCircle size={11} style={{ color: '#E8943A' }} /> {new Date(e.executedAt).toLocaleString()}
+                    <CheckCircle size={11} style={{ color: '#059669' }} /> {new Date(e.executedAt).toLocaleString()}
                   </div>
                 </Card>
               ))}

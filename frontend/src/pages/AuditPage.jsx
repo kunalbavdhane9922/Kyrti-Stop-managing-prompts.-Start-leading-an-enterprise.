@@ -40,7 +40,7 @@ function AuditPage() {
 
   const stats = [
     { label: 'Audit Events', value: totalEntries, icon: Activity, color: '#FF5C00' },
-    { label: 'Policy Violations', value: violations.length, icon: AlertTriangle, color: violations.length > 0 ? '#6B4226' : '#E8943A' },
+    { label: 'Policy Violations', value: violations.length, icon: AlertTriangle, color: violations.length > 0 ? '#f43f5e' : '#10b981' },
     { label: 'Session Uptime', value: sessionStartedAt ? `${Math.floor((Date.now() - new Date(sessionStartedAt).getTime()) / 60000)}m` : '—', icon: Clock, color: '#E8943A' },
     { label: 'Session Remaining', value: `${remainingMin}:${remainingSec.toString().padStart(2, '0')}`, icon: Lock, color: '#D4842E' },
   ];

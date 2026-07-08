@@ -27,9 +27,9 @@
   --color-accent-gold-light: #F0A854;
   --color-accent-gold-dark: #D4842E;
   --color-accent-blue: #FF5C00;
-  --color-accent-emerald: #E8943A;
-  --color-accent-amber: #D4842E;
-  --color-accent-rose: #6B4226;
+  --color-accent-emerald: #10B981;
+  --color-accent-amber: #E8943A;
+  --color-accent-rose: #EF4444;
   --color-accent-violet: #8B5E3C;
   --color-accent-cyan: #6B4226;
 
@@ -53,9 +53,9 @@
   --color-border-primary: rgba(0, 0, 0, 0.06);
   --color-border-secondary: rgba(0, 0, 0, 0.08);
   --color-border-accent: rgba(255, 92, 0, 0.2);
-  --color-border-success: rgba(232, 148, 58, 0.2);
-  --color-border-danger: rgba(107, 66, 38, 0.2);
-  --color-border-warning: rgba(212, 132, 46, 0.2);
+  --color-border-success: rgba(16, 185, 129, 0.2);
+  --color-border-danger: rgba(239, 68, 68, 0.2);
+  --color-border-warning: rgba(245, 158, 11, 0.2);
 
   /* Card Surfaces */
   --glass-bg: rgba(255, 255, 255, 0.85);
@@ -121,16 +121,16 @@
   --shadow-ambient: 0 8px 60px rgba(0, 0, 0, 0.05), 0 2px 8px rgba(0, 0, 0, 0.03);
   --shadow-glow-blue: 0 0 0 2px rgba(255, 92, 0, 0.1), 0 0 0 4px rgba(255, 92, 0, 0.2);
   --shadow-glow-gold: 0 0 0 2px rgba(255, 92, 0, 0.1), 0 0 0 4px rgba(255, 138, 0, 0.2);
-  --shadow-glow-violet: 0 0 0 2px rgba(212, 132, 46, 0.1), 0 0 0 4px rgba(212, 132, 46, 0.2);
-  --shadow-glow-emerald: 0 0 0 2px rgba(232, 148, 58, 0.1), 0 0 0 4px rgba(232, 148, 58, 0.2);
-  --shadow-glow-rose: 0 0 0 2px rgba(107, 66, 38, 0.1), 0 0 0 4px rgba(107, 66, 38, 0.2);
+  --shadow-glow-violet: 0 0 0 2px rgba(99, 102, 241, 0.1), 0 0 0 4px rgba(99, 102, 241, 0.2);
+  --shadow-glow-emerald: 0 0 0 2px rgba(16, 185, 129, 0.1), 0 0 0 4px rgba(16, 185, 129, 0.2);
+  --shadow-glow-rose: 0 0 0 2px rgba(239, 68, 68, 0.1), 0 0 0 4px rgba(239, 68, 68, 0.2);
   --shadow-glow-silver: 0 0 16px rgba(0, 0, 0, 0.08);
   --shadow-brand: 0 6px 20px rgba(255, 92, 0, 0.25);
 
   /* Revocation Colors */
-  --color-revocation-red: #6B4226;
-  --color-revocation-red-hover: #8B5E3C;
-  --color-revocation-red-light: rgba(107, 66, 38, 0.08);
+  --color-revocation-red: #EF4444;
+  --color-revocation-red-hover: #DC2626;
+  --color-revocation-red-light: rgba(239, 68, 68, 0.08);
 
   /* Transitions */
   --transition-fast: 200ms cubic-bezier(0.16, 1, 0.3, 1);

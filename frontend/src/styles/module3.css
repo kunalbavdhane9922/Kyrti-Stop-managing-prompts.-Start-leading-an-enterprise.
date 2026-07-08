@@ -96,8 +96,8 @@
 }
 
 .dot-blocked {
-  background: #6B4226;
-  box-shadow: 0 0 6px #6B4226;
+  background: #f59e0b;
+  box-shadow: 0 0 6px #f59e0b;
   animation: spatial-pulse 0.8s ease-in-out infinite;
 }
 
@@ -275,9 +275,9 @@
   width: 80px;
 }
 
-.spatial-legend-low { flex: 1; background: #8B5E3C; }
-.spatial-legend-mid { flex: 1; background: #D4842E; }
-.spatial-legend-high { flex: 1; background: #FF5C00; }
+.spatial-legend-low { flex: 1; background: #065f46; }
+.spatial-legend-mid { flex: 1; background: #92400e; }
+.spatial-legend-high { flex: 1; background: #991b1b; }
 
 .spatial-legend-labels {
   display: flex;

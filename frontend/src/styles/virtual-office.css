@@ -81,8 +81,8 @@
 }
 
 .vo-connection-dot.connected {
-  background: #E8943A;
-  box-shadow: 0 0 8px rgba(232, 148, 58, 0.3);
+  background: #22c55e;
+  box-shadow: 0 0 8px rgba(34, 197, 94, 0.3);
 }
 
 .vo-room-name {
@@ -170,8 +170,8 @@
 }
 
 .vo-toolbar-btn.active-danger {
-  background: rgba(107, 66, 38, 0.08);
-  color: #6B4226;
+  background: rgba(239, 68, 68, 0.08);
+  color: #ef4444;
 }
 
 .vo-toolbar-count {
@@ -233,10 +233,10 @@
   flex-shrink: 0;
 }
 
-.vo-status-dot.online { background: #E8943A; }
-.vo-status-dot.away { background: #D4842E; }
-.vo-status-dot.busy { background: #6B4226; }
-.vo-status-dot.in-meeting { background: #FF5C00; }
+.vo-status-dot.online { background: #22c55e; }
+.vo-status-dot.away { background: #f59e0b; }
+.vo-status-dot.busy { background: #ef4444; }
+.vo-status-dot.in-meeting { background: #8b5cf6; }
 
 /* ===== CHAT PANEL — Frosted Glass ===== */
 .vo-chat-toggle {
@@ -267,7 +267,7 @@
   min-width: 15px;
   height: 15px;
   padding: 0 4px;
-  background: #FF5C00;
+  background: #ef4444;
   color: white;
   font-family: 'JetBrains Mono', monospace;
   font-size: 9px;
@@ -504,8 +504,8 @@
 }
 
 .vo-participant-state.planning { color: #FF5C00; background: rgba(255,92,0,0.06); }
-.vo-participant-state.executing { color: #E8943A; background: rgba(232, 148, 58, 0.08); }
-.vo-participant-state.blocked { color: #6B4226; background: rgba(107, 66, 38, 0.08); }
+.vo-participant-state.executing { color: #22c55e; background: rgba(34,197,94,0.06); }
+.vo-participant-state.blocked { color: #ef4444; background: rgba(239,68,68,0.06); }
 .vo-participant-state.idle { color: #9ca3af; background: rgba(0,0,0,0.02); }
 
 .vo-participants-divider {

@@ -25,11 +25,11 @@ function HeatmapFloor({ heatmapData, gridSize = 8 }) {
     // 0 = dark green, 0.5 = amber, 1.0 = red
     const clamped = Math.max(0, Math.min(1, intensity));
     if (clamped < 0.33) {
-      return new THREE.Color('#0f172a').lerp(new THREE.Color('#8B5E3C'), clamped * 3);
+      return new THREE.Color('#0f172a').lerp(new THREE.Color('#065f46'), clamped * 3);
     } else if (clamped < 0.66) {
-      return new THREE.Color('#8B5E3C').lerp(new THREE.Color('#D4842E'), (clamped - 0.33) * 3);
+      return new THREE.Color('#065f46').lerp(new THREE.Color('#92400e'), (clamped - 0.33) * 3);
     } else {
-      return new THREE.Color('#D4842E').lerp(new THREE.Color('#FF5C00'), (clamped - 0.66) * 3);
+      return new THREE.Color('#92400e').lerp(new THREE.Color('#991b1b'), (clamped - 0.66) * 3);
     }
   };
 

@@ -518,8 +518,8 @@ export function PhasePermissionMatrix() {
         <div style={{
           display: 'flex', alignItems: 'center', gap: 10,
           padding: '10px 14px', borderRadius: 8,
-          background: 'rgba(107, 66, 38, 0.08)', border: '1px solid rgba(107, 66, 38, 0.2)',
-          color: '#6B4226', fontSize: 12, marginBottom: 12,
+          background: 'rgba(239,68,68,0.08)', border: '1px solid rgba(239,68,68,0.2)',
+          color: '#ef4444', fontSize: 12, marginBottom: 12,
           animation: 'fadeIn 0.2s ease'
         }}>
           <AlertTriangle size={14} style={{ flexShrink: 0 }} />

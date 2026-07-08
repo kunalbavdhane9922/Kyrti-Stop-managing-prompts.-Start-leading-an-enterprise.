@@ -10,9 +10,9 @@ function RiskScoreGauge({ score = 0, size = 64 }) {
   const offset = circumference - (clamped / 100) * circumference;
 
   const getColor = (s) => {
-    if (s < 30) return '#E8943A';
-    if (s < 70) return '#D4842E';
-    return '#6B4226';
+    if (s < 30) return '#059669';
+    if (s < 70) return '#d97706';
+    return '#dc2626';
   };
 
   const getLabel = (s) => {

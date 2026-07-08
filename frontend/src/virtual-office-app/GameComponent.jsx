@@ -868,14 +868,14 @@ class GameScene extends Phaser.Scene {
     const shadow = this.add.ellipse(0, 24, 28, 9, 0x000000, 0.35);
     const sprite = this.add.sprite(0, -10, 'ceo-sprite', 0);
     sprite.setScale(CHAR_SCALE * 0.9);
-    sprite.setTint(0xFF5C00);
+    sprite.setTint(0x66EEBB);
     sprite.play('idle-down');
 
-    const pulseRing = this.add.circle(0, 0, 18, 0xFF5C00, 0);
-    pulseRing.setStrokeStyle(1.5, 0xE8943A);
+    const pulseRing = this.add.circle(0, 0, 18, 0x10B981, 0);
+    pulseRing.setStrokeStyle(1.5, 0x34D399);
     this.tweens.add({ targets: pulseRing, scaleX: 2.2, scaleY: 2.2, alpha: { from: 0.5, to: 0 }, duration: 1400, repeat: -1, ease: 'Sine.easeOut' });
 
-    const label = this.add.text(0, 32, `AI-${String(this.agents.length + 1).padStart(2, '0')}`, { font: 'bold 8px Inter, sans-serif', fill: '#ffffff', backgroundColor: '#FF5C00', padding: { x: 3, y: 1 } }).setOrigin(0.5);
+    const label = this.add.text(0, 32, `AI-${String(this.agents.length + 1).padStart(2, '0')}`, { font: 'bold 8px Inter, sans-serif', fill: '#ffffff', backgroundColor: '#10B981', padding: { x: 3, y: 1 } }).setOrigin(0.5);
     container.add([shadow, pulseRing, sprite, label]);
     container.setDepth(200 + spawnY);
     this.agents.push(container);

@@ -147,9 +147,9 @@
 }
 
 .wizard-step--done .wizard-step-dot {
-  background: rgba(232, 148, 58, 0.2);
-  border-color: rgba(232, 148, 58, 0.4);
-  color: #E8943A;
+  background: rgba(34, 197, 94, 0.2);
+  border-color: rgba(34, 197, 94, 0.4);
+  color: #22c55e;
 }
 
 .wizard-step-label {
@@ -169,9 +169,9 @@
   align-items: center;
   gap: 8px;
   padding: 10px 28px;
-  background: rgba(107, 66, 38, 0.1);
-  border-bottom: 1px solid rgba(107, 66, 38, 0.2);
-  color: #6B4226;
+  background: rgba(239, 68, 68, 0.1);
+  border-bottom: 1px solid rgba(239, 68, 68, 0.2);
+  color: #ef4444;
   font-size: 13px;
   font-weight: 500;
 }
@@ -295,7 +295,7 @@
   transition: all 0.2s;
 }
 .wiz-icon-btn:hover { color: #E4E2DD; background: rgba(255,255,255,0.05); }
-.wiz-icon-btn--danger:hover { color: #6B4226; background: rgba(107,66,38,0.1); border-color: rgba(107,66,38,0.2); }
+.wiz-icon-btn--danger:hover { color: #ef4444; background: rgba(239,68,68,0.1); border-color: rgba(239,68,68,0.2); }
 
 /* ─── Phase Content ───────────────────────────────────────────────────────── */
 .wiz-phase { }
@@ -496,7 +496,7 @@
 }
 .wiz-checkbox-option:hover { border-color: rgba(255,255,255,0.2); }
 .wiz-checkbox-option--selected { border-color: rgba(34,197,94,0.4); background: rgba(34,197,94,0.06); color: #E4E2DD; }
-.wiz-checkbox-option input[type="checkbox"] { accent-color: #E8943A; }
+.wiz-checkbox-option input[type="checkbox"] { accent-color: #22c55e; }
 
 /* ─── Department Grid ─────────────────────────────────────────────────────── */
 .wiz-dept-grid {
@@ -557,7 +557,7 @@
   padding: 0;
   display: flex;
 }
-.wiz-tag-remove:hover { color: #6B4226; }
+.wiz-tag-remove:hover { color: #ef4444; }
 
 /* ─── Dynamic Cards ───────────────────────────────────────────────────────── */
 .wiz-dynamic-list { display: flex; flex-direction: column; gap: 12px; margin-bottom: 12px; }
@@ -581,8 +581,8 @@
 .wiz-dynamic-card-num {
   font-size: 11px;
   font-weight: 700;
-  color: rgba(255,92,0,0.8);
-  background: rgba(255,92,0,0.08);
+  color: rgba(241,50,35,0.6);
+  background: rgba(241,50,35,0.08);
   padding: 2px 6px;
   border-radius: 4px;
 }
@@ -596,7 +596,7 @@
   padding: 2px 8px;
   border-radius: 10px;
 }
-.wiz-occupant-badge--human { background: rgba(232,148,58,0.15); color: #E8943A; }
+.wiz-occupant-badge--human { background: rgba(34,197,94,0.15); color: #22c55e; }
 .wiz-occupant-badge--ai { background: rgba(255,92,0,0.15); color: #FF5C00; }
 .wiz-occupant-badge--vacant { background: rgba(228,226,221,0.1); color: rgba(228,226,221,0.5); }
 
@@ -800,7 +800,7 @@
 .wiz-role-name { color: rgba(228,226,221,0.5); }
 .wiz-role-count { font-weight: 600; color: rgba(228,226,221,0.4); }
 
-.wiz-role-icon--human { color: #E8943A; }
+.wiz-role-icon--human { color: #22c55e; }
 .wiz-role-icon--ai { color: #FF5C00; }
 .wiz-role-icon--vacant { color: rgba(228,226,221,0.3); }
 
@@ -931,11 +931,11 @@
   background: rgba(255,255,255,0.04);
 }
 .wiz-perm-checkbox--checked {
-  color: #E8943A;
-  background: rgba(232, 148, 58, 0.08);
+  color: #22c55e;
+  background: rgba(34,197,94,0.06);
 }
 .wiz-perm-checkbox--checked:hover {
-  background: rgba(232, 148, 58, 0.15);
+  background: rgba(34,197,94,0.1);
 }
 .wiz-perm-checkbox--restricted {
   color: rgba(228,226,221,0.3);
@@ -1027,9 +1027,9 @@
 }
 .tree-node-content:hover { background: rgba(255,255,255,0.04); }
 .tree-node-content--root { font-weight: 700; font-size: 15px; color: #E4E2DD; }
-.tree-node-content--human .tree-node-title { color: #E8943A; }
+.tree-node-content--human .tree-node-title { color: #22c55e; }
 .tree-node-content--ai_vacant .tree-node-title { color: #FF5C00; }
-.tree-node-content--dept .tree-node-title { color: #D4842E; font-weight: 600; }
+.tree-node-content--dept .tree-node-title { color: #f59e0b; font-weight: 600; }
 .tree-node-content--team .tree-node-title { color: #8B5E3C; }
 .tree-node-content--group .tree-node-title { color: rgba(228,226,221,0.6); }
 .tree-node-content--group_position .tree-node-title { color: rgba(228,226,221,0.5); }
@@ -1045,15 +1045,15 @@
   border-radius: 8px;
 }
 .tree-node-badge--ai { background: rgba(255,92,0,0.15); color: #FF5C00; }
-.tree-node-badge--vacant { background: rgba(107,66,38,0.15); color: #6B4226; }
+.tree-node-badge--vacant { background: rgba(239,68,68,0.15); color: #ef4444; }
 .tree-node-badge--locked { background: rgba(100,116,139,0.15); color: #64748b; }
-.tree-node-badge--verified { background: rgba(232,148,58,0.15); color: #E8943A; }
-.tree-node-badge--pending { background: rgba(212,132,46,0.15); color: #D4842E; }
+.tree-node-badge--verified { background: rgba(16,185,129,0.15); color: #10b981; }
+.tree-node-badge--pending { background: rgba(245,158,11,0.15); color: #f59e0b; }
 
 .tree-icon { flex-shrink: 0; }
-.tree-icon--human { color: #E8943A; }
+.tree-icon--human { color: #22c55e; }
 .tree-icon--ai { color: #FF5C00; }
-.tree-icon--dept { color: #D4842E; }
+.tree-icon--dept { color: #f59e0b; }
 .tree-icon--team { color: #8B5E3C; }
 .tree-icon--group { color: rgba(228,226,221,0.4); }
 
@@ -1099,7 +1099,7 @@
   height: 6px;
   border-radius: 50%;
 }
-.wiz-status-dot--pending { background: #D4842E; }
+.wiz-status-dot--pending { background: #f59e0b; }
 .wiz-status-dot--unassigned { background: rgba(228,226,221,0.3); }
 
 /* ─── AI Position List (Phase 10) ─────────────────────────────────────────── */
@@ -1263,15 +1263,15 @@
 }
 
 .mgmt-message--error {
-  background: rgba(107, 66, 38, 0.1);
-  border: 1px solid rgba(107, 66, 38, 0.2);
-  color: #6B4226;
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  color: #ef4444;
 }
 
 .mgmt-message--success {
-  background: rgba(232, 148, 58, 0.1);
-  border: 1px solid rgba(232, 148, 58, 0.2);
-  color: #E8943A;
+  background: rgba(34, 197, 94, 0.1);
+  border: 1px solid rgba(34, 197, 94, 0.2);
+  color: #22c55e;
 }
 
 .mgmt-message button {
@@ -1400,10 +1400,10 @@
   border-radius: 4px;
   padding: 3px 5px;
   cursor: pointer;
-  color: #E8943A;
+  color: #16A34A;
   transition: all 0.15s;
 }
-.mgmt-node-action-btn:hover { background: rgba(232, 148, 58, 0.2); }
+.mgmt-node-action-btn:hover { background: rgba(34, 197, 94, 0.2); }
 
 .mgmt-node-action-btn--ai {
   background: rgba(255, 92, 0, 0.1);
@@ -1434,7 +1434,7 @@
   transition: all 0.15s;
 }
 .mgmt-node-ctrl-btn:hover { background: #E2E8F0; color: #0F172A; }
-.mgmt-node-ctrl-btn--danger:hover { color: #6B4226; background: rgba(107, 66, 38, 0.15); border-color: rgba(107, 66, 38, 0.3); }
+.mgmt-node-ctrl-btn--danger:hover { color: #ef4444; background: rgba(239, 68, 68, 0.15); border-color: rgba(239, 68, 68, 0.3); }
 
 /* ─── Badges ──────────────────────────────────────────────────────────────── */
 .mgmt-badge {
@@ -1443,7 +1443,7 @@
   padding: 2px 8px;
   border-radius: 10px;
 }
-.mgmt-badge--human { background: rgba(232, 148, 58, 0.15); color: #E8943A; }
+.mgmt-badge--human { background: rgba(34, 197, 94, 0.15); color: #16A34A; }
 .mgmt-badge--ai { background: rgba(255, 92, 0, 0.15); color: #FF5C00; }
 .mgmt-badge--vacant { background: #F1F5F9; color: #64748B; }
 
