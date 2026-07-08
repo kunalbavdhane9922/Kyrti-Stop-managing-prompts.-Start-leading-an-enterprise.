@@ -78,13 +78,7 @@ export default function DashboardOverlay() {
           style={{ borderRight: '0.5px solid var(--color-border-tertiary)' }}
         >
           <div className="px-6 mb-8 flex items-center gap-3">
-            <img src="/main_logo.png" alt="Kyrti" style={{ width: '24px', height: '24px', objectFit: 'contain' }} />
-            <span
-              className="tracking-wider text-xs uppercase"
-              style={{ fontWeight: 600, color: 'var(--color-text-primary)' }}
-            >
-              Kyrti Platform
-            </span>
+            <img src="/main_logo.png" alt="Kyrti" style={{ width: '100px', height: 'auto', objectFit: 'contain' }} />
           </div>
 
           <nav className="flex-1 flex flex-col gap-1 px-3">

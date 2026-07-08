@@ -69,15 +69,14 @@ export function PublicNavbar() {
         {/* Brand / Logo */}
         <div style={{ marginBottom: '4rem', display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', gap: '10px' }}>
           <img 
-            src="/main_logo.jpeg" 
+            src="/main_logo.png" 
             alt="Kyrti Logo" 
             style={{ 
-              width: '55px', 
+              width: '120px', 
               height: 'auto',
               display: 'block'
             }} 
           />
-          <span style={{ fontSize: '0.9rem', fontWeight: '800', color: '#E63946', letterSpacing: '0.05em' }}>KYRTI</span>
         </div>
 
         {/* Nav Items */}

@@ -155,13 +155,7 @@ export function IntroductionPage() {
             onClick={() => scrollToSection('hero')}
             style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer' }}
           >
-            <img src="/main_logo.png" alt="Kyrti" style={{ width: '36px', height: '36px', objectFit: 'contain' }} />
-            <span style={{ 
-              fontSize: '1.25rem', 
-              fontWeight: '800', 
-              letterSpacing: '-0.5px',
-              color: '#0F172A'
-            }}>Kyrti</span>
+            <img src="/main_logo.png" alt="Kyrti" style={{ width: '120px', height: 'auto', objectFit: 'contain' }} />
           </div>
 
           {/* Navigation Links */}
@@ -956,8 +950,7 @@ export function IntroductionPage() {
             {/* Branding column */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', maxWidth: '320px' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                <img src="/main_logo.png" alt="Kyrti" style={{ width: '28px', height: '28px', objectFit: 'contain' }} />
-                <span style={{ fontSize: '1.2rem', fontWeight: '800', color: '#0F172A', letterSpacing: '-0.5px' }}>Kyrti</span>
+                <img src="/main_logo.png" alt="Kyrti" style={{ width: '100px', height: 'auto', objectFit: 'contain' }} />
               </div>
               <p style={{ fontSize: '0.85rem', color: '#475569', lineHeight: '1.6', margin: 0 }}>
                 Foundational operating system for autonomous digital enterprises. Deploy custom AI workforce agents under immutable ledger monitoring and corporate governance.

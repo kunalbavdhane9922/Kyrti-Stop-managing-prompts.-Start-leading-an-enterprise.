@@ -33,8 +33,7 @@ function Sidebar({ collapsed, onToggle }) {
     <aside className={`sidebar ${collapsed ? 'collapsed' : ''}`}>
       <div className="sidebar-header" style={{ padding: collapsed ? 'var(--space-4) 0' : '0', display: 'flex', justifyContent: collapsed ? 'center' : 'flex-start' }}>
         <div className="sidebar-logo" style={collapsed ? { padding: 0, justifyContent: 'center', borderBottom: 'none' } : {}}>
-          <img src="/main_logo.png" alt="Kyrti" style={{ width: '32px', height: '32px', objectFit: 'contain', flexShrink: 0 }} />
-          {!collapsed && <span className="sidebar-logo-text">Kyrti</span>}
+          <img src="/main_logo.png" alt="Kyrti" style={{ width: collapsed ? '32px' : '100px', height: 'auto', objectFit: 'contain', flexShrink: 0 }} />
         </div>
       </div>
 

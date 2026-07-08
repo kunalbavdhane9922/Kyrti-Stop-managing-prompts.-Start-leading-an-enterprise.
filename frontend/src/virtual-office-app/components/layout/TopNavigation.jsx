@@ -17,13 +17,7 @@ export const TopNavigation = () => {
     >
       {/* Left: Branding + Zone indicator */}
       <div className="flex items-center gap-3">
-        <img src="/main_logo.png" alt="Kyrti" style={{ width: '24px', height: '24px', objectFit: 'contain' }} />
-        <span
-          className="tracking-tight text-sm"
-          style={{ fontWeight: 600, color: 'var(--color-text-primary)' }}
-        >
-          Kyrti Headquarters
-        </span>
+        <img src="/main_logo.png" alt="Kyrti" style={{ width: '100px', height: 'auto', objectFit: 'contain' }} />
         <div
           className="hidden sm:flex items-center gap-1.5 ml-3 text-[11px] px-2.5 py-1 rounded-full"
           style={{
