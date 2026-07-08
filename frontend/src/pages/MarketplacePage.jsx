@@ -144,9 +144,9 @@ export function MarketplacePage() {
                     <span style={{
                       padding: '3px 8px', borderRadius: 4, fontSize: 9, fontWeight: 700, textTransform: 'uppercase',
                       letterSpacing: '0.04em',
-                      background: agent.status === 'AVAILABLE' ? 'rgba(16,185,129,0.1)' : 'rgba(245,158,11,0.1)',
-                      color: agent.status === 'AVAILABLE' ? '#10b981' : '#f59e0b',
-                      border: `1px solid ${agent.status === 'AVAILABLE' ? 'rgba(16,185,129,0.2)' : 'rgba(245,158,11,0.2)'}`,
+                      background: agent.status === 'AVAILABLE' ? 'rgba(232,148,58,0.1)' : 'rgba(255,92,0,0.1)',
+                      color: agent.status === 'AVAILABLE' ? '#E8943A' : '#FF5C00',
+                      border: `1px solid ${agent.status === 'AVAILABLE' ? 'rgba(232,148,58,0.2)' : 'rgba(255,92,0,0.2)'}`,
                     }}>
                       {agent.status === 'AVAILABLE' ? 'Available' : 'Employed'}
                     </span>
@@ -233,8 +233,8 @@ export function MarketplacePage() {
                     <h2 style={{ fontSize: 'var(--text-xl)', fontWeight: 800, color: 'var(--color-text-primary)' }}>{resumeAgent.name}</h2>
                     <span style={{
                       padding: '2px 8px', borderRadius: 4, fontSize: 9, fontWeight: 700,
-                      background: resumeAgent.status === 'AVAILABLE' ? 'rgba(16,185,129,0.1)' : 'rgba(245,158,11,0.1)',
-                      color: resumeAgent.status === 'AVAILABLE' ? '#10b981' : '#f59e0b',
+                      background: resumeAgent.status === 'AVAILABLE' ? 'rgba(232,148,58,0.1)' : 'rgba(255,92,0,0.1)',
+                      color: resumeAgent.status === 'AVAILABLE' ? '#E8943A' : '#FF5C00',
                     }}>
                       {resumeAgent.status}
                     </span>
@@ -315,10 +315,10 @@ export function MarketplacePage() {
                     {resumeAgent.achievements.map((ach, i) => (
                       <div key={i} style={{
                         display: 'flex', alignItems: 'center', gap: 8, padding: '8px 12px',
-                        background: 'rgba(52, 211, 153, 0.04)', border: '1px solid rgba(52, 211, 153, 0.1)',
+                        background: 'rgba(232, 148, 58, 0.04)', border: '1px solid rgba(232, 148, 58, 0.1)',
                         borderRadius: 'var(--radius-md)',
                       }}>
-                        <CheckCircle size={14} style={{ color: '#10b981', flexShrink: 0 }} />
+                        <CheckCircle size={14} style={{ color: '#E8943A', flexShrink: 0 }} />
                         <span style={{ fontSize: 12, color: 'var(--color-text-primary)', fontWeight: 500 }}>{ach}</span>
                       </div>
                     ))}

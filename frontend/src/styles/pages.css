@@ -243,7 +243,7 @@
 }
 
 .login-card-bubble .input-error-text {
-  color: #dc2626;
+  color: #6B4226;
 }
 
 /* --- Glassmorphism Bubble Login Card --- */
@@ -572,9 +572,9 @@
 }
 
 .verification-log-line .log-system { color: #64748B; }
-.verification-log-line .log-ok { color: #10B981; }
-.verification-log-line .log-success { color: #10B981; font-weight: var(--font-bold); }
-.verification-log-line .log-fail { color: #EF4444; }
+.verification-log-line .log-ok { color: #E8943A; }
+.verification-log-line .log-success { color: #E8943A; font-weight: var(--font-bold); }
+.verification-log-line .log-fail { color: #6B4226; }
 .verification-log-line .log-info { color: #94A3B8; }
 .verification-log-line .log-hash { color: #E8943A; }
 

@@ -89,7 +89,7 @@
   align-items: center;
   gap: 3px;
   font-size: 10px;
-  color: #dc2626;
+  color: #6B4226;
   margin-right: var(--space-3);
   font-weight: var(--font-medium);
 }
@@ -125,8 +125,8 @@
   align-items: flex-start;
   gap: var(--space-3);
   padding: var(--space-3);
-  background: #fef2f2;
-  border: 1px solid #fecaca;
+  background: rgba(107, 66, 38, 0.08);
+  border: 1px solid rgba(107, 66, 38, 0.2);
   border-radius: var(--radius-md);
   font-size: var(--text-sm);
   color: var(--color-text-secondary);
@@ -134,7 +134,7 @@
   line-height: var(--leading-relaxed);
 }
 
-.m2-modal-alert svg { color: #dc2626; flex-shrink: 0; margin-top: 2px; }
+.m2-modal-alert svg { color: #6B4226; flex-shrink: 0; margin-top: 2px; }
 
 .m2-modal-detail {
   display: flex;
@@ -175,8 +175,8 @@
 
 .m2-modal-restrictions {
   padding: var(--space-3);
-  background: #fffbeb;
-  border: 1px solid #fde68a;
+  background: rgba(212, 132, 46, 0.08);
+  border: 1px solid rgba(212, 132, 46, 0.2);
   border-radius: var(--radius-md);
 }
 
@@ -255,10 +255,10 @@
   white-space: nowrap;
 }
 
-.exec-state-executing { background: #f0fdf4; color: #15803d; border-color: #bbf7d0; }
+.exec-state-executing { background: rgba(232, 148, 58, 0.08); color: #E8943A; border-color: rgba(232, 148, 58, 0.2); }
 .exec-state-planning { background: #f8fafc; color: #334155; border-color: #e2e8f0; }
 .exec-state-idle { background: #f8fafc; color: #94a3b8; border-color: #e2e8f0; }
-.exec-state-blocked { background: #fef2f2; color: #b91c1c; border-color: #fecaca; }
+.exec-state-blocked { background: rgba(107, 66, 38, 0.08); color: #6B4226; border-color: rgba(107, 66, 38, 0.2); }
 .exec-state-terminated { background: #f1f5f9; color: #64748b; border-color: #cbd5e1; text-decoration: line-through; }
 
 /* Dual-Layer Workspace */
@@ -368,9 +368,9 @@
   color: var(--color-text-primary);
 }
 
-.memory-status-encrypted { color: #059669; }
-.memory-status-revoked { color: #dc2626; }
-.memory-status-orphaned { color: #d97706; }
+.memory-status-encrypted { color: #E8943A; }
+.memory-status-revoked { color: #6B4226; }
+.memory-status-orphaned { color: #D4842E; }
 
 /* Context Gauge */
 .context-gauge {
@@ -392,8 +392,8 @@
 /* Kill Switch */
 .kill-switch-container {
   padding: var(--space-3);
-  background: #fef2f2;
-  border: 1px solid #fecaca;
+  background: rgba(107, 66, 38, 0.08);
+  border: 1px solid rgba(107, 66, 38, 0.2);
   border-radius: var(--radius-md);
   margin-top: var(--space-3);
 }
@@ -405,7 +405,7 @@
   gap: var(--space-2);
   width: 100%;
   padding: 10px var(--space-4);
-  background: #b91c1c;
+  background: #6B4226;
   color: white;
   border: none;
   border-radius: var(--radius-md);
@@ -418,12 +418,12 @@
   transition: background var(--transition-fast);
 }
 
-.kill-switch-btn:hover { background: #991b1b; }
+.kill-switch-btn:hover { background: #8B5E3C; }
 .kill-switch-btn:disabled { opacity: 0.4; cursor: not-allowed; }
 
 .kill-switch-warning {
   font-size: 10px;
-  color: #991b1b;
+  color: #6B4226;
   text-align: center;
   margin-top: var(--space-1);
 }
@@ -492,7 +492,7 @@
 }
 
 .mkt-agent-card:hover { border-top-color: #334155; }
-.mkt-agent-card.elite { border-top-color: #059669; }
+.mkt-agent-card.elite { border-top-color: #E8943A; }
 .mkt-agent-card.unavailable { opacity: 0.55; }
 
 .mkt-agent-header {
@@ -525,7 +525,7 @@
   border: 1px solid transparent;
 }
 
-.mkt-agent-tier.elite { background: #f0fdf4; color: #15803d; border-color: #bbf7d0; }
+.mkt-agent-tier.elite { background: rgba(232, 148, 58, 0.08); color: #E8943A; border-color: rgba(232, 148, 58, 0.2); }
 .mkt-agent-tier.standard { background: #f8fafc; color: #475569; border-color: #e2e8f0; }
 
 /* Agent Stats */
@@ -580,7 +580,7 @@
   color: var(--color-text-secondary);
 }
 
-.zk-badge-chip.verified { border-color: #bbf7d0; color: #15803d; }
+.zk-badge-chip.verified { border-color: rgba(232, 148, 58, 0.2); color: #E8943A; }
 
 /* =============================================
    SERVICE FEE ENGINE PAGE
@@ -658,9 +658,9 @@
 }
 
 .revenue-flow-bar-fill.treasury { background: #334155; }
-.revenue-flow-bar-fill.operations { background: #059669; }
+.revenue-flow-bar-fill.operations { background: #E8943A; }
 .revenue-flow-bar-fill.agent-fees { background: #FF5C00; }
-.revenue-flow-bar-fill.platform { background: #d97706; }
+.revenue-flow-bar-fill.platform { background: #D4842E; }
 
 .revenue-flow-amount {
   font-size: 10px;
@@ -718,7 +718,7 @@
   border: 1px solid transparent;
 }
 
-.provider-type.local { background: #f0fdf4; color: #15803d; border-color: #bbf7d0; }
+.provider-type.local { background: rgba(232, 148, 58, 0.08); color: #E8943A; border-color: rgba(232, 148, 58, 0.2); }
 .provider-type.cloud { background: #f8fafc; color: #334155; border-color: #e2e8f0; }
 .provider-type.api { background: rgba(255,92,0,0.08); color: #FF5C00; border-color: rgba(255,92,0,0.2); }
 
@@ -736,8 +736,8 @@
   border-left: 3px solid var(--color-border-primary);
 }
 
-.roi-card.trend-up { border-left-color: #059669; }
-.roi-card.trend-down { border-left-color: #dc2626; }
+.roi-card.trend-up { border-left-color: #E8943A; }
+.roi-card.trend-down { border-left-color: #6B4226; }
 .roi-card.trend-stable { border-left-color: #334155; }
 
 .roi-header {
@@ -761,7 +761,7 @@
   color: var(--color-text-primary);
 }
 
-.roi-value.positive { color: #059669; }
+.roi-value.positive { color: #E8943A; }
 
 .roi-breakdown {
   display: grid;
@@ -797,7 +797,7 @@
   white-space: nowrap;
 }
 
-.pay-status.awaiting { background: #fffbeb; color: #92400e; border-color: #fde68a; }
-.pay-status.signed { background: #f0fdf4; color: #15803d; border-color: #bbf7d0; }
+.pay-status.awaiting { background: rgba(212, 132, 46, 0.08); color: #D4842E; border-color: rgba(212, 132, 46, 0.2); }
+.pay-status.signed { background: rgba(232, 148, 58, 0.08); color: #E8943A; border-color: rgba(232, 148, 58, 0.2); }
 .pay-status.executed { background: #f8fafc; color: #334155; border-color: #e2e8f0; }
-.pay-status.rejected { background: #fef2f2; color: #b91c1c; border-color: #fecaca; }
+.pay-status.rejected { background: rgba(107, 66, 38, 0.08); color: #6B4226; border-color: rgba(107, 66, 38, 0.2); }

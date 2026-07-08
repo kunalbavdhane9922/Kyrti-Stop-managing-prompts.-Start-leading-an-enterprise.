@@ -37,7 +37,7 @@
 }
 
 .btn-primary:hover:not(:disabled) {
-  background: #FF7A00;
+  background: #D4842E;
   transform: translateY(-1px);
   box-shadow: 0 6px 20px rgba(255, 92, 0, 0.35);
 }
@@ -75,7 +75,7 @@
 }
 
 .btn-danger:hover:not(:disabled) {
-  background: #b91c1c; /* darker red */
+  background: #6B4226; /* darker brown */
 }
 
 .btn-success {
@@ -150,12 +150,12 @@
   border: 1px solid transparent;
 }
 
-.badge-blue { background: #f1f5f9; color: #334155; border-color: #e2e8f0; }
-.badge-violet { background: #f8fafc; color: #475569; border-color: #cbd5e1; }
-.badge-emerald { background: #ecfdf5; color: #059669; border-color: #a7f3d0; }
-.badge-amber { background: #fffbeb; color: #d97706; border-color: #fde68a; }
-.badge-rose { background: #fef2f2; color: #dc2626; border-color: #fecaca; }
-.badge-cyan { background: #f1f5f9; color: #475569; border-color: #e2e8f0; }
+.badge-blue { background: rgba(255, 92, 0, 0.08); color: #FF5C00; border-color: rgba(255, 92, 0, 0.2); }
+.badge-violet { background: rgba(232, 148, 58, 0.08); color: #E8943A; border-color: rgba(232, 148, 58, 0.2); }
+.badge-emerald { background: rgba(232, 148, 58, 0.08); color: #E8943A; border-color: rgba(232, 148, 58, 0.2); }
+.badge-amber { background: rgba(212, 132, 46, 0.08); color: #D4842E; border-color: rgba(212, 132, 46, 0.2); }
+.badge-rose { background: rgba(107, 66, 38, 0.08); color: #6B4226; border-color: rgba(107, 66, 38, 0.2); }
+.badge-cyan { background: rgba(139, 94, 60, 0.08); color: #8B5E3C; border-color: rgba(139, 94, 60, 0.2); }
 
 /* --- Inputs --- */
 .input-group { display: flex; flex-direction: column; gap: var(--space-1); }

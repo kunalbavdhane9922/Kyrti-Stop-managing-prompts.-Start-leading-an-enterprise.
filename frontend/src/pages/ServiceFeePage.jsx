@@ -73,8 +73,8 @@ function ServiceFeePage() {
   };
 
   const getTrendIcon = (trend) => {
-    if (trend === 'up') return <TrendingUp size={14} style={{ color: '#059669' }} />;
-    if (trend === 'down') return <TrendingDown size={14} style={{ color: '#dc2626' }} />;
+    if (trend === 'up') return <TrendingUp size={14} style={{ color: '#E8943A' }} />;
+    if (trend === 'down') return <TrendingDown size={14} style={{ color: '#6B4226' }} />;
     return <Minus size={14} style={{ color: '#94a3b8' }} />;
   };
 
@@ -115,8 +115,8 @@ function ServiceFeePage() {
       </motion.div>
 
       {/* HITL Notice */}
-      <motion.div className="m2-info-bar" style={{ borderColor: '#fde68a', background: '#fffbeb' }} variants={itemVariants}>
-        <Lock size={14} style={{ color: '#d97706', flexShrink: 0 }} />
+      <motion.div className="m2-info-bar" style={{ borderColor: 'rgba(212, 132, 46, 0.2)', background: 'rgba(212, 132, 46, 0.08)' }} variants={itemVariants}>
+        <Lock size={14} style={{ color: '#D4842E', flexShrink: 0 }} />
         <span>All distribution actions require human authorization. No AI agent can trigger transactions.</span>
       </motion.div>
 
@@ -253,8 +253,8 @@ function ServiceFeePage() {
                   <span className="m2-roi-label">ROI</span>
                 </div>
                 <div className="m2-roi-compare">
-                  <span>Generated: <strong style={{ color: '#059669' }}>${agent.valueGenerated.toLocaleString()}</strong></span>
-                  <span>Cost: <strong style={{ color: '#dc2626' }}>${agent.maintenanceCost.toLocaleString()}</strong></span>
+                  <span>Generated: <strong style={{ color: '#E8943A' }}>${agent.valueGenerated.toLocaleString()}</strong></span>
+                  <span>Cost: <strong style={{ color: '#6B4226' }}>${agent.maintenanceCost.toLocaleString()}</strong></span>
                 </div>
                 <ProgressBar value={agent.valueGenerated} max={agent.valueGenerated + agent.maintenanceCost} />
                 <div className="roi-breakdown">
@@ -278,8 +278,8 @@ function ServiceFeePage() {
             <h3 className="card-title">Distribution Queue</h3>
             <Badge color="amber">{payQueue.filter(p => p.status === 'awaiting_signature').length} pending</Badge>
           </div>
-          <div className="m2-info-bar" style={{ borderColor: '#fde68a', background: '#fffbeb', marginBottom: 'var(--space-4)' }}>
-            <Lock size={13} style={{ color: '#d97706' }} />
+          <div className="m2-info-bar" style={{ borderColor: 'rgba(212, 132, 46, 0.2)', background: 'rgba(212, 132, 46, 0.08)', marginBottom: 'var(--space-4)' }}>
+            <Lock size={13} style={{ color: '#D4842E' }} />
             <span>Each distribution requires a human signature before execution.</span>
           </div>
           <div className="table-container" style={{ border: 'none' }}>

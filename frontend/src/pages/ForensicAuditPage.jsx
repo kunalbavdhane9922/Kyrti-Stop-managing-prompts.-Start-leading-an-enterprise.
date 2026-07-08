@@ -111,8 +111,8 @@ function ForensicAuditPage() {
         {[
           { label: 'Total Records', value: stats.total, icon: Hash, color: '#334155' },
           { label: 'Info', value: stats.info, icon: FileText, color: '#FF5C00' },
-          { label: 'Warnings', value: stats.warning, icon: Clock, color: '#d97706' },
-          { label: 'Critical', value: stats.critical, icon: ShieldCheck, color: '#dc2626' },
+          { label: 'Warnings', value: stats.warning, icon: Clock, color: '#D4842E' },
+          { label: 'Critical', value: stats.critical, icon: ShieldCheck, color: '#6B4226' },
         ].map((stat, i) => (
           <motion.div key={stat.label} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.06 }}>
             <Card className="security-stat-card" hover>

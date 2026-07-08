@@ -251,7 +251,7 @@ export class VisualFXManager {
     if (!this.scene.textures.exists('particle-amber')) {
       const c = this.scene.textures.createCanvas('particle-amber', 2, 2);
       const cx = c.getContext();
-      cx.fillStyle = '#f59e0b';
+      cx.fillStyle = '#6B4226';
       cx.fillRect(0, 0, 2, 2);
       c.refresh();
     }

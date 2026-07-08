@@ -156,12 +156,12 @@
 
 /* --- Proposal Card --- */
 .dpe-proposal-card {
-  border-left: 3px solid #d97706 !important;
+  border-left: 3px solid #D4842E !important;
 }
 
 /* --- Execute Card --- */
 .dpe-execute-card {
-  border-left: 3px solid #059669 !important;
+  border-left: 3px solid #E8943A !important;
 }
 
 .dpe-execute-btn {
@@ -318,8 +318,8 @@
 }
 
 .severity-info { color: #FF5C00; background: rgba(255, 92, 0, 0.08); }
-.severity-warning { color: #d97706; background: rgba(217, 119, 6, 0.08); }
-.severity-critical { color: #dc2626; background: rgba(220, 38, 38, 0.08); }
+.severity-warning { color: #D4842E; background: rgba(212, 132, 46, 0.08); }
+.severity-critical { color: #6B4226; background: rgba(107, 66, 38, 0.08); }
 
 .merkle-action { font-family: var(--font-mono); font-size: 10px !important; }
 .merkle-actor { font-family: var(--font-mono); font-size: 10px !important; color: var(--color-text-muted); }
@@ -338,7 +338,7 @@
   gap: 3px;
   font-size: 10px;
   font-weight: var(--font-semibold);
-  color: #059669;
+  color: #E8943A;
 }
 
 .merkle-invalid {
@@ -347,7 +347,7 @@
   gap: 3px;
   font-size: 10px;
   font-weight: var(--font-semibold);
-  color: #dc2626;
+  color: #6B4226;
 }
 
 /* --- Timeline Slider --- */
