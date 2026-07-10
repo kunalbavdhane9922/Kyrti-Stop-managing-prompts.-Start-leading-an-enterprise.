@@ -1,0 +1,31 @@
+# Keep-Alive Pinger — Prevents Render free-tier cold starts
+# Pings all Render services every 10 minutes to keep them warm.
+# This avoids 502 errors caused by sleeping instances.
+
+name: Keep Render Services Alive
+
+on:
+  schedule:
+    # Run every 10 minutes
+    - cron: '*/10 * * * *'
+  workflow_dispatch: # Allow manual trigger for testing
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: Ping saep-gateway
+        run: |
+          echo "Pinging saep-gateway..."
+          curl -sf --max-time 120 "https://saep-gateway.onrender.com/actuator/health" || echo "Gateway ping failed (may be starting up)"
+
+      - name: Ping saep-identity
+        run: |
+          echo "Pinging saep-identity..."
+          curl -sf --max-time 120 "https://saep-identity.onrender.com/actuator/health" || echo "Identity ping failed (may be starting up)"
+
+      - name: Ping saep-company
+        run: |
+          echo "Pinging saep-company..."
+          curl -sf --max-time 120 "https://saep-company.onrender.com/actuator/health" || echo "Company ping failed (may be starting up)"
