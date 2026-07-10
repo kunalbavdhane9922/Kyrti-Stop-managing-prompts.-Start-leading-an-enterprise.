@@ -5,10 +5,13 @@ const GATEWAY_URL = `${API_BASE_URL}/api/v1`;
 
 /**
  * Retry config for handling Render free-tier cold starts (502/503/504).
+ * Each failed request takes ~26s (Netlify proxy timeout), so the first
+ * attempt triggers the backend wake-up. We retry with fixed 10s delays
+ * to give the service enough time to finish booting (~60-120s total).
  */
 const RETRY_STATUS_CODES = [502, 503, 504];
-const MAX_RETRIES = 3;
-const RETRY_BASE_DELAY_MS = 2000; // 2 seconds, doubles each retry
+const MAX_RETRIES = 5;
+const RETRY_DELAY_MS = 10000; // Fixed 10-second delay between retries
 
 export async function fetchWithAuth(endpoint, options = {}) {
   const state = useAuthStore.getState();
@@ -40,18 +43,16 @@ export async function fetchWithAuth(endpoint, options = {}) {
 
       // Retry on gateway errors (Render cold start)
       if (RETRY_STATUS_CODES.includes(response.status) && attempt < MAX_RETRIES) {
-        const delay = RETRY_BASE_DELAY_MS * Math.pow(2, attempt);
-        console.warn(`[Kyrti] Server waking up (HTTP ${response.status}), retrying in ${delay / 1000}s... (attempt ${attempt + 1}/${MAX_RETRIES})`);
-        await new Promise(resolve => setTimeout(resolve, delay));
+        console.warn(`[Kyrti] Server waking up (HTTP ${response.status}), retrying in ${RETRY_DELAY_MS / 1000}s... (attempt ${attempt + 1}/${MAX_RETRIES})`);
+        await new Promise(resolve => setTimeout(resolve, RETRY_DELAY_MS));
         continue;
       }
 
       break;
     } catch (fetchError) {
       if (attempt < MAX_RETRIES) {
-        const delay = RETRY_BASE_DELAY_MS * Math.pow(2, attempt);
-        console.warn(`[Kyrti] Network error, retrying in ${delay / 1000}s... (attempt ${attempt + 1}/${MAX_RETRIES})`, fetchError.message);
-        await new Promise(resolve => setTimeout(resolve, delay));
+        console.warn(`[Kyrti] Network error, retrying in ${RETRY_DELAY_MS / 1000}s... (attempt ${attempt + 1}/${MAX_RETRIES})`, fetchError.message);
+        await new Promise(resolve => setTimeout(resolve, RETRY_DELAY_MS));
         continue;
       }
       throw fetchError;
